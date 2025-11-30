@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Biology: Interactive Lesson</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import (Inter is default in Tailwind, but specifying for safety) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Define a smooth scroll behavior for the entire page */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Deep purple background */
+            color: #ffffff;
+        }
+
+        /* Base section styles for full viewport height */
+        .lesson-section {
+            min-height: 100vh;
+            padding: 8vh 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            /* Animation targets */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .lesson-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Specific style for the sticky content area */
+        #sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none; /* Allows scrolling over the sticky element */
+        }
+
+        /* Custom colors for the premium educational theme */
+        .bg-primary-dark { background-color: #1a1a2e; }
+        .text-accent { color: #00bcd4; } /* Cyan/Turquoise accent */
+        .bg-gradient-header {
+            background: linear-gradient(180deg, rgba(26, 26, 46, 1) 0%, rgba(26, 26, 46, 0.8) 100%);
+        }
+        
+        /* Styling for the interactive organelle buttons */
+        .organelle-btn {
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.2);
+        }
+        .organelle-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            background-color: #00bcd4;
+            color: #1a1a2e;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .lesson-section {
+                min-height: auto;
+                padding: 10vh 5%;
+            }
+            .content-side {
+                max-width: 100%;
+                padding: 0;
+            }
+            #sticky-container {
+                height: 50vh; /* Shorter sticky area on mobile */
+            }
+        }
+    </style>
+</head>
+<body class="bg-primary-dark">
+
+    <!-- SCROLL INTRO SECTION (1) -->
+    <section id="section-1" class="lesson-section bg-primary-dark text-center">
+        <div class="max-w-4xl p-8 rounded-xl bg-gray-800 shadow-2xl transition duration-700 hover:shadow-cyan-700/50">
+            <h1 class="text-6xl font-extrabold mb-4 text-accent animate-pulse">CELL BIOLOGY</h1>
+            <h2 class="text-3xl font-light text-gray-200">The Interactive Lesson Canvas</h2>
+            <p class="mt-8 text-xl text-gray-400 max-w-2xl mx-auto">
+                Scroll down to begin your journey into the fundamental unit of life. We'll explore 
+                the structures, functions, and real-world impact of the cell.
+            </p>
+            <div class="mt-12">
+                <a href="#section-2" class="px-6 py-3 bg-accent text-primary-dark font-bold rounded-full 
+                   hover:bg-cyan-300 transition duration-300 shadow-lg">Start Learning &darr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY CONCEPTS SECTION (2) -->
+    <section id="section-2" class="lesson-section bg-gray-900 justify-start pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-2 border-accent pb-2">1. The Cell Theory & Overview</h3>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="p-6 rounded-xl bg-gray-800 transition duration-500 hover:bg-gray-700">
+                    <span class="text-3xl text-accent block mb-2">Pillar 1</span>
+                    <p class="text-lg">All living organisms are composed of one or more cells.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-800 transition duration-500 hover:bg-gray-700">
+                    <span class="text-3xl text-accent block mb-2">Pillar 2</span>
+                    <p class="text-lg">The cell is the basic unit of structure and function in all living things.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-800 transition duration-500 hover:bg-gray-700">
+                    <span class="text-3xl text-accent block mb-2">Pillar 3</span>
+                    <p class="text-lg">All cells arise from pre-existing cells.</p>
+                </div>
+            </div>
+            <p class="mt-10 text-xl text-gray-300">
+                This theory, established over centuries, defines the cell as the universal element of life. We now explore the two main architectural styles.
+            </p>
+        </div>
+    </section>
+
+    <!-- PROKARYOTES vs EUKARYOTES (3) -->
+    <section id="section-3" class="lesson-section bg-primary-dark justify-start pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-2 border-accent pb-2">2. Two Kingdoms: Pro vs. Eu</h3>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="p-8 rounded-xl bg-gray-800 border-l-4 border-yellow-500">
+                    <h4 class="text-3xl font-semibold text-yellow-500 mb-4">Prokaryotic Cells</h4>
+                    <p class="text-lg">Simple, single-celled organisms (like bacteria). They are defined by their *lack of a nucleus* and any other membrane-bound organelles. Their DNA is located in a region called the *nucleoid*.</p>
+                </div>
+                <div class="p-8 rounded-xl bg-gray-800 border-l-4 border-green-500">
+                    <h4 class="text-3xl font-semibold text-green-500 mb-4">Eukaryotic Cells</h4>
+                    <p class="text-lg">Complex cells that make up animals, plants, fungi, and protists. They have a *true membrane-bound nucleus* and specialized compartments called *organelles* to perform specific functions.</p>
+                </div>
+            </div>
+            <p class="mt-10 text-xl text-gray-300">
+                The appearance of the membrane-bound nucleus was one of the most significant evolutionary events in history.
+            </p>
+            [attachment_0](attachment)
+        </div>
+    </section>
+
+    <!-- STICKY VISUAL CONTAINER START -->
+    <div class="relative w-full h-[800vh]"> 
+        
+        <!-- Sticky element remains fixed while the content next to it scrolls -->
+        <div id="sticky-container" class="sticky w-1/3 left-1/2 -ml-[16.5%] hidden lg:flex">
+            <div id="cell-diagram-box" class="p-8 rounded-3xl w-full h-1/2 flex justify-center items-center 
+                bg-gray-900 border-2 border-accent shadow-2xl shadow-cyan-500/50">
+                
+                <!-- Simple SVG Diagram (Placeholder for complex animation) -->
+                <svg width="300" height="300" viewBox="0 0 100 100" class="transition-all duration-1000">
+                    <!-- Cell Outline (Membrane) -->
+                    <circle id="membrane" cx="50" cy="50" r="48" fill="none" stroke="#60A5FA" stroke-width="2" class="opacity-100"/>
+                    <!-- Nucleus -->
+                    <circle id="nucleus" cx="50" cy="50" r="15" fill="#EF4444" opacity="0.1" class="transition-opacity duration-500"/>
+                    <!-- Mitochondria -->
+                    <ellipse id="mito" cx="70" cy="30" rx="8" ry="4" fill="#FBBF24" opacity="0.1" transform="rotate(30 70 30)" class="transition-opacity duration-500"/>
+                    <ellipse id="mito2" cx="35" cy="80" rx="8" ry="4" fill="#FBBF24" opacity="0.1" transform="rotate(-60 35 80)" class="transition-opacity duration-500"/>
+                    <!-- ER/Golgi -->
+                    <rect id="er" x="5" y="45" width="20" height="10" rx="2" fill="#34D399" opacity="0.1" class="transition-opacity duration-500"/>
+                    <!-- Highlighted Text -->
+                    <text id="diagram-label" x="50" y="50" text-anchor="middle" font-size="5" fill="#ffffff" font-weight="bold" class="opacity-0 transition-opacity duration-500">
+                        The Eukaryotic Cell
+                    </text>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- SCROLLING CONTENT SIDE -->
+        <div class="w-full lg:w-2/3 lg:pr-8 mx-auto">
+            
+            <!-- SECTION 4: THE MEMBRANE -->
+            <section id="section-4" data-organelle="membrane" class="lesson-section justify-center pt-20">
+                <div class="content-side max-w-xl p-8 rounded-xl bg-gray-800/80 backdrop-blur-sm">
+                    <h4 class="text-3xl font-bold mb-4 text-accent">3. The Cell Membrane: The Gatekeeper</h4>
+                    <p class="text-xl text-gray-300">
+                        Every cell is wrapped in a *Phospholipid Bilayer, a thin, flexible barrier. Its primary role is **selective permeability*: controlling what enters and exits the cell. This keeps the internal environment stable.
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        Imagine a security gate that only allows certain trucks to pass. Proteins embedded in the membrane act as these selective channels.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 5: THE NUCLEUS -->
+            <section id="section-5" data-organelle="nucleus" class="lesson-section justify-center pt-20">
+                <div class="content-side max-w-xl p-8 rounded-xl bg-gray-800/80 backdrop-blur-sm">
+                    <h4 class="text-3xl font-bold mb-4 text-red-400">4. The Nucleus: The Control Center</h4>
+                    <p class="text-xl text-gray-300">
+                        The largest organelle, housing the cell's genetic material (DNA). It controls the cell's growth, metabolism, and reproduction by directing protein synthesis via RNA messengers.
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        Damage to the nucleus can lead to uncontrolled growth, a characteristic of cancer cells.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 6: MITOCHONDRIA -->
+            <section id="section-6" data-organelle="mito" class="lesson-section justify-center pt-20">
+                <div class="content-side max-w-xl p-8 rounded-xl bg-gray-800/80 backdrop-blur-sm">
+                    <h4 class="text-3xl font-bold mb-4 text-yellow-400">5. Mitochondria: The Powerhouse</h4>
+                    <p class="text-xl text-gray-300">
+                        These are the sites of *cellular respiration*, where glucose is broken down to produce Adenosine Triphosphate (ATP), the main energy currency of the cell. They have their own distinct DNA!
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        Cells that require a lot of energy, like muscle cells, have thousands of mitochondria.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 7: ER & RIBOSOMES -->
+            <section id="section-7" data-organelle="er" class="lesson-section justify-center pt-20">
+                <div class="content-side max-w-xl p-8 rounded-xl bg-gray-800/80 backdrop-blur-sm">
+                    <h4 class="text-3xl font-bold mb-4 text-green-400">6. ER & Ribosomes: Synthesis & Assembly</h4>
+                    <p class="text-xl text-gray-300">
+                        *Ribosomes* (on the Rough ER or free-floating) are the protein assembly machines. The *Endoplasmic Reticulum (ER)* is a vast network of membranes that processes and transports these newly synthesized proteins and lipids.
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        The Rough ER is vital for making proteins destined for secretion (export) or the membrane.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 8: GOLGI & LYSOSOMES -->
+            <section id="section-8" data-organelle="er" class="lesson-section justify-center pt-20">
+                <div class="content-side max-w-xl p-8 rounded-xl bg-gray-800/80 backdrop-blur-sm">
+                    <h4 class="text-3xl font-bold mb-4 text-indigo-400">7. Golgi & Lysosomes: Packaging & Cleanup</h4>
+                    <p class="text-xl text-gray-300">
+                        The *Golgi Apparatus* modifies, sorts, and packages proteins into vesicles. *Lysosomes* contain digestive enzymes, acting as the cell's recycling center, breaking down waste and foreign invaders.
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        Think of the Golgi as Amazon's distribution center and the Lysosome as the shredder.
+                    </p>
+                </div>
+            </section>
+        </div>
+        
+    </div> 
+    <!-- STICKY VISUAL CONTAINER END -->
+
+    <!-- INTERACTIVE DIAGRAM (9) -->
+    <section id="section-9" class="lesson-section bg-gray-900 pt-20" style="min-height: 120vh;">
+        <div class="max-w-6xl w-full text-center">
+            <h3 class="text-4xl font-bold mb-10 text-accent">8. Interactive Organelle Explorer</h3>
+            <p class="text-xl text-gray-400 mb-8">
+                Click on any organelle below to reveal its function and explore a simulated *"What If?"* scenario.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="organelle-btn px-6 py-3 rounded-full bg-blue-500 text-white font-semibold" data-organelle="Nucleus">Nucleus</button>
+                <button class="organelle-btn px-6 py-3 rounded-full bg-yellow-500 text-white font-semibold" data-organelle="Mitochondria">Mitochondria</button>
+                <button class="organelle-btn px-6 py-3 rounded-full bg-red-500 text-white font-semibold" data-organelle="Ribosome">Ribosome</button>
+                <button class="organelle-btn px-6 py-3 rounded-full bg-green-500 text-white font-semibold" data-organelle="Membrane">Membrane</button>
+                <button class="organelle-btn px-6 py-3 rounded-full bg-purple-500 text-white font-semibold" data-organelle="Lysosome">Lysosome</button>
+            </div>
+
+            <div id="interactive-output" class="text-left p-8 mt-10 rounded-xl bg-gray-800 border border-gray-700 min-h-[250px] transition-all duration-500">
+                <h4 class="text-2xl font-bold mb-4 text-accent">Select an organelle to begin the simulation.</h4>
+                <p class="text-lg text-gray-300">Organelles are highly specialized. Disrupting one can have massive cascading effects on the entire cell. Let's see how.</p>
+                <div id="scenario-output" class="mt-6 p-4 rounded-lg bg-primary-dark border-l-4 border-gray-500 hidden">
+                    <p class="font-semibold text-lg text-red-400">What If Scenario:</p>
+                    <p id="scenario-text" class="text-gray-200 mt-2"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REAL-LIFE APPLICATIONS (10) -->
+    <section id="section-10" class="lesson-section bg-primary-dark justify-start pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-2 border-accent pb-2">9. Real-Life Applications: Specialization</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-6 rounded-xl bg-gray-800 hover:scale-[1.02] transition duration-300 border-t-4 border-red-500">
+                    <h4 class="text-2xl font-semibold mb-2 text-red-500">Muscle Cells (Myocytes)</h4>
+                    <p class="text-gray-300">Contain exceptionally high numbers of *Mitochondria* to provide the massive ATP required for sustained movement and contraction.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-800 hover:scale-[1.02] transition duration-300 border-t-4 border-blue-500">
+                    <h4 class="text-2xl font-semibold mb-2 text-blue-500">Nerve Cells (Neurons)</h4>
+                    <p class="text-gray-300">Characterized by their elongated shape and large surface area, essential for transmitting electrical signals over long distances.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-800 hover:scale-[1.02] transition duration-300 border-t-4 border-green-500">
+                    <h4 class="text-2xl font-semibold mb-2 text-green-500">Pancreatic Cells</h4>
+                    <p class="text-gray-300">Dominated by a massive *Rough ER* and *Golgi Apparatus* to efficiently synthesize, package, and secrete insulin and digestive enzymes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL NOTES & SUMMARY (11) -->
+    <section id="section-11" class="lesson-section bg-gray-900 text-center">
+        <div class="max-w-4xl p-8 rounded-xl bg-gray-800 shadow-2xl transition duration-700 hover:shadow-green-500/50">
+            <h3 class="text-4xl font-extrabold mb-4 text-green-400">Congratulations!</h3>
+            <p class="text-2xl font-light text-gray-200 mb-6">You have completed the core Cell Biology lesson.</p>
+            <div class="text-left space-y-4">
+                <p class="text-lg text-gray-300">✅ *Summary:* The cell is the basic unit of life, controlled by the *Nucleus, powered by **Mitochondria, and protected by the **Membrane. The specialized **Organelles* work in harmony to sustain life.</p>
+                <p class="text-lg text-gray-300">💡 *Final Note:* Everything in biology—from your thoughts to your movements—comes down to these tiny, highly efficient machines. Take a moment to appreciate the complexity!</p>
+            </div>
+            <button onclick="document.getElementById('section-1').scrollIntoView({ behavior: 'smooth' });"
+                class="mt-10 px-6 py-3 bg-green-500 text-primary-dark font-bold rounded-full 
+                hover:bg-green-300 transition duration-300 shadow-lg">Review Lesson &uarr;</button>
+        </div>
+    </section>
+
+    <script>
+        // --- JAVASCRIPT FOR INTERACTIVITY AND SCROLL ANIMATIONS ---
+
+        // 1. SCROLL REVEAL ANIMATION (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Stop observing once visible to prevent re-triggering
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            threshold: 0.3 // Trigger when 30% of the item is visible
+        });
+
+        // Observe all lesson sections
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // 2. STICKY DIAGRAM ANIMATION (Intersection Observer for Sections 4-8)
+        const organelleColors = {
+            'membrane': '#60A5FA',
+            'nucleus': '#EF4444',
+            'mito': '#FBBF24',
+            'er': '#34D399'
+        };
+        
+        const organelleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const targetId = entry.target.id;
+                const organelleName = entry.target.dataset.organelle;
+                const svg = document.querySelector('#cell-diagram-box svg');
+                
+                // Reset all opacity states
+                document.getElementById('nucleus').style.opacity = '0.1';
+                document.getElementById('mito').style.opacity = '0.1';
+                document.getElementById('mito2').style.opacity = '0.1';
+                document.getElementById('er').style.opacity = '0.1';
+                document.getElementById('membrane').style.strokeWidth = '2';
+                document.getElementById('diagram-label').style.opacity = '0';
+
+
+                if (entry.isIntersecting) {
+                    // Update the label text
+                    document.getElementById('diagram-label').textContent = organelleName.toUpperCase();
+                    document.getElementById('diagram-label').style.opacity = '1';
+                    
+                    // Highlight the specific organelle
+                    if (organelleName === 'membrane') {
+                        document.getElementById('membrane').style.strokeWidth = '4';
+                        document.getElementById('diagram-label').textContent = 'CELL MEMBRANE';
+                    } else if (organelleName === 'mito') {
+                        document.getElementById('mito').style.opacity = '1';
+                        document.getElementById('mito2').style.opacity = '1';
+                        document.getElementById('diagram-label').textContent = 'MITOCHONDRIA';
+                    } else if (organelleName === 'er') {
+                        document.getElementById('er').style.opacity = '1';
+                        document.getElementById('diagram-label').textContent = 'ER / GOLGI';
+                    } else if (organelleName === 'nucleus') {
+                        document.getElementById('nucleus').style.opacity = '1';
+                        document.getElementById('diagram-label').textContent = 'NUCLEUS';
+                    }
+                    
+                    // Scale the whole SVG slightly for motion effect
+                    svg.style.transform = 'scale(1.1)';
+
+                } else {
+                    // Reset or hide if not intersecting
+                    svg.style.transform = 'scale(1.0)';
+                }
+            });
+        }, {
+            rootMargin: '0px 0px -50% 0px', // Trigger when section hits middle of viewport
+            threshold: 0.1
+        });
+
+        // Only observe the core content sections for the diagram
+        document.querySelectorAll('#section-4, #section-5, #section-6, #section-7, #section-8').forEach(section => {
+            organelleObserver.observe(section);
+        });
+
+        // 3. CLICKABLE INTERACTIVITY (Section 9)
+        const interactiveOutput = document.getElementById('interactive-output');
+        const scenarioOutput = document.getElementById('scenario-output');
+        const scenarioText = document.getElementById('scenario-text');
+
+        const organelleData = {
+            "Nucleus": {
+                function: "Contains the DNA and directs all cell activity, including protein creation and cell division.",
+                whatIf: "If the Nucleus is damaged, the cell loses its ability to replicate or repair itself, leading to programmed cell death (apoptosis) or uncontrolled growth (cancer)."
+            },
+            "Mitochondria": {
+                function: "The cell's 'power plants' that generate ATP (energy) through cellular respiration.",
+                whatIf: "If Mitochondria fail, ATP production stops. The cell quickly starves of energy and ceases all activity, leading to immediate organ failure in high-energy tissues like the heart."
+            },
+            "Ribosome": {
+                function: "Synthesizes proteins. Free ribosomes make proteins for use within the cell; attached ribosomes (on the ER) make proteins for export.",
+                whatIf: "If Ribosomes stopped working, the cell couldn't produce new enzymes, structural components, or hormones, effectively stopping all biological processes."
+            },
+            "Membrane": {
+                function: "Controls the passage of substances into and out of the cell (selective permeability).",
+                whatIf: "If the Membrane were suddenly too permeable, essential molecules would leak out, and harmful substances/too much water would rush in, causing the cell to burst (lyse)."
+            },
+            "Lysosome": {
+                function: "Contains digestive enzymes to break down waste materials, worn-out cell parts, and ingested foreign matter.",
+                whatIf: "If the Lysosome fails to function correctly (as in Lysosomal Storage Diseases), toxic materials build up inside the cell, eventually leading to cell death and organ damage."
+            }
+        };
+
+        document.querySelectorAll('.organelle-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const organelle = e.target.dataset.organelle;
+                const data = organelleData[organelle];
+                
+                // Update main description
+                interactiveOutput.querySelector('h4').textContent = ${organelle}: The Cell's ${organelle === 'Nucleus' ? 'Director' : organelle === 'Mitochondria' ? 'Power Source' : 'Specialist'};
+                interactiveOutput.querySelector('p').textContent = Function: ${data.function};
+
+                // Update What If Scenario
+                scenarioText.textContent = data.whatIf;
+                scenarioOutput.classList.remove('hidden');
+
+                // Highlight clicked button (visual feedback)
+                document.querySelectorAll('.organelle-btn').forEach(btn => btn.classList.remove('bg-accent', 'text-primary-dark', 'ring-4', 'ring-cyan-500/50'));
+                e.target.classList.add('bg-accent', 'text-primary-dark', 'ring-4', 'ring-cyan-500/50');
+            });
+        });
+        
+    </script>
+</body>
+</html>
