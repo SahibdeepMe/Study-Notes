@@ -16,7 +16,7 @@ This repository hosts a collection of HTML documents, each dedicated to a major 
 ### 🌐 How to View the Notes (The Live Website)
 To see the interactive hub in action (and not just the code), you must view the repository as a hosted website using GitHub Pages.
 * **Find the Live URL:** Go to the GitHub repository settings, click on Pages, and find the URL where the site is published.
-    >(The URL will typically be: `https://SahibdeepMe.github.io/Study-Notes/`)
+    > (The URL will typically be: **[https://SahibdeepMe.github.io/Study-Notes/](https://SahibdeepMe.github.io/Study-Notes/)**)
 * **Open the URL:** Navigate to that live website link.
 * **Start Exploring:** Click on the animated cards to jump directly to the detailed notes for each subject.
 
