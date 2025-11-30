@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newtonian Physics: Simplified Class</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font and new bright theme */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f9; /* Very light gray background */
+            color: #1f2937; /* Dark text */
+        }
+
+        /* Base section styles for smooth scroll reveal (gentle fade-in and subtle slide) */
+        .lesson-section {
+            min-height: 100vh;
+            padding: 8vh 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px); /* Subtle slide up */
+            transition: opacity 1.0s ease-out, transform 1.0s ease-out; 
+        }
+
+        .lesson-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Colors & Gradients */
+        .bg-primary-teal { background-color: #00838f; }
+        .text-primary-teal { color: #00838f; }
+        .bg-secondary-orange { background-color: #ff8c00; }
+        .text-secondary-orange { color: #ff8c00; }
+        .card-shadow { box-shadow: 0 10px 30px rgba(0, 131, 143, 0.1); } 
+
+        /* Interactive Element Base Styles */
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: 4px solid transparent;
+        }
+        .interactive-element:hover {
+            transform: scale(1.05);
+            border-color: #ff8c00;
+        }
+
+        /* F=ma VISUALIZATION */
+        .visual-vector {
+            transition: all 0.3s ease;
+        }
+
+        /* Button Pulse Animation for Highlighting Interactivity */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0); }
+        }
+        .pulse-button {
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Mass vs Acceleration Cart */
+        #cart {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth easing */
+        }
+        #piston {
+            transition: all 0.2s ease-out;
+        }
+
+        /* Inertia Block Movement Transition */
+        #inertia-block {
+            transition: transform 0.5s ease-out, background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Section 1: Overview & Entry -->
+    <section id="section-1" class="lesson-section bg-white text-center">
+        <div class="max-w-4xl p-12 rounded-3xl bg-gray-50 card-shadow hover:shadow-cyan-400/50 transition duration-700">
+            <h1 class="text-7xl font-extrabold mb-4 text-primary-teal">NEWTONIAN PHYSICS</h1>
+            <h2 class="text-3xl font-light text-gray-700">Your Live, Animated Class on Motion & Forces</h2>
+            <p class="mt-8 text-xl text-gray-500 max-w-2xl mx-auto">
+                Explore the fundamental laws of motion through 13 deep, interactive sections. Click, drag, and simulate to learn!
+            </p>
+            <div class="mt-12">
+                <a href="#section-2" class="px-10 py-5 bg-secondary-orange text-white font-bold text-lg rounded-full 
+                   hover:bg-orange-600 transition duration-300 shadow-xl pulse-button">Start the Interactive Journey &darr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Key Concepts -->
+    <section id="section-2" class="lesson-section bg-gray-100 justify-start pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-4 border-primary-teal pb-2 text-gray-800 transition duration-700 hover:text-secondary-orange">1. Essential Concepts: The Building Blocks</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-xl bg-white shadow-lg border-l-4 border-red-500 interactive-element">
+                    <span class="text-3xl font-semibold text-red-600 block mb-2">Force (F)</span>
+                    <p class="text-lg text-gray-600">A push or a pull, measured in **Newtons** (N). It is the agent of change in motion.</p>
+                </div>
+                <div class="p-8 rounded-xl bg-white shadow-lg border-l-4 border-yellow-500 interactive-element">
+                    <span class="text-3xl font-semibold text-yellow-600 block mb-2">Mass (m)</span>
+                    <p class="text-lg text-gray-600">The amount of matter in an object. It is the direct measure of **Inertia**.</p>
+                </div>
+                <div class="p-8 rounded-xl bg-white shadow-lg border-l-4 border-blue-500 interactive-element">
+                    <span class="text-3xl font-semibold text-blue-600 block mb-2">Acceleration (a)</span>
+                    <p class="text-lg text-gray-600">The rate of change of velocity (speeding up, slowing down, or turning). Measured in **meters per second squared** (m/s/s).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Deep Explanation - Inertia -->
+    <section id="section-3" class="lesson-section bg-white justify-start pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-4 border-primary-teal pb-2 text-gray-800">2. Law I: The Principle of Inertia</h3>
+            <div class="p-8 rounded-xl bg-gray-100 shadow-xl border-l-8 border-primary-teal">
+                <p class="text-2xl font-semibold italic mb-4 text-primary-teal">
+                    "An object at rest stays at rest, and an object in motion stays in motion with the same speed and direction, unless acted upon by an unbalanced external force."
+                </p>
+                <p class="text-lg text-gray-600 mt-4">
+                    This property is called **Inertia**. The object's mass determines the magnitude of its inertia—how much it resists a change in motion.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Interactive Visualizer - Inertia -->
+    <section id="section-4" class="lesson-section bg-gray-100 pt-20">
+        <div class="max-w-4xl w-full text-center p-10 rounded-2xl bg-white card-shadow">
+            <h4 class="text-3xl font-bold mb-6 text-secondary-orange">3. Interactive: Overcoming Inertia</h4>
+            <p class="text-lg text-gray-600 mb-8">
+                Click the block to apply a force and change its state, causing it to move!
+            </p>
+            
+            <div class="relative w-full h-32 mb-8">
+                <div id="inertia-block" class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    flex items-center justify-center rounded-lg bg-gray-300 text-lg font-bold text-gray-900 
+                    shadow-2xl interactive-element transition duration-500" 
+                    onclick="toggleInertiaState()">
+                    AT REST
+                </div>
+            </div>
+            
+            <div id="inertia-message" class="h-10 text-xl font-semibold text-primary-teal transition duration-500 opacity-0">
+                
+            </div>
+            <p class="text-sm text-gray-500 mt-4">
+                *A force must be applied to change the object's velocity (speed or direction).*
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 5: Law II - F=ma Explanation (Symbols Replaced, No Sticky Diagram) -->
+    <section id="section-5" class="lesson-section bg-white pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-4 border-primary-teal pb-2 text-gray-800">4. Law II: The Equation of Motion (F=ma)</h3>
+            <div class="p-8 rounded-xl bg-gray-100 shadow-xl border-l-8 border-secondary-orange">
+                <p class="text-xl text-gray-600">
+                    The mathematical relationship between Force (F), Mass (m), and Acceleration (a) is defined as:
+                </p>
+                <div class="my-6 text-center p-6 bg-secondary-orange rounded-lg shadow-inner">
+                    <p class="text-6xl font-extrabold text-white">
+                        F = m x a
+                    </p>
+                    <p class="text-sm font-light text-white opacity-80 mt-2">Force equals mass times acceleration</p>
+                </div>
+                <p class="mt-4 text-lg text-gray-600">
+                    This equation is the most famous in classical mechanics. It shows that force is required to cause acceleration.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5a: F and a relationship (Replaces Section 6-1) -->
+    <section id="section-5a" class="lesson-section bg-gray-100 pt-20">
+        <div class="max-w-xl p-8 rounded-xl bg-white card-shadow transition duration-500 hover:border-r-8 border-secondary-orange interactive-element">
+            <h4 class="text-3xl font-bold mb-4 text-primary-teal">5. The Direct Relationship: Force and Acceleration</h4>
+            <p class="text-xl text-gray-600">
+                Acceleration (a) is **directly proportional** to Force (F). If you keep the mass the same:
+            </p>
+            <div class="my-4 text-center p-4 bg-green-100 rounded-lg">
+                <p class="text-3xl font-bold text-green-700">
+                    Double the Force &rarr; Double the Acceleration
+                </p>
+            </div>
+            <p class="mt-4 text-sm text-gray-500">
+                *Force and Acceleration change in the same way.*
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 5b: m and a relationship (Replaces Section 6-2) -->
+    <section id="section-5b" class="lesson-section bg-white pt-20">
+        <div class="max-w-xl p-8 rounded-xl bg-gray-100 card-shadow transition duration-500 hover:border-r-8 border-primary-teal interactive-element">
+            <h4 class="text-3xl font-bold mb-4 text-secondary-orange">6. The Inverse Relationship: Mass and Acceleration</h4>
+            <p class="text-xl text-gray-600">
+                Acceleration (a) is **inversely proportional** to Mass (m). If you keep the force the same:
+            </p>
+            <div class="my-4 text-center p-4 bg-red-100 rounded-lg">
+                <p class="text-3xl font-bold text-red-700">
+                    Triple the Mass &rarr; One-Third the Acceleration
+                </p>
+            </div>
+            <p class="mt-4 text-sm text-gray-500">
+                *Acceleration is reduced by the same factor the mass is increased.*
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 7: Interactive F=ma Calculator -->
+    <section id="section-7" class="lesson-section bg-gray-100 pt-20" style="min-height: 120vh;">
+        <div class="max-w-4xl w-full text-center p-12 rounded-2xl bg-white card-shadow">
+            <h3 class="text-4xl font-bold mb-10 text-primary-teal">7. Calculate It: F = m x a Explorer</h3>
+            <p class="text-xl text-gray-500 mb-8">
+                Change the Mass and Acceleration. See the resulting Force change in real-time.
+            </p>
+            
+            <div class="p-8 rounded-xl bg-gray-50 shadow-inner border border-gray-200">
+                
+                <!-- Input Sliders -->
+                <div class="grid md:grid-cols-2 gap-10 text-left mb-8">
+                    <div class="p-4 rounded-lg bg-white shadow-md interactive-element">
+                        <label for="mass-slider" class="block text-xl font-semibold mb-2 text-yellow-600">Mass (m): <span id="mass-value">5</span> kg</label>
+                        <input type="range" id="mass-slider" min="1" max="100" value="5" class="w-full h-2 bg-yellow-300 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                    <div class="p-4 rounded-lg bg-white shadow-md interactive-element">
+                        <label for="accel-slider" class="block text-xl font-semibold mb-2 text-blue-600">Acceleration (a): <span id="accel-value">5</span> m/s/s</label>
+                        <input type="range" id="accel-slider" min="1" max="50" value="5" class="w-full h-2 bg-blue-300 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Result & Visualization -->
+                <div class="mt-8 p-6 bg-primary-teal rounded-xl text-white shadow-2xl">
+                    <h4 class="text-3xl font-bold mb-4">Calculated Force (F): <span id="force-result" class="text-5xl font-extrabold ml-2 text-secondary-orange">25</span> Newtons (N)</h4>
+                    
+                    <div class="flex items-center justify-center mt-6">
+                        <div id="visual-force-vector" class="visual-vector mr-4"></div>
+                        <div id="visual-mass-block" class="w-24 h-24 bg-gray-300 rounded-xl flex items-center justify-center text-2xl font-extrabold text-gray-900 shadow-xl">
+                            m
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: INTERACTIVE SIMULATOR (a vs 1/m) -->
+    <section id="section-8" class="lesson-section bg-white pt-20" style="min-height: 120vh;">
+        <div class="max-w-4xl w-full text-center p-12 rounded-2xl bg-gray-100 card-shadow">
+            <h3 class="text-4xl font-extrabold mb-8 text-red-600">8. Simulator: Mass vs. Acceleration</h3>
+            <p class="text-xl text-gray-600 mb-10">
+                Apply a **constant force** by clicking the PUSH button. Observe how changing the cart's mass affects the final acceleration (distance covered).
+            </p>
+
+            <div class="flex flex-col items-center">
+                <div class="w-full max-w-xl mb-12 relative p-4 bg-white rounded-xl shadow-inner">
+                    <!-- Track -->
+                    <div class="h-4 bg-gray-300 rounded-full mb-8 relative">
+                        <div id="finish-line" class="absolute right-0 top-0 h-full w-2 bg-red-600 rounded-r-full"></div>
+                    </div>
+
+                    <!-- Piston/Force Applicator -->
+                    <div id="piston" class="absolute left-0 bottom-4 w-10 h-10 bg-red-500 rounded-full shadow-lg z-10"></div>
+                    
+                    <!-- Cart -->
+                    <div id="cart-container" class="absolute left-0 bottom-4">
+                        <div id="cart" class="w-20 h-16 bg-yellow-400 rounded-lg shadow-xl flex flex-col justify-center items-center text-sm font-bold border-2 border-yellow-700">
+                            <span id="cart-mass-display">Mass: 1 kg</span>
+                            <span id="cart-accel-display" class="mt-1 text-xs text-blue-800">a = ?</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
+                <div class="p-4 rounded-lg bg-white shadow-md interactive-element">
+                    <label for="sim-mass-slider" class="block text-xl font-semibold mb-2 text-yellow-600">Cart Mass (m): <span id="sim-mass-value">1</span> kg</label>
+                    <input type="range" id="sim-mass-slider" min="1" max="10" value="1" class="w-full h-2 bg-yellow-300 rounded-lg appearance-none cursor-pointer">
+                </div>
+                <button onclick="applyForce()" class="px-8 py-4 bg-secondary-orange text-white font-bold text-lg rounded-xl hover:bg-orange-600 transition duration-300 shadow-lg pulse-button">
+                    PUSH (F = 10 Newtons)
+                </button>
+            </div>
+            <p id="sim-feedback" class="mt-6 text-lg font-semibold text-primary-teal"></p>
+        </div>
+    </section>
+
+    <!-- Section 9: Law III - Action-Reaction Explanation -->
+    <section id="section-9" class="lesson-section bg-white pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-4 border-primary-teal pb-2 text-gray-800">9. Law III: Action-Reaction Pairs</h3>
+            <div class="p-8 rounded-xl bg-gray-100 shadow-xl border-l-8 border-red-500">
+                <p class="text-2xl font-semibold italic mb-4 text-red-600">
+                    "For every action force, there is an equal and opposite reaction force."
+                </p>
+                <p class="text-lg text-gray-600 mt-4">
+                    Forces always occur in pairs. The **Action** force and **Reaction** force are equal in strength but act in opposite directions on **different objects**.
+                </p>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 10: Interactive Selector - Law III -->
+    <section id="section-10" class="lesson-section bg-gray-100 pt-20">
+        <div class="max-w-4xl w-full text-center p-12 rounded-2xl bg-white card-shadow">
+            <h4 class="text-3xl font-bold mb-6 text-secondary-orange">10. Interactive: Identify the Reaction</h4>
+            <p class="text-lg text-gray-600 mb-8">
+                Select an action force to reveal its corresponding equal and opposite reaction force.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <button onclick="revealReaction('Wall')" class="answer-button bg-primary-teal text-white py-3 rounded-xl hover:bg-cyan-700 interactive-element">Pushing a Wall</button>
+                <button onclick="revealReaction('Earth')" class="answer-button bg-primary-teal text-white py-3 rounded-xl hover:bg-cyan-700 interactive-element">Earth Pulls Moon</button>
+                <button onclick="revealReaction('Jump')" class="answer-button bg-primary-teal text-white py-3 rounded-xl hover:bg-cyan-700 interactive-element">Foot Pushes Floor</button>
+            </div>
+            
+            <div id="reaction-display" class="h-20 p-4 bg-gray-50 rounded-lg text-xl font-bold text-red-600 flex items-center justify-center transition duration-500">
+                Select an Action to see the Reaction Force.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 11: Momentum and Impulse -->
+    <section id="section-11" class="lesson-section bg-white pt-20">
+        <div class="max-w-6xl w-full">
+            <h3 class="text-4xl font-bold mb-10 border-b-4 border-primary-teal pb-2 text-gray-800">11. Momentum and Impulse</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="p-8 rounded-xl bg-gray-100 shadow-xl border-l-8 border-purple-500">
+                    <h4 class="text-3xl font-bold text-purple-600 mb-3">Momentum (p)</h4>
+                    <p class="text-xl text-gray-600">
+                        Momentum is defined as mass in motion. It's the product of an object's mass and its velocity (v):
+                    </p>
+                    <div class="my-4 text-center p-4 bg-purple-100 rounded-lg">
+                        <p class="text-4xl font-extrabold text-purple-600">
+                            p = m x v
+                        </p>
+                    </div>
+                </div>
+                <div class="p-8 rounded-xl bg-gray-100 shadow-xl border-l-8 border-indigo-500">
+                    <h4 class="text-3xl font-bold text-indigo-600 mb-3">Impulse (J)</h4>
+                    <p class="text-xl text-gray-600">
+                        Impulse is the change in momentum. It is the force applied over a period of time (change in time):
+                    </p>
+                    <div class="my-4 text-center p-4 bg-indigo-100 rounded-lg">
+                        <p class="text-4xl font-extrabold text-indigo-600">
+                            Impulse = Force x Time = Change in Momentum
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 12: Momentum Calculator -->
+    <section id="section-12" class="lesson-section bg-gray-100 pt-20" style="min-height: 100vh;">
+        <div class="max-w-4xl w-full text-center p-12 rounded-2xl bg-white card-shadow">
+            <h3 class="text-4xl font-bold mb-10 text-primary-teal">12. Interactive: Momentum Calculator</h3>
+            <p class="text-xl text-gray-500 mb-8">
+                Calculate the momentum (p) of an object in motion.
+            </p>
+            
+            <div class="p-8 rounded-xl bg-gray-50 shadow-inner border border-gray-200">
+                
+                <div class="grid md:grid-cols-2 gap-10 text-left mb-8">
+                    <div class="p-4 rounded-lg bg-white shadow-md interactive-element">
+                        <label for="momentum-mass-slider" class="block text-xl font-semibold mb-2 text-yellow-600">Mass (m): <span id="momentum-mass-value">10</span> kg</label>
+                        <input type="range" id="momentum-mass-slider" min="1" max="100" value="10" class="w-full h-2 bg-yellow-300 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                    <div class="p-4 rounded-lg bg-white shadow-md interactive-element">
+                        <label for="velocity-slider" class="block text-xl font-semibold mb-2 text-blue-600">Velocity (v): <span id="velocity-value">5</span> meters per second</label>
+                        <input type="range" id="velocity-slider" min="0" max="50" value="5" class="w-full h-2 bg-blue-300 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="mt-8 p-6 bg-purple-600 rounded-xl text-white shadow-2xl">
+                    <h4 class="text-3xl font-bold mb-4">Calculated Momentum (p): <span id="momentum-result" class="text-5xl font-extrabold ml-2 text-yellow-300">50</span> Kilogram-Meters per Second</h4>
+                    <p class="text-sm mt-2 opacity-80">Momentum (p) = Mass (m) x Velocity (v)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 13: Summary & Final Notes -->
+    <section id="section-13" class="lesson-section bg-white pt-20 text-center">
+        <div class="max-w-4xl w-full p-12 rounded-2xl bg-gray-100 card-shadow">
+            <h3 class="text-4xl font-extrabold mb-8 text-primary-teal">13. Class Concluded: Final Review</h3>
+
+            <!-- Practice Question 1 -->
+            <div id="q1-card" class="question-card p-6 mb-6 rounded-xl bg-white shadow-md text-left interactive-element">
+                <p class="text-xl font-semibold mb-4 text-gray-700">Q1: A 10 kg box is pushed with a 50 N force. What is its acceleration?</p>
+                <button onclick="checkAnswer('q1', 1)" class="answer-button bg-primary-teal text-white px-4 py-2 rounded-lg mr-4 hover:bg-cyan-700">0.5 m/s/s</button>
+                <button onclick="checkAnswer('q1', 2)" class="answer-button bg-primary-teal text-white px-4 py-2 rounded-lg mr-4 hover:bg-cyan-700">5 m/s/s</button>
+                <button onclick="checkAnswer('q1', 3)" class="answer-button bg-primary-teal text-white px-4 py-2 rounded-lg hover:bg-cyan-700">500 m/s/s</button>
+                <p id="q1-feedback" class="mt-4 font-bold"></p>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-3xl font-bold mb-4 text-secondary-orange">Summary of Core Laws</h3>
+                <ul class="text-lg text-gray-600 list-disc list-inside text-left mx-auto max-w-md space-y-2">
+                    <li class="hover:text-primary-teal transition duration-300">Law 1: Inertia (Resistance to change in motion)</li>
+                    <li class="hover:text-primary-teal transition duration-300">Law 2: Force = Mass x Acceleration (F = m x a)</li>
+                    <li class="hover:text-primary-teal transition duration-300">Law 3: Action-Reaction (Forces always occur in pairs)</li>
+                    <li class="hover:text-primary-teal transition duration-300">Momentum: p = m x v (Mass in motion)</li>
+                </ul>
+            </div>
+
+            <button onclick="document.getElementById('section-1').scrollIntoView({ behavior: 'smooth' });"
+                class="mt-10 px-8 py-4 bg-primary-teal text-white font-bold text-lg rounded-full 
+                hover:bg-cyan-700 transition duration-300 shadow-lg">End Class & Review &uarr;</button>
+        </div>
+    </section>
+
+
+    <script>
+        // --- JAVASCRIPT FOR INTERACTIVITY AND SCROLL ANIMATIONS ---
+
+        // 1. SCROLL REVEAL ANIMATION (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // 2. INERTIA VISUALIZER (Section 4)
+        let isMoving = false;
+        const inertiaBlock = document.getElementById('inertia-block');
+        const inertiaMessage = document.getElementById('inertia-message');
+
+        function toggleInertiaState() {
+            isMoving = !isMoving;
+            inertiaMessage.style.opacity = '1';
+
+            if (isMoving) {
+                // 1. Move the block to the right (Action: start motion)
+                // We use translate(-50%, -50%) to maintain the center point, and then add the offset.
+                inertiaBlock.style.transform = 'translate(-50%, -50%) translateX(100px)';
+                
+                // 2. Change state (Color, Text)
+                inertiaBlock.textContent = "IN MOTION";
+                inertiaBlock.classList.remove('bg-gray-300', 'text-gray-900');
+                inertiaBlock.classList.add('bg-secondary-orange', 'text-white');
+                inertiaBlock.style.borderColor = '#00838f'; // Keep attractive
+                inertiaMessage.textContent = "Force Applied! The block is now MOVING.";
+            } else {
+                // 1. Move the block back to center (Action: stop motion)
+                inertiaBlock.style.transform = 'translate(-50%, -50%) translateX(0)'; 
+
+                // 2. Change state (Color, Text)
+                inertiaBlock.textContent = "AT REST";
+                inertiaBlock.classList.remove('bg-secondary-orange', 'text-white');
+                inertiaBlock.classList.add('bg-gray-300', 'text-gray-900');
+                inertiaBlock.style.borderColor = '#ff8c00'; // Keep attractive
+                inertiaMessage.textContent = "Opposing Force Applied! The block is now AT REST.";
+            }
+
+            // Fade out message after 2 seconds
+            setTimeout(() => { inertiaMessage.style.opacity = '0'; }, 2000);
+        }
+        // Initial setup for inertia block
+        inertiaBlock.style.borderColor = '#ff8c00';
+
+
+        // 3. F=MA CALCULATOR (Section 7)
+        const massSlider = document.getElementById('mass-slider');
+        const accelSlider = document.getElementById('accel-slider');
+        const massValueSpan = document.getElementById('mass-value');
+        const accelValueSpan = document.getElementById('accel-value');
+        const forceResultSpan = document.getElementById('force-result');
+        const visualForceVector = document.getElementById('visual-force-vector');
+        const visualMassBlock = document.getElementById('visual-mass-block');
+
+        function updateForceCalculation() {
+            const mass = parseFloat(massSlider.value);
+            const accel = parseFloat(accelSlider.value);
+
+            massValueSpan.textContent = mass;
+            accelValueSpan.textContent = accel;
+
+            const force = mass * accel;
+            forceResultSpan.textContent = force.toFixed(0);
+
+            // Update Visualization
+            const maxForce = 5000;
+            const visualLength = Math.min(200, (force / maxForce) * 200);
+
+            const minMassSize = 80;
+            const maxMassSize = 140;
+            const visualMassSize = minMassSize + ((mass - 1) / 99) * (maxMassSize - minMassSize); 
+
+            visualMassBlock.style.width = `${visualMassSize}px`;
+            visualMassBlock.style.height = `${visualMassSize}px`;
+            // Color mapping for mass (darker/denser appearance for heavier mass)
+            visualMassBlock.style.backgroundColor = `hsl(40, 50%, ${70 - (mass/100)*40}%)`; 
+
+            // Draw vector (animated)
+            visualForceVector.innerHTML = '';
+            
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", visualLength + 10);
+            svg.setAttribute("height", 20);
+            svg.setAttribute("viewBox", `0 0 ${visualLength + 10} 20`);
+
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", 0);
+            line.setAttribute("y1", 10);
+            line.setAttribute("x2", visualLength);
+            line.setAttribute("y2", 10);
+            line.setAttribute("stroke", "#EF4444"); 
+            line.setAttribute("stroke-width", 5);
+            svg.appendChild(line);
+
+            const arrow = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            arrow.setAttribute("points", `${visualLength},10 ${visualLength - 8},5 ${visualLength - 8},15`);
+            arrow.setAttribute("fill", "#EF4444");
+            svg.appendChild(arrow);
+            
+            visualForceVector.appendChild(svg);
+        }
+
+        massSlider.addEventListener('input', updateForceCalculation);
+        accelSlider.addEventListener('input', updateForceCalculation);
+        updateForceCalculation(); 
+
+        // 4. MASS VS ACCELERATION SIMULATOR (Section 8)
+        const simMassSlider = document.getElementById('sim-mass-slider');
+        const simMassValueSpan = document.getElementById('sim-mass-value');
+        const cartContainer = document.getElementById('cart-container');
+        const cart = document.getElementById('cart');
+        const piston = document.getElementById('piston');
+        const simFeedback = document.getElementById('sim-feedback');
+        const cartMassDisplay = document.getElementById('cart-mass-display');
+        const cartAccelDisplay = document.getElementById('cart-accel-display');
+
+        const CONSTANT_FORCE = 10; // N
+
+        simMassSlider.addEventListener('input', () => {
+            const mass = parseFloat(simMassSlider.value);
+            simMassValueSpan.textContent = mass;
+            cartMassDisplay.textContent = `Mass: ${mass} kg`;
+            cartAccelDisplay.textContent = `a = ?`;
+            cartContainer.style.left = '0px'; // Reset position
+            simFeedback.textContent = `Cart mass set to ${mass} kg. Ready to push.`;
+            // Adjust visual size for mass
+            cart.style.width = `${80 + (mass * 4)}px`;
+        });
+        simMassSlider.dispatchEvent(new Event('input')); // Initial setup
+
+        function applyForce() {
+            const mass = parseFloat(simMassSlider.value);
+            const acceleration = CONSTANT_FORCE / mass; // a = F/m
+            const distance = 400; // Total visual distance (400px)
+            
+            // Time to travel the distance (time = sqrt(2 * distance / acceleration))
+            const timeToTravel = Math.sqrt(2 * distance / acceleration); 
+            
+            // Animation time must be capped to be visible
+            const animationDuration = Math.min(3, timeToTravel / 2); // Cap at 3s for visual
+
+            simFeedback.textContent = `Force applied! Calculated acceleration: ${acceleration.toFixed(2)} m/s/s.`;
+            cartAccelDisplay.textContent = `a = ${acceleration.toFixed(2)} m/s/s`;
+            
+            // 1. Piston action
+            piston.style.left = '40px'; 
+            setTimeout(() => { piston.style.left = '0px'; }, 100);
+
+            // 2. Cart motion
+            cartContainer.style.transitionDuration = `${animationDuration}s`;
+            cartContainer.style.left = `${distance}px`;
+
+            // Reset after animation
+            setTimeout(() => {
+                cartContainer.style.transitionDuration = '0.5s'; // Reset transition
+                cartContainer.style.left = '0px'; 
+                cartAccelDisplay.textContent = `a = Done!`;
+            }, animationDuration * 1000 + 500); 
+        }
+
+
+        // 5. LAW III INTERACTIVE SELECTOR (Section 10)
+        function revealReaction(action) {
+            const display = document.getElementById('reaction-display');
+            display.classList.remove('text-primary-teal', 'text-green-600', 'text-red-600');
+            
+            let reactionText = "";
+            let colorClass = 'text-red-600';
+
+            switch (action) {
+                case 'Wall':
+                    reactionText = "The Wall Pushes Back on Your Hand.";
+                    break;
+                case 'Earth':
+                    reactionText = "The Moon Pulls on the Earth.";
+                    break;
+                case 'Jump':
+                    reactionText = "The Floor Pushes Up on Your Foot (Normal Force).";
+                    break;
+                default:
+                    reactionText = "Error: Unknown Action.";
+                    colorClass = 'text-gray-600';
+            }
+
+            // Animate text change
+            display.style.opacity = '0';
+            setTimeout(() => {
+                display.textContent = `REACTION: ${reactionText}`;
+                display.classList.add(colorClass);
+                display.style.opacity = '1';
+            }, 300);
+        }
+
+        // 6. MOMENTUM CALCULATOR (Section 12)
+        const momentumMassSlider = document.getElementById('momentum-mass-slider');
+        const velocitySlider = document.getElementById('velocity-slider');
+        const momentumMassValueSpan = document.getElementById('momentum-mass-value');
+        const velocityValueSpan = document.getElementById('velocity-value');
+        const momentumResultSpan = document.getElementById('momentum-result');
+
+        function updateMomentumCalculation() {
+            const mass = parseFloat(momentumMassSlider.value);
+            const velocity = parseFloat(velocitySlider.value);
+
+            momentumMassValueSpan.textContent = mass;
+            velocityValueSpan.textContent = velocity;
+
+            const momentum = mass * velocity;
+            momentumResultSpan.textContent = momentum.toFixed(0);
+        }
+
+        momentumMassSlider.addEventListener('input', updateMomentumCalculation);
+        velocitySlider.addEventListener('input', updateMomentumCalculation);
+        updateMomentumCalculation(); // Initial run
+
+        // 7. PRACTICE QUESTION (Section 13)
+        function checkAnswer(questionId, selectedOption) {
+            const feedbackElement = document.getElementById(`${questionId}-feedback`);
+            const correctAnswer = 2; // a = F/m = 50/10 = 5 m/s/s
+
+            if (selectedOption === correctAnswer) {
+                feedbackElement.textContent = "Correct! (F/m = 50/10 = 5 m/s/s)";
+                feedbackElement.classList.remove('text-red-600');
+                feedbackElement.classList.add('text-green-600');
+            } else {
+                feedbackElement.textContent = "Incorrect. Remember Force = Mass x Acceleration, so Acceleration = Force / Mass.";
+                feedbackElement.classList.remove('text-green-600');
+                feedbackElement.classList.add('text-red-600');
+            }
+        }
+    </script>
+</body>
+</html>
