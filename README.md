@@ -44,6 +44,6 @@ Happy Studying!
 
 ![Screenshot showing the detailed chapter notes for a specific topic, demonstrating the content layout.](https://i.postimg.cc/Pf18YpZ8/Screenshot-2025-11-30-101046.png)
 
-### Image 3: Mobile Responsive View
+### Image 3: Detailed Chapter Notes Example
 
 ![Screenshot of the index page viewed on a mobile device, showing the responsive design.](https://i.postimg.cc/Dzt8bnwc/Screenshot-2025-11-30-101129.png)
