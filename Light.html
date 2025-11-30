@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light: The Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styles for Professional Look */
+        :root {
+            --primary-bg: #0f172a; /* Slate 900 */
+            --secondary-accent: #3b82f6; /* Blue 500 */
+            --highlight: #60a5fa; /* Blue 400 */
+            --text-color: #f8fafc; /* Slate 50 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 1. Scroll Reveal Setup (Simple Fade/Slide) */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: opacity, transform;
+        }
+        .scroll-reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 2. Custom Keyframe Animation: EM Wave */
+        @keyframes wave-motion-e {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(0, -10px); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes wave-motion-m {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, 0); }
+        }
+        .e-field {
+            animation: wave-motion-e 1.5s infinite alternate ease-in-out;
+        }
+        .m-field {
+            animation: wave-motion-m 1.5s infinite alternate ease-in-out;
+        }
+
+        /* 3. Custom Keyframe Animation: Speed of Light "Race" */
+        @keyframes light-travel {
+            from { left: 0%; }
+            to { left: 95%; }
+        }
+        .traveling-light {
+            position: absolute;
+            animation: light-travel 1s forwards ease-in;
+        }
+        .traveling-object {
+            position: absolute;
+            animation: light-travel 5s forwards ease-out; /* Slower */
+        }
+
+        /* 4. Refraction/Reflection Ray Styling */
+        .ray {
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: 0 0;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="max-w-7xl mx-auto">
+
+        <!-- SECTION 1: OVERVIEW & TITLE -->
+        <section class="h-screen flex items-center justify-center p-8 bg-gradient-to-br from-slate-900 to-indigo-900 overflow-hidden">
+            <div class="text-center scroll-reveal">
+                <h1 class="text-7xl md:text-8xl font-extrabold tracking-tight mb-4 text-white">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-sky-400">LIGHT</span>
+                </h1>
+                <h2 class="text-3xl md:text-4xl font-light text-slate-300">
+                    The Interactive Lesson
+                </h2>
+                <p class="mt-8 text-xl text-slate-400">Scroll down to explore the fundamental properties of light.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: KEY CONCEPTS - ELECTROMAGNETIC WAVE (Interactive Diagram) -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 border-t border-slate-800">
+            <div class="max-w-5xl scroll-reveal text-center mb-12">
+                <h3 class="text-4xl font-bold mb-6 text-highlight">1. Anatomy of Light: The EM Wave</h3>
+                <p class="text-xl leading-relaxed text-slate-300">
+                    Light is a self-propagating oscillation of **Electric (E)** and **Magnetic (B)** fields. Click the diagram to pause/play the animation!                 </p>
+            </div>
+            
+            <!-- EM Wave Diagram Container (Clickable) -->
+            <div id="em-diagram" class="w-full max-w-xl h-64 bg-slate-800 rounded-xl p-4 flex flex-col justify-center items-center interactive-card" onclick="toggleAnimation()">
+                <div class="w-full h-1/2 relative">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <!-- Propagation Direction Arrow -->
+                        <div class="absolute w-full top-1/2 h-0.5 bg-slate-600"></div>
+                        <div class="absolute right-0 top-1/2 w-0 h-0 border-t-8 border-b-8 border-l-12 border-t-transparent border-b-transparent border-l-slate-400"></div>
+
+                        <!-- E-Field (Vertical Wave) -->
+                        <svg class="w-full h-full absolute" viewBox="0 0 100 50" preserveAspectRatio="none">
+                            <path id="e-path" class="e-field" d="M 0 25 C 10 0, 20 50, 30 25 S 50 0, 60 25 S 80 0, 90 25" fill="none" stroke="#fcd34d" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                            <text x="95" y="10" fill="#fcd34d" font-size="6">E-Field</text>
+                        </svg>
+
+                        <!-- B-Field (Horizontal Wave - conceptually perpendicular to screen) -->
+                        <svg class="w-full h-full absolute transform rotate-90" viewBox="0 0 100 50" preserveAspectRatio="none">
+                            <path id="m-path" class="m-field" d="M 0 25 C 10 0, 20 50, 30 25 S 50 0, 60 25 S 80 0, 90 25" fill="none" stroke="#34d399" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                            <text x="95" y="10" fill="#34d399" font-size="6" transform="rotate(-90 95 10)">B-Field</text>
+                        </svg>
+                    </div>
+                </div>
+                <p id="em-status" class="mt-4 text-slate-400 text-sm">Status: Animated (Click to Pause)</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DEEP EXPLANATION - SPEED OF LIGHT (Interactive Race) -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 bg-slate-800 border-t border-slate-700">
+            <div class="max-w-4xl scroll-reveal text-center mb-12">
+                <h3 class="text-4xl font-bold mb-6 text-sky-400">2. The Universal Speed Limit</h3>
+                <p class="text-xl leading-relaxed text-slate-300">
+                    Observe the difference between light and the fastest-known spaceship.
+                </p>
+            </div>
+            
+            <div class="w-full max-w-3xl p-6 bg-slate-900 rounded-xl relative overflow-hidden">
+                <div id="race-track" class="h-20 relative">
+                    <!-- Light Path -->
+                    <div id="light-ray" class="h-2 w-2 bg-yellow-400 rounded-full traveling-light top-0.5"></div>
+                    <div class="w-full h-0.5 bg-slate-700 absolute top-2"></div>
+                    <p class="absolute -top-6 left-0 text-sm text-yellow-400">Light (c)</p>
+
+                    <!-- Spaceship Path -->
+                    <div id="spaceship" class="h-3 w-3 bg-red-500 rounded-full traveling-object top-12"></div>
+                    <div class="w-full h-0.5 bg-slate-700 absolute top-14"></div>
+                    <p class="absolute -top-6 left-0 text-sm text-red-400" style="top: 3.5rem;">Spaceship (0.01c)</p>
+
+                    <!-- Finish Line -->
+                    <div class="absolute right-0 top-0 h-full w-1 bg-white border-dashed"></div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="race-button" class="px-6 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition duration-300" onclick="startRace()">
+                        Start the Race (Run Simulation)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KEY CONCEPT - WAVE-PARTICLE DUALITY (Interactive Toggle) -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 border-t border-slate-800">
+            <div class="max-w-4xl scroll-reveal text-center mb-12">
+                <h3 class="text-4xl font-bold mb-6 text-highlight">3. Wave or Particle?</h3>
+                <p class="text-xl leading-relaxed text-slate-300">
+                    Use the toggle to view light's behavior in two fundamental forms.
+                </p>
+            </div>
+
+            <div class="w-full max-w-2xl bg-slate-800 p-8 rounded-xl shadow-2xl">
+                <!-- Toggle Switch -->
+                <div class="flex justify-center mb-8">
+                    <div class="p-1 bg-slate-700 rounded-full flex gap-2">
+                        <button id="wave-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition duration-300 bg-highlight text-white" onclick="showDuality('wave')">
+                            Wave Mode
+                        </button>
+                        <button id="particle-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition duration-300 text-slate-400" onclick="showDuality('particle')">
+                            Particle Mode
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Area Wrapper: Set fixed height and relative positioning -->
+                <div class="relative w-full h-[250px] overflow-hidden">
+                    
+                    <!-- Wave Content (Absolute positioned and fades/hides) -->
+                    <!-- Added 'hidden' to the inactive state via JS later for reliable non-overlap -->
+                    <div id="duality-wave-content" class="absolute inset-0 text-center transition-opacity duration-500 opacity-100 p-2">
+                        <div class="text-6xl text-cyan-400 mb-4">🌊</div>
+                        <h4 class="text-2xl font-semibold text-cyan-400">Wave Behavior</h4>
+                        <p class="text-slate-300 mt-2">Light acts like ripples in a pond, demonstrating properties like **diffraction** (spreading around corners) and **interference** (creating patterns of light and dark).</p>
+                        <p class="mt-4 italic text-sm text-slate-400">What-if: If light was only a wave, solar panels wouldn't work efficiently (Photoelectric Effect proves particle nature).</p>
+                    </div>
+
+                    <!-- Particle Content (Absolute positioned and fades/hides) -->
+                    <!-- Initial state uses 'hidden' to prevent overlap before JS runs -->
+                    <div id="duality-particle-content" class="absolute inset-0 text-center transition-opacity duration-500 opacity-0 pointer-events-none p-2 hidden">
+                        <div class="text-6xl text-yellow-400 mb-4">✨</div>
+                        <h4 class="text-2xl font-semibold text-yellow-400">Particle Behavior (Photons)</h4>
+                        <p class="text-slate-300 mt-2">Light is delivered in discrete energy packets called **photons**. The energy of one photon depends on its frequency (color).</p>
+                        <p class="mt-4 italic text-sm text-slate-400">What-if: If light was only a particle, we couldn't explain how light can create rainbow patterns when passing through a prism (which requires wave interference).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: INTERACTIVE REFRACTION/REFLECTION -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 bg-slate-900 border-t border-slate-700">
+            <div class="text-center max-w-4xl mb-12">
+                <h3 class="text-4xl font-bold mb-4 text-highlight scroll-reveal">4. Interactive Light Boundary</h3>
+                <p class="text-xl text-slate-400 scroll-reveal" data-delay="0.3">
+                    Change the material to see how the light ray changes its path.                 </p>
+            </div>
+            
+            <div class="w-full max-w-lg p-6 bg-slate-800 rounded-xl shadow-2xl relative">
+                <!-- Boundary Control -->
+                <div class="mb-6 text-center">
+                    <label for="material-select" class="text-slate-300 mr-4">Change Boundary:</label>
+                    <select id="material-select" class="p-2 rounded bg-slate-700 text-white" onchange="updateRayDiagram(this.value)">
+                        <option value="mirror">Reflection (Mirror)</option>
+                        <option value="water">Refraction (Air → Water)</option>
+                        <option value="glass">Refraction (Air → Glass)</option>
+                    </select>
+                </div>
+                
+                <!-- Diagram Area -->
+                <div class="h-64 relative overflow-hidden border-2 border-slate-700 rounded-lg" id="diagram-area">
+                    <!-- Boundary Line -->
+                    <div class="w-full h-0.5 bg-white absolute top-1/2"></div>
+                    <!-- Normal Line -->
+                    <div class="w-0.5 h-full bg-slate-600 absolute left-1/2"></div>
+                    
+                    <!-- Incoming Ray (Constant) -->
+                    <div class="ray w-32 h-0.5 bg-yellow-400 absolute top-1/2 left-1/2 origin-right" style="transform: rotate(-135deg);"></div>
+                    
+                    <!-- REFLECTED Ray (Yellow) -->
+                    <div id="reflected-ray" class="ray w-32 h-0.5 bg-yellow-400 absolute top-1/2 left-1/2 origin-left" style="transform: rotate(-45deg);"></div>
+
+                    <!-- REFRACTED Ray (Cyan) - Will change angle based on material -->
+                    <div id="refracted-ray" class="ray w-32 h-0.5 bg-cyan-400 absolute top-1/2 left-1/2 origin-left" style="transform: rotate(30deg); opacity: 0;"></div>
+                    
+                    <!-- Labels -->
+                    <p class="text-sm text-yellow-400 absolute" style="top: 5px; left: 5px;">Medium 1: Air</p>
+                    <p id="medium-label" class="text-sm text-cyan-400 absolute" style="bottom: 5px; left: 5px;">Medium 2: Mirror</p>
+                    
+                    <p class="text-xs text-white absolute" style="top: 50%; transform: translate(-50%, -50%);">Boundary</p>
+
+                </div>
+                <p id="ray-explanation" class="mt-4 text-slate-400 text-sm text-center italic">
+                    <span class="text-yellow-400">Reflection:</span> Light bounces off the surface. Angle of incidence equals angle of reflection (Law of Reflection).
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 6: THE ELECTROMAGNETIC SPECTRUM (Clickable Info) -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 border-t border-slate-800">
+            <div class="text-center max-w-4xl mb-12 scroll-reveal">
+                <h3 class="text-4xl font-bold mb-4 text-highlight">5. EM Spectrum Explorer</h3>
+                <p class="text-xl text-slate-400">
+                    Click any segment to learn about its wavelength and energy.                 </p>
+            </div>
+            
+            <div class="w-full max-w-5xl p-6 bg-slate-800 rounded-xl scroll-reveal" data-delay="0.5">
+                <div id="spectrum-bar" class="flex h-16 relative rounded-lg overflow-hidden cursor-pointer">
+                    <!-- Radio/Micro (Low Energy, Long Wavelength) -->
+                    <div class="h-full w-1/5 bg-red-700 transition duration-300 hover:scale-y-110" onclick="showSpectrumInfo('radio')"></div>
+                    <div class="h-full w-1/5 bg-orange-500 transition duration-300 hover:scale-y-110" onclick="showSpectrumInfo('infrared')"></div>
+                    <!-- Visible (Mid-Range) -->
+                    <div class="h-full w-1/5 bg-gradient-to-r from-yellow-500 via-green-500 to-indigo-500 border-4 border-highlight transition duration-300 hover:scale-y-110" onclick="showSpectrumInfo('visible')"></div>
+                    <!-- UV/X-ray/Gamma (High Energy, Short Wavelength) -->
+                    <div class="h-full w-1/5 bg-blue-700 transition duration-300 hover:scale-y-110" onclick="showSpectrumInfo('uv')"></div>
+                    <div class="h-full w-1/5 bg-indigo-900 transition duration-300 hover:scale-y-110" onclick="showSpectrumInfo('gamma')"></div>
+                </div>
+                
+                <div class="flex justify-between mt-2 text-sm font-semibold text-slate-400">
+                    <p class="text-red-300">Low Energy / Long λ</p>
+                    <p class="text-indigo-300">High Energy / Short λ</p>
+                </div>
+
+                <div id="spectrum-info-box" class="mt-6 p-4 bg-slate-700 rounded-lg transition-all duration-500 h-20 flex flex-col justify-center">
+                    <p class="text-lg font-semibold text-yellow-400">Click a band above to see details!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7 & 8: REAL-LIFE APPLICATIONS (Consolidated) -->
+        <section class="min-h-screen flex items-center justify-center p-8 bg-slate-800 border-t border-slate-700">
+            <div class="max-w-4xl scroll-reveal">
+                <h3 class="text-4xl font-bold mb-6 text-sky-400">6. Real-Life Applications</h3>
+                <div class="space-y-8">
+                    <!-- Application 1: Vision/Lenses -->
+                    <div class="p-6 bg-slate-700 rounded-xl interactive-card">
+                        <h4 class="text-2xl font-semibold text-cyan-400">Lenses & Vision</h4>
+                        <p class="text-slate-300 mt-2">
+                            The human eye uses refraction (bending of light) to focus an image onto the retina. Corrective lenses (glasses) work by adjusting the initial bending to compensate for focusing errors.
+                        </p>
+                        <p class="mt-2 italic text-sm text-slate-400">
+                            **What-if:** If your cornea was perfectly flat, light would focus *behind* your retina, resulting in farsightedness (hyperopia).
+                        </p>
+                    </div>
+                    <!-- Application 2: Fiber Optics -->
+                    <div class="p-6 bg-slate-700 rounded-xl interactive-card">
+                        <h4 class="text-2xl font-semibold text-yellow-400">Fiber Optics (High-Speed Internet)</h4>
+                        <p class="text-slate-300 mt-2">
+                            Data is transmitted as pulses of light through thin glass fibers using **Total Internal Reflection (TIR)**. The light ray hits the boundary between the glass core and the cladding at such a steep angle that it has no choice but to bounce *back* inside.
+                        </p>
+                        <p class="mt-2 italic text-sm text-slate-400">
+                            **What-if:** If the fiber had air inside, the light would escape (refract out) because air has a lower refractive index than glass.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: PRACTICE QUESTIONS (Enhanced Interaction) -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 bg-slate-900 border-t border-slate-700">
+            <div class="text-center max-w-xl scroll-reveal mb-12">
+                <h3 class="text-4xl font-bold mb-4 text-highlight">7. Practice Question</h3>
+                <p class="text-xl text-slate-400">
+                    Click the correct box to reveal the answer and see a hint animation!
+                </p>
+            </div>
+            
+            <div class="max-w-2xl w-full">
+                <div class="bg-slate-800 p-6 rounded-t-xl text-2xl font-semibold border-b border-slate-700">
+                    Q: Which property explains why light makes shadows with sharp edges, unlike sound waves?
+                </div>
+                
+                <div id="q-options" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-center">
+                    <button class="interactive-card bg-slate-700 p-4 rounded-xl text-xl hover:bg-slate-600" data-answer="Incorrect. Speed (c) doesn't directly explain sharp shadows.">
+                        A) Speed of Light
+                    </button>
+                    <button class="interactive-card bg-slate-700 p-4 rounded-xl text-xl hover:bg-slate-600" data-answer="Correct! Photons travel in straight lines, which creates clear shadows.">
+                        B) Particle Nature (Photons)
+                    </button>
+                    <button class="interactive-card bg-slate-700 p-4 rounded-xl text-xl hover:bg-slate-600" data-answer="Incorrect. Interference explains color patterns, not sharp shadows.">
+                        C) Wave Interference
+                    </button>
+                </div>
+
+                <div id="q-feedback" class="mt-6 p-4 text-lg font-bold text-center rounded-xl transition-all duration-500 opacity-0 transform scale-95 bg-slate-700 border-l-4 border-yellow-500">
+                    <span id="feedback-text">Click an option above!</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: SUMMARY & FINAL NOTES -->
+        <section class="min-h-screen flex flex-col items-center justify-center p-8 border-t border-slate-800">
+            <div class="text-center max-w-4xl scroll-reveal">
+                <h3 class="text-4xl font-bold mb-6 text-sky-400">8. Final Summary</h3>
+                <div class="text-left space-y-4 text-xl text-slate-300 p-6 bg-slate-800 rounded-xl">
+                    <p class="scroll-reveal" data-delay="0.1">
+                        **EM Wave:** Light consists of perpendicular Electric (E) and Magnetic (B) fields.
+                    </p>
+                    <p class="scroll-reveal" data-delay="0.4">
+                        **Duality:** Light behaves as both a wave (interference, diffraction) and a particle (photons/photoelectric effect).
+                    </p>
+                    <p class="scroll-reveal" data-delay="0.7">
+                        **Interaction:** The key behaviors are Reflection (bouncing) and Refraction (bending).
+                    </p>
+                    <p class="scroll-reveal font-semibold text-highlight pt-4" data-delay="1.0">
+                        You've successfully mastered the key principles of light physics.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Spacer -->
+        <div class="h-24"></div>
+
+    </main>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+        
+        // 1. SCROLL REVEAL LOGIC
+        function setupScrollReveal() {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        target.classList.add('in-view');
+                        observer.unobserve(target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                const delay = el.getAttribute('data-delay');
+                if (delay) {
+                    el.style.transitionDelay = delay + 's';
+                }
+                observer.observe(el);
+            });
+        }
+
+        // 2. EM Wave Animation Toggle
+        let isAnimated = true;
+        const ePath = document.getElementById('e-path');
+        const mPath = document.getElementById('m-path');
+        const emStatus = document.getElementById('em-status');
+        
+        function toggleAnimation() {
+            if (isAnimated) {
+                ePath.classList.remove('e-field');
+                mPath.classList.remove('m-field');
+                emStatus.textContent = "Status: Paused (Click to Play)";
+                isAnimated = false;
+            } else {
+                ePath.classList.add('e-field');
+                mPath.classList.add('m-field');
+                emStatus.textContent = "Status: Animated (Click to Pause)";
+                isAnimated = true;
+            }
+        }
+        
+        // 3. Speed of Light Race Simulation
+        const lightRay = document.getElementById('light-ray');
+        const spaceship = document.getElementById('spaceship');
+        const raceButton = document.getElementById('race-button');
+
+        function startRace() {
+            // Reset position
+            lightRay.style.animation = 'none';
+            spaceship.style.animation = 'none';
+            // Force a reflow
+            void lightRay.offsetWidth; 
+            void spaceship.offsetWidth;
+
+            // Start animation
+            lightRay.style.animation = 'light-travel 1s forwards ease-in';
+            spaceship.style.animation = 'light-travel 5s forwards ease-out';
+            
+            raceButton.textContent = 'Race in Progress...';
+            raceButton.disabled = true;
+
+            setTimeout(() => {
+                raceButton.textContent = 'Restart Simulation';
+                raceButton.disabled = false;
+            }, 5000); // 5 seconds is the length of the slower animation
+        }
+        
+        // 4. Wave-Particle Duality Toggle
+        const waveContent = document.getElementById('duality-wave-content');
+        const particleContent = document.getElementById('duality-particle-content');
+        const waveBtn = document.getElementById('wave-btn');
+        const particleBtn = document.getElementById('particle-btn');
+
+        function showDuality(mode) {
+            // Class names for hiding completely (opacity-0, no pointer events, display: none)
+            const hideClasses = ['opacity-0', 'pointer-events-none', 'hidden'];
+
+            if (mode === 'wave') {
+                // Show Wave
+                waveContent.classList.remove(...hideClasses);
+                // Hide Particle (using spread syntax to remove all classes)
+                particleContent.classList.add(...hideClasses);
+
+                // Update button styles
+                waveBtn.classList.add('bg-highlight', 'text-white');
+                particleBtn.classList.remove('bg-highlight', 'text-white');
+                particleBtn.classList.add('text-slate-400');
+            } else {
+                // Show Particle
+                particleContent.classList.remove(...hideClasses);
+                // Hide Wave
+                waveContent.classList.add(...hideClasses);
+
+                // Update button styles
+                particleBtn.classList.add('bg-highlight', 'text-white');
+                waveBtn.classList.remove('bg-highlight', 'text-white');
+                waveBtn.classList.add('text-slate-400');
+            }
+        }
+
+        // 5. Interactive Refraction/Reflection Diagram
+        const reflectedRay = document.getElementById('reflected-ray');
+        const refractedRay = document.getElementById('refracted-ray');
+        const mediumLabel = document.getElementById('medium-label');
+        const rayExplanation = document.getElementById('ray-explanation');
+
+        // n = index of refraction (Air=1.0)
+        const refractiveIndices = {
+            mirror: { n: 1.0, reflectionAngle: -45, refractionAngle: 0, text: 'Mirror', explanation: '<span class="text-yellow-400">Reflection:</span> Light bounces off the surface. Angle of incidence equals angle of reflection (Law of Reflection).' },
+            water: { n: 1.33, reflectionAngle: -45, refractionAngle: 25, text: 'Water (n=1.33)', explanation: '<span class="text-cyan-400">Refraction:</span> Light bends towards the Normal line (25° angle). This makes objects look warped.' },
+            glass: { n: 1.5, reflectionAngle: -45, refractionAngle: 20, text: 'Glass (n=1.5)', explanation: '<span class="text-cyan-400">Refraction:</span> Light bends significantly towards the Normal line (20° angle) as it enters the denser medium.' }
+        };
+
+        function updateRayDiagram(material) {
+            const data = refractiveIndices[material];
+            
+            // 1. Update Reflection Ray (Always the same angle, but hide/show)
+            reflectedRay.style.opacity = (material === 'mirror') ? 1 : 0;
+            
+            // 2. Update Refraction Ray (Change angle and visibility)
+            if (material !== 'mirror') {
+                // Rotate the refracted ray and make it visible
+                refractedRay.style.transform = `rotate(${data.refractionAngle}deg)`;
+                refractedRay.style.opacity = 1;
+            } else {
+                // Hide refraction ray for the mirror
+                refractedRay.style.opacity = 0;
+            }
+
+            // 3. Update Labels and Explanation
+            mediumLabel.textContent = `Medium 2: ${data.text}`;
+            rayExplanation.innerHTML = data.explanation;
+        }
+
+
+        // 6. EM Spectrum Info Reveal
+        const spectrumInfoBox = document.getElementById('spectrum-info-box');
+        const spectrumData = {
+            radio: { color: 'text-red-300', title: 'Radio/Micro', detail: 'Longest wavelengths, lowest energy. Used for broadcasting and heating food.' },
+            infrared: { color: 'text-orange-300', title: 'Infrared', detail: 'Felt as heat. Used for thermal imaging and remote controls.' },
+            visible: { color: 'text-highlight', title: 'Visible Light', detail: 'The tiny band we can see (ROYGBIV). Enables human vision.' },
+            uv: { color: 'text-blue-300', title: 'Ultraviolet (UV)', detail: 'Higher energy. Causes sunburns, used for sterilization and black lights.' },
+            gamma: { color: 'text-indigo-300', title: 'X-ray / Gamma Ray', detail: 'Highest energy, shortest wavelengths. Used in medicine and generated by cosmic events.' }
+        };
+
+        function showSpectrumInfo(band) {
+            const info = spectrumData[band];
+            spectrumInfoBox.innerHTML = `<p class="text-xl font-semibold ${info.color}">${info.title}</p><p class="mt-1">${info.detail}</p>`;
+            spectrumInfoBox.style.height = 'auto'; // Auto adjust height
+        }
+
+
+        // 7. Practice Question Interactivity
+        function setupQuiz() {
+            const options = document.querySelectorAll('#q-options button');
+            const feedbackBox = document.getElementById('q-feedback');
+            const feedbackText = document.getElementById('feedback-text');
+
+            options.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.getAttribute('data-answer');
+                    const isCorrect = button.textContent.includes('Particle Nature');
+                    
+                    // Reset previous styles
+                    options.forEach(btn => {
+                        btn.classList.remove('bg-green-600', 'bg-red-600', 'hover:bg-slate-600');
+                        btn.classList.add('bg-slate-700', 'hover:bg-slate-600');
+                    });
+                    
+                    if (isCorrect) {
+                        button.classList.remove('bg-slate-700');
+                        button.classList.add('bg-green-600');
+                        feedbackBox.classList.remove('border-yellow-500');
+                        feedbackBox.classList.add('border-green-500');
+                    } else {
+                        button.classList.remove('bg-slate-700');
+                        button.classList.add('bg-red-600');
+                        feedbackBox.classList.remove('border-green-500');
+                        feedbackBox.classList.add('border-yellow-500');
+                    }
+
+                    // Show feedback with a subtle animation
+                    feedbackText.textContent = answer;
+                    feedbackBox.classList.remove('opacity-0', 'scale-95');
+                    feedbackBox.classList.add('opacity-100', 'scale-100');
+                });
+            });
+        }
+
+        // Initialize everything when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            setupScrollReveal();
+            setupQuiz();
+            showDuality('wave'); // Default to Wave mode
+            updateRayDiagram('mirror'); // Default to Reflection
+            
+            // Start the EM wave animation immediately
+            ePath.classList.add('e-field');
+            mPath.classList.add('m-field');
+        });
+    </script>
+</body>
+</html>

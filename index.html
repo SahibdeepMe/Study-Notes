@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Dynamic Study Notes Hub 🧠</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use Inter font and custom colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#4F46E5', // Indigo 600
+                        'secondary-cyan': '#22D3EE', // Cyan 400
+                        'bg-dark': '#111827', // Gray 900
+                        'card-light': '#1F2937', // Gray 800
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for background and reel container */
+        body {
+            background-color: #111827;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        .chapter-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        .chapter-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(34, 211, 238, 0.5), 0 8px 10px -6px rgba(34, 211, 238, 0.3);
+        }
+        /* Style for the "Reel" effect */
+        .content-reel-text {
+            /* Fade transition for the text change */
+            transition: opacity 0.5s ease;
+        }
+        /* Mobile-first grid: single column for small screens, 2/3 columns for larger screens */
+        @media (min-width: 640px) {
+            .notes-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            .notes-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Header Section -->
+    <header class="py-10 bg-bg-dark border-b border-gray-700 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-secondary-cyan">
+                Study Notes Repository
+            </h1>
+            <p class="mt-3 text-xl text-gray-400">
+                Explore bite-sized, animated previews of concepts before diving deep.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <div id="notes-grid" class="notes-grid grid gap-8">
+            <!-- Chapter Cards will be inserted here by JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Data structure for the notes/chapters
+        // The 'reelContent' simulates the short, looping animation preview
+        const chapters = [
+            {
+                title: "Light & Optics",
+                subtitle: "The Science of Seeing",
+                file: "light.html",
+                icon: "💡",
+                color: "pink",
+                reelContent: [
+                    "Reflection is bouncing off a surface.",
+                    "Refraction is bending of light.",
+                    "Lenses use refraction to focus light.",
+                    "The human eye acts like a convex lens."
+                ]
+            },
+			 {
+                title: "CyberSecurity",
+                subtitle: "Unseen threats, visible protection.",
+                file: "Cybersecurity.html",
+                icon: "🧑‍💻",
+                color: "green",
+                reelContent: [
+                    "Stay safe online, stay secure offline.",
+                    "Think before you click.",
+                    "Privacy protected, threats detected.",
+                    "Strong passwords, strong defenses."
+                ]
+            },
+            {
+                title: "Sound Waves",
+                subtitle: "Vibration and Hearing",
+                file: "sound.html",
+                icon: "🔊",
+                color: "green",
+                reelContent: [
+                    "Sound needs a medium to travel.",
+                    "Frequency determines the pitch.",
+                    "Amplitude determines the volume.",
+                    "Echo is reflected sound waves."
+                ]
+            },
+            {
+                title: "Electricity Basics",
+                subtitle: "Charges and Circuits",
+                file: "electricity.html",
+                icon: "⚡",
+                color: "yellow",
+                reelContent: [
+                    "Ohm's Law: V = I * R.",
+                    "Current flows from positive to negative.",
+                    "Series circuits share one path.",
+                    "Parallel circuits have multiple paths."
+                ]
+            },
+            {
+                title: "Chemical Bonds",
+                subtitle: "Atomic Interactions",
+                file: "chemistry-bonds.html",
+                icon: "🧪",
+                color: "red",
+                reelContent: [
+                    "Covalent bonds share electrons.",
+                    "Ionic bonds transfer electrons.",
+                    "Metallic bonds form a 'sea' of electrons.",
+                    "Bonds determine molecule stability."
+                ]
+            },
+            {
+                title: "Cell Biology",
+                subtitle: "The Unit of Life",
+                file: "biology-cells.html",
+                icon: "🔬",
+                color: "indigo",
+                reelContent: [
+                    "Mitochondria is the powerhouse.",
+                    "Nucleus stores genetic information.",
+                    "Cell membrane controls entry/exit.",
+                    "Prokaryotes lack a nucleus."
+                ]
+            },
+            {
+                title: "Newtonian Physics",
+                subtitle: "Motion and Forces",
+                file: "newtonian-physics.html",
+                icon: "🍎",
+                color: "purple",
+                reelContent: [
+                    "1st Law: Inertia (objects stay in motion).",
+                    "2nd Law: F = ma (Force equals mass times acceleration).",
+                    "3rd Law: Action/Reaction (equal and opposite).",
+                    "Gravity is a universal force."
+                ]
+            }
+        ];
+
+        // --- Core Functions ---
+
+        /**
+         * Creates the HTML structure for a single chapter card.
+         * @param {Object} chapter - The chapter data.
+         * @returns {string} The HTML string for the card.
+         */
+        function createChapterCard(chapter) {
+            const cardHtml = `
+                <a href="${chapter.file}" class="chapter-card block h-full rounded-2xl bg-card-light overflow-hidden cursor-pointer transform hover:ring-4 ring-${chapter.color}-500 transition duration-300 ease-in-out">
+                    <div class="p-6 h-full flex flex-col justify-between">
+                        <!-- Top Section: Icon and Title -->
+                        <div>
+                            <div class="text-5xl mb-4">${chapter.icon}</div>
+                            <h2 class="text-3xl font-bold mb-1 text-gray-50">
+                                ${chapter.title}
+                            </h2>
+                            <p class="text-sm text-gray-400 mb-4">
+                                ${chapter.subtitle}
+                            </p>
+                        </div>
+                        
+                        <!-- Animated Preview Section (The "Shorts" Reel) -->
+                        <div class="relative w-full h-24 mt-4 bg-gray-700/50 p-3 rounded-xl flex items-center justify-center">
+                            <span id="reel-${chapter.title.replace(/\s/g, '-')}" class="content-reel-text text-lg font-medium text-secondary-cyan text-center italic transition-opacity duration-500 ease-in-out">
+                                Click to start notes...
+                            </span>
+                            <div class="absolute top-0 right-0 m-1 px-2 py-1 text-xs font-semibold rounded-full bg-primary-blue text-white shadow-lg">
+                                PREVIEW
+                            </div>
+                        </div>
+
+                        <!-- Action Button Placeholder (Visual cue for click) -->
+                        <div class="mt-6">
+                             <button class="w-full py-3 rounded-lg bg-primary-blue hover:bg-indigo-500 text-white font-semibold transition duration-200">
+                                View Full Notes →
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            `;
+            return cardHtml;
+        }
+
+        /**
+         * Initializes and manages the looping text animation for the 'Reel' effect.
+         * @param {Object} chapter - The chapter data.
+         */
+        function startContentReel(chapter) {
+            const reelElement = document.getElementById(`reel-${chapter.title.replace(/\s/g, '-')}`);
+            if (!reelElement) return;
+
+            let currentIndex = 0;
+
+            const updateReel = () => {
+                // Fade out (opacity 0)
+                reelElement.style.opacity = '0';
+
+                // After fade out, change text and fade in
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % chapter.reelContent.length;
+                    reelElement.textContent = chapter.reelContent[currentIndex];
+                    // Fade in (opacity 1)
+                    reelElement.style.opacity = '1';
+                }, 500); // Wait for fade-out time
+
+            };
+
+            // Set the initial content
+            reelElement.textContent = chapter.reelContent[0];
+
+            // Start the interval (cycles every 4 seconds: 3.5s display + 0.5s transition time)
+            setInterval(updateReel, 4000);
+        }
+
+        /**
+         * Main initialization function.
+         */
+        function initializeNotesHub() {
+            const gridContainer = document.getElementById('notes-grid');
+
+            // 1. Render all cards to the DOM
+            chapters.forEach(chapter => {
+                gridContainer.innerHTML += createChapterCard(chapter);
+            });
+
+            // 2. Start the animation for each card
+            // This is done after all elements are in the DOM
+            chapters.forEach(chapter => {
+                startContentReel(chapter);
+            });
+        }
+
+        // Run the initialization when the window loads
+        window.onload = initializeNotesHub;
+    </script>
+</body>
+</html>

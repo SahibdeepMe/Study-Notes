@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Scroll Cybersecurity Textbook</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the educational look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue/grey background */
+            min-height: 100vh;
+        }
+        /* Custom class to simulate 'neon marker' highlight color */
+        .neon-highlight {
+            background-color: #fffe8c; /* Soft yellow marker */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        /* Custom classes for diagrams and containers */
+        .study-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            margin-bottom: 2rem; /* Add space between sections */
+            scroll-margin-top: 2rem; /* Buffer for jump links */
+        }
+        /* Animation keyframes */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .animate-shake {
+            animation: shake 0.5s infinite;
+        }
+
+        /* Styling for the always-visible sidebar (Table of Contents) */
+        #sidebar {
+            width: 100%; /* Full width on small screens */
+            height: auto;
+            position: relative;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+        @media (min-width: 640px) {
+            #sidebar {
+                width: 256px; /* 64 units width on desktop */
+                height: 100vh; /* Full viewport height */
+                position: sticky; /* Keep it fixed while scrolling main content */
+                top: 0;
+                overflow-y: auto; /* Enable scrolling for the menu itself if too long */
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col sm:flex-row">
+
+    <!-- Sidebar Navigation (Sticky Table of Contents) -->
+    <div id="sidebar" class="bg-gray-800 text-white p-4 flex flex-col">
+        <h2 class="text-3xl font-bold mb-6 text-yellow-400">Course Index</h2>
+        <nav id="nav-menu" class="space-y-2 flex-grow">
+            <!-- Navigation jump links will be injected here by JS -->
+        </nav>
+        <div class="mt-8 pt-4 border-t border-gray-700 text-sm text-gray-400 hidden sm:block">
+            <p>&copy; 2025 Interactive Education</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area (All Modules Displayed in Sequence) -->
+    <div class="flex-grow p-4 sm:p-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-8 border-b-4 border-indigo-400 pb-2">
+            Cybersecurity Core Curriculum
+        </h1>
+        
+        <!-- Module Containers (All displayed continuously) -->
+        <div id="module-container" class="max-w-4xl mx-auto">
+            
+            <!-- Module 1: CIA Triad (Pop-up Interaction) -->
+            <section id="module-cia-triad" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">1. The Core Concept: CIA Triad</h2>
+                <p class="text-sm mb-4"><span class="neon-highlight">Tap</span> each circle to reveal its definition. [Image of the CIA Triad Diagram]</p>
+                <div class="flex flex-col items-center">
+                    <div class="relative w-full max-w-sm h-64 flex items-center justify-center">
+                        <div class="w-48 h-48 border-4 border-red-500 rounded-full flex items-center justify-center text-center text-red-500 font-bold">
+                            <span class="text-lg">CIA TRIAD</span>
+                        </div>
+                        <button onclick="toggleDefinition('confidentiality')" class="absolute top-0 right-0 p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-150 transform hover:scale-110">C</button>
+                        <button onclick="toggleDefinition('integrity')" class="absolute bottom-0 left-0 p-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-150 transform hover:scale-110">I</button>
+                        <button onclick="toggleDefinition('availability')" class="absolute bottom-0 right-0 p-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-150 transform hover:scale-110">A</button>
+                    </div>
+                    <div id="confidentiality-def" class="hidden mt-4 p-3 bg-blue-100 border-l-4 border-blue-500 rounded-md w-full">
+                        **C**onfidentiality: Preventing unauthorized disclosure of data. (Think <span class="neon-highlight">Encryption</span>).
+                    </div>
+                    <div id="integrity-def" class="hidden mt-4 p-3 bg-green-100 border-l-4 border-green-500 rounded-md w-full">
+                        **I**ntegrity: Ensuring data is accurate and untampered. (Think <span class="neon-highlight">Hashing/Signatures</span>).
+                    </div>
+                    <div id="availability-def" class="hidden mt-4 p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-md w-full">
+                        **A**vailability: Ensuring authorized users can access resources when needed. (Think <span class="neon-highlight">Backups/Redundancy</span>).
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2: Common Threats (Simulation) -->
+            <section id="module-common-threats" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">2. Threats: Attack or Defense?</h2>
+                <p class="text-sm mb-4">Click the button to see if the action is a threat or a defense.</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button onclick="simulateThreat('Phishing', 'red')" class="p-3 rounded-lg bg-gray-200 hover:bg-red-400 hover:text-white transition duration-200 font-semibold">🎣 Phishing</button>
+                    <button onclick="simulateThreat('Firewall', 'green')" class="p-3 rounded-lg bg-gray-200 hover:bg-green-400 hover:text-white transition duration-200 font-semibold">🛡️ Firewall</button>
+                    <button onclick="simulateThreat('Ransomware', 'red')" class="p-3 rounded-lg bg-gray-200 hover:bg-red-400 hover:text-white transition duration-200 font-semibold">💀 Ransomware</button>
+                    <button onclick="simulateThreat('MFA', 'green')" class="p-3 rounded-lg bg-gray-200 hover:bg-green-400 hover:text-white transition duration-200 font-semibold">✅ MFA</button>
+                </div>
+                <div id="threat-output" class="mt-6 p-4 rounded-lg text-center font-bold transition duration-500 ease-in-out opacity-0 border-2 border-gray-300">
+                    Click a button above to run the simulation!
+                </div>
+            </section>
+
+            <!-- Module 3: Encryption (Transformation) -->
+            <section id="module-encryption" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">3. Encryption: Scrambling the Message</h2>
+                <p class="text-sm mb-4">Type a secret message and click Encrypt to see the ciphertext transformation. [Image of symmetric encryption process]</p>
+                <div class="space-y-4">
+                    <label for="plaintext" class="block font-medium">Plaintext (Secret Message):</label>
+                    <input type="text" id="plaintext" value="attack at dawn" class="p-2 border rounded-lg w-full focus:ring-blue-500 focus:border-blue-500">
+                    <button onclick="encryptMessage()" class="w-full p-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-200">
+                        🔒 ENCRYPT (Run Transformation)
+                    </button>
+                    <div class="flex items-center justify-between text-lg font-mono">
+                        <span class="font-semibold">Ciphertext Output:</span>
+                        <span id="ciphertext-output" class="neon-highlight text-red-700">...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 4: Network Shapes (Toggle Diagram) -->
+            <section id="module-network-shapes" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">4. Network Topology: Understanding the Shapes</h2>
+                <p class="text-sm mb-4">Click to view which shape is most resilient to a single computer failure. [Image of Star Bus and Ring Network Topology]</p>
+                <div class="flex flex-wrap gap-3 justify-center mb-6">
+                    <button onclick="showTopology('bus')" class="p-2 rounded-lg bg-gray-200 hover:bg-pink-400 transition duration-200 font-semibold">BUS</button>
+                    <button onclick="showTopology('ring')" class="p-2 rounded-lg bg-gray-200 hover:bg-pink-400 transition duration-200 font-semibold">RING</button>
+                    <button onclick="showTopology('star')" class="p-2 rounded-lg bg-gray-200 hover:bg-pink-400 transition duration-200 font-semibold">STAR</button>
+                </div>
+                <div id="topology-display" class="p-6 bg-gray-100 rounded-lg h-48 flex items-center justify-center text-center text-gray-600 italic border-2 border-dashed">
+                    Select a topology to view the diagram and its failure risk.
+                </div>
+                <p id="topology-risk" class="mt-4 text-sm font-medium text-center transition duration-300"></p>
+            </section>
+
+            <!-- Module 5: SQL Injection (Code Run Simulation) -->
+            <section id="module-sql-injection" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">5. SQL Injection: The Database Attack</h2>
+                <p class="text-sm mb-4">Watch what happens when bad code bypasses the login form. </p>
+                <div class="space-y-4">
+                    <div class="flex space-x-2">
+                        <input type="text" id="sql-input" placeholder="Username" class="p-2 border rounded-lg flex-grow">
+                        <button onclick="runSqlQuery()" class="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200">
+                            Run Query
+                        </button>
+                    </div>
+                    <div id="query-display" class="p-3 bg-yellow-100 text-yellow-800 rounded-md font-mono text-sm">
+                        Query: <span id="current-query">...</span>
+                    </div>
+                    <div id="database-status" class="p-4 rounded-lg border-2 text-center font-bold">
+                        Database Status: Idle
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 6: Defense in Depth (Layer Reveal) -->
+            <section id="module-defense-in-depth" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">6. Defense in Depth: The Security Onion</h2>
+                <p class="text-sm mb-4">Click the buttons to reveal the layers of defense. </p>
+                <div class="flex justify-center mb-6">
+                    <button onclick="revealLayer('data')" class="mx-1 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200">Core (Data)</button>
+                    <button onclick="revealLayer('system')" class="mx-1 p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200">System (Host)</button>
+                    <button onclick="revealLayer('network')" class="mx-1 p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200">Perimeter (Network)</button>
+                </div>
+                <div id="defense-container" class="relative w-full h-48 flex items-center justify-center">
+                    <div id="layer-network" class="absolute w-full h-full border-4 border-green-300 rounded-full flex items-center justify-center text-center opacity-0 transition duration-500 bg-green-100">
+                        <p class="font-bold">NETWORK: Firewalls & VPNs</p>
+                    </div>
+                    <div id="layer-system" class="absolute w-4/5 h-4/5 border-4 border-yellow-300 rounded-full flex items-center justify-center text-center opacity-0 transition duration-500 bg-yellow-100">
+                        <p class="font-bold">SYSTEM: Antivirus & Patching</p>
+                    </div>
+                    <div id="layer-data" class="absolute w-2/5 h-2/5 border-4 border-red-300 rounded-full flex items-center justify-center text-center opacity-0 transition duration-500 bg-red-100">
+                        <p class="font-bold">DATA: Encryption & Backups</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 7: Authentication Factors (Matching Game) -->
+            <section id="module-auth-factors" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">7. Authentication Factors: What Proves Identity?</h2>
+                <p class="text-sm mb-4">Click the cards to match them to the correct factor. (Click again to reset). </p>
+                <div class="grid grid-cols-3 gap-3 text-center mb-6">
+                    <div id="know-box" class="p-3 bg-gray-200 rounded-lg border-2 border-gray-400 font-bold">1. KNOW (K)</div>
+                    <div id="have-box" class="p-3 bg-gray-200 rounded-lg border-2 border-gray-400 font-bold">2. HAVE (H)</div>
+                    <div id="are-box" class="p-3 bg-gray-200 rounded-lg border-2 border-gray-400 font-bold">3. ARE (A)</div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <button onclick="matchFactor(event, 'password', 'K')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">🔑 Password</button>
+                    <button onclick="matchFactor(event, 'token', 'H')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">📱 Token/Key Fob</button>
+                    <button onclick="matchFactor(event, 'fingerprint', 'A')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">🖐️ Fingerprint</button>
+                    <button onclick="matchFactor(event, 'pin', 'K')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">🔢 PIN</button>
+                    <button onclick="matchFactor(event, 'smartcard', 'H')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">💳 Smart Card</button>
+                    <button onclick="matchFactor(event, 'retinascan', 'A')" class="factor-card p-3 bg-blue-100 rounded-lg hover:bg-blue-200 transition duration-150">👁️ Retina Scan</button>
+                </div>
+                <div id="mfa-status" class="mt-6 p-3 bg-indigo-100 text-indigo-800 rounded-lg font-bold text-center border-2 border-indigo-400">
+                    MFA Check: Need at least one of each factor (K, H, A) to pass.
+                </div>
+            </section>
+
+            <!-- Module 8: Risk Management (Slider) -->
+            <section id="module-risk-management" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">8. Risk Management: Vulnerability vs. Risk</h2>
+                <p class="text-sm mb-4">Drag the slider to increase the Vulnerability Level and watch the Risk Gauge change. [Image of risk matrix showing likelihood vs impact]</p>
+                <div class="space-y-6">
+                    <label for="vulnerability-slider" class="block font-medium">Vulnerability Level (0-10): <span id="vulnerability-value" class="neon-highlight">0</span></label>
+                    <input type="range" id="vulnerability-slider" min="0" max="10" value="0" step="1" oninput="updateRiskGauge(this.value)" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+                        <span class="font-semibold text-lg">Overall Risk:</span>
+                        <span id="risk-gauge" class="text-2xl font-extrabold text-green-600">LOW</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Module 9: Incident Response (Placeholder) -->
+            <section id="module-incident-response" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">9. Incident Response: Preparation and Handling</h2>
+                <p class="text-sm mb-4">This module focuses on the phases of incident response (Preparation, Detection, Containment, Eradication, Recovery, Lessons Learned). [Image of the Incident Response Life Cycle]</p>
+                <div class="p-4 bg-gray-100 rounded-lg border-2 border-gray-300">
+                    <p class="font-semibold text-lg">Next Steps:</p>
+                    <p>We can add an interactive step-by-step guide here, or a quiz on the different phases.</p>
+                </div>
+            </section>
+
+            <!-- Module 10: Advanced Cryptography (Placeholder) -->
+            <section id="module-cryptography-advanced" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">10. Advanced Cryptography: PKI and Hashing</h2>
+                <p class="text-sm mb-4">Explore Public Key Infrastructure (PKI), digital certificates, and advanced hashing algorithms used for data integrity.</p>
+                <div class="p-4 bg-gray-100 rounded-lg border-2 border-gray-300">
+                    <p class="font-semibold text-lg">Next Steps:</p>
+                    <p>This module could feature a simulation showing how a Certificate Authority (CA) issues a digital certificate.</p>
+                </div>
+            </section>
+
+            <!-- Module 11: Cloud Security (Placeholder) -->
+            <section id="module-cloud-security" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">11. Cloud Security: Shared Responsibility Model</h2>
+                <p class="text-sm mb-4">Learn about the security responsibilities shared between the cloud provider (AWS, Azure, GCP) and the customer. </p>
+                <div class="p-4 bg-gray-100 rounded-lg border-2 border-gray-300">
+                    <p class="font-semibold text-lg">Next Steps:</p>
+                    <p>We can add toggles to visualize who is responsible for IaaS, PaaS, and SaaS models.</p>
+                </div>
+            </section>
+
+            <!-- Module 12: IoT Security (Placeholder) -->
+            <section id="module-iot-security" class="study-card bg-white p-6 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-700">12. IoT Security: Device Hardening</h2>
+                <p class="text-sm mb-4">Focus on securing Internet of Things (IoT) devices, which are often weak links in a network.</p>
+                <div class="p-4 bg-gray-100 rounded-lg border-2 border-gray-300">
+                    <p class="font-semibold text-lg">Next Steps:</p>
+                    <p>Let's build a quick checklist for hardening an example IoT device, like a smart camera.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // --- Global State & Setup ---
+        const state = {
+            mfaFactors: { K: 0, H: 0, A: 0 },
+            selectedTopology: null,
+            sqlAttack: false
+        };
+
+        // All 12 modules are now listed sequentially
+        const modules = [
+            { id: 'module-cia-triad', title: '1. CIA Triad & Basics' },
+            { id: 'module-common-threats', title: '2. Threats & Defenses' },
+            { id: 'module-encryption', title: '3. Data Encryption' },
+            { id: 'module-network-shapes', title: '4. Network Topology' },
+            { id: 'module-sql-injection', title: '5. SQL Injection Attack' },
+            { id: 'module-defense-in-depth', title: '6. Defense in Depth' },
+            { id: 'module-auth-factors', title: '7. Auth Factors (MFA)' },
+            { id: 'module-risk-management', title: '8. Risk Management' },
+            { id: 'module-incident-response', title: '9. Incident Response' },
+            { id: 'module-cryptography-advanced', title: '10. Cryptography Advanced' },
+            { id: 'module-cloud-security', title: '11. Cloud Security' },
+            { id: 'module-iot-security', title: '12. IoT Security' },
+        ];
+
+        // --- Core Navigation Logic ---
+        function renderMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.innerHTML = '';
+            modules.forEach(module => {
+                const link = document.createElement('a');
+                // Changed to use fragment identifiers (#id) for smooth scrolling
+                link.href = `#${module.id}`; 
+                link.className = 'nav-link block p-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition duration-150 font-medium text-base sm:text-sm';
+                link.textContent = module.title;
+                
+                // Add click handler for smooth scrolling (in addition to default hash jump)
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    document.getElementById(module.id).scrollIntoView({ behavior: 'smooth' });
+                    updateActiveLink(module.id);
+                };
+                navMenu.appendChild(link);
+            });
+        }
+        
+        // Function to update the active link based on scroll position (optional but good UX)
+        function updateActiveLink(activeId) {
+             document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-indigo-600', 'text-white', 'hover:bg-indigo-600');
+                link.classList.add('hover:bg-gray-700');
+                if (link.href.endsWith(activeId)) {
+                     link.classList.add('bg-indigo-600', 'text-white');
+                }
+            });
+        }
+
+        // --- Intersection Observer for Scroll Highlighting ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px', // Trigger when module hits the middle of the viewport
+            threshold: 0.1
+        };
+
+        const moduleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Update the sidebar link when the section scrolls into view
+                    updateActiveLink(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+
+        // --- Module 1: CIA Triad ---
+        function toggleDefinition(id) {
+            const defs = ['confidentiality', 'integrity', 'availability'];
+            defs.forEach(defId => {
+                const element = document.getElementById(defId + '-def');
+                if (defId === id) {
+                    element.classList.toggle('hidden');
+                } else {
+                    element.classList.add('hidden'); // Hide others
+                }
+            });
+        }
+
+        // --- Module 2: Common Threats ---
+        function simulateThreat(term, type) {
+            const output = document.getElementById('threat-output');
+            output.classList.remove('opacity-0');
+
+            if (type === 'red') {
+                output.textContent = `${term}: 💥 THREAT! This is an attack vector that compromises security.`;
+                output.classList.remove('bg-green-100', 'text-green-800', 'border-green-400');
+                output.classList.add('bg-red-100', 'text-red-800', 'border-red-400', 'animate-shake');
+            } else {
+                output.textContent = `${term}: ✅ DEFENSE! This helps protect the system. Good job!`;
+                output.classList.remove('bg-red-100', 'text-red-800', 'border-red-400', 'animate-shake');
+                output.classList.add('bg-green-100', 'text-green-800', 'border-green-400');
+            }
+            setTimeout(() => {
+                output.classList.remove('animate-shake');
+            }, 500);
+        }
+
+        // --- Module 3: Encryption ---
+        function simpleEncrypt(text) {
+            return text.split('').reverse().map(char => {
+                if (char.match(/[a-z]/i)) {
+                    const code = char.charCodeAt(0);
+                    return String.fromCharCode(code + 3);
+                }
+                return char;
+            }).join('');
+        }
+
+        function encryptMessage() {
+            const plaintext = document.getElementById('plaintext').value;
+            const output = document.getElementById('ciphertext-output');
+            if (plaintext.length === 0) {
+                output.textContent = 'Please enter a message!';
+                return;
+            }
+            output.textContent = '...SCRAMBLING...';
+            output.classList.add('animate-pulse');
+
+            setTimeout(() => {
+                output.textContent = simpleEncrypt(plaintext);
+                output.classList.remove('animate-pulse');
+            }, 800);
+        }
+
+        // --- Module 4: Network Shapes ---
+        function showTopology(type) {
+            const display = document.getElementById('topology-display');
+            const risk = document.getElementById('topology-risk');
+            let content = '';
+            let riskText = '';
+            let riskColor = '';
+
+            switch (type) {
+                case 'bus':
+                    content = 'Bus: All devices on a single shared cable. If the cable fails, the entire network fails. <span class="text-red-500 font-bold">LOW RESILIENCE.</span>';
+                    riskText = 'Risk: Single point of failure (cable break).';
+                    riskColor = 'text-red-600';
+                    break;
+                case 'ring':
+                    content = 'Ring: Devices connected in a loop. If one device fails, data flow stops. <span class="text-orange-500 font-bold">MODERATE RESILIENCE.</span>';
+                    riskText = 'Risk: One device failure disrupts the ring.';
+                    riskColor = 'text-orange-600';
+                    break;
+                case 'star':
+                    content = 'Star: All devices connect to a central hub. If one device fails, others are safe. <span class="text-green-500 font-bold">HIGH RESILIENCE.</span>';
+                    riskText = 'Risk: Only the central hub is a single point of failure. This is best!';
+                    riskColor = 'text-green-600';
+                    break;
+            }
+
+            display.innerHTML = content;
+            risk.textContent = riskText;
+            risk.className = `mt-4 text-sm font-medium text-center transition duration-300 ${riskColor}`;
+        }
+
+        // --- Module 5: SQL Injection ---
+        function runSqlQuery() {
+            const input = document.getElementById('sql-input');
+            const queryDisplay = document.getElementById('current-query');
+            const status = document.getElementById('database-status');
+
+            let username = input.value.trim();
+            let query = `SELECT * FROM Users WHERE Name='${username}' AND Password='...';`;
+            let statusText = '';
+            let statusColor = 'border-gray-400';
+
+            const attackString = "' OR 1=1 --"; 
+            
+            if (username === '') {
+                username = 'Alice';
+                query = `SELECT * FROM Users WHERE Name='${username}' AND Password='...';`;
+                statusText = 'Access Granted (Normal User)';
+                statusColor = 'border-green-500 bg-green-100 text-green-800';
+            } else if (username.includes(attackString)) {
+                query = `SELECT * FROM Users WHERE Name='${attackString}' AND Password='...';`;
+                statusText = '💥 INJECTION SUCCESSFUL! Database Hacked.';
+                statusColor = 'border-red-600 bg-red-100 text-red-800 animate-shake';
+            } else if (username === 'Alice') {
+                statusText = 'Access Granted (Normal User)';
+                statusColor = 'border-green-500 bg-green-100 text-green-800';
+            } else {
+                 statusText = 'Login Failed (Invalid Credentials)';
+                statusColor = 'border-yellow-600 bg-yellow-100 text-yellow-800';
+            }
+
+            queryDisplay.textContent = query;
+            status.textContent = `Database Status: ${statusText}`;
+            status.className = `p-4 rounded-lg border-2 text-center font-bold ${statusColor}`;
+
+            setTimeout(() => {
+                status.classList.remove('animate-shake');
+            }, 500);
+            
+            // Suggest the attack string after a safe attempt
+            if (username === 'Alice') {
+                 setTimeout(() => {
+                    input.value = attackString;
+                }, 1000);
+            }
+        }
+
+        // --- Module 6: Defense in Depth ---
+        function revealLayer(layerId) {
+            const element = document.getElementById(`layer-${layerId}`);
+            element.classList.toggle('opacity-0');
+        }
+
+        // --- Module 7: Authentication Factors ---
+        function updateMFAStatus() {
+            const statusElement = document.getElementById('mfa-status');
+            const { K, H, A } = state.mfaFactors;
+            
+            let message = '';
+            let color = 'bg-indigo-100 border-indigo-400 text-indigo-800';
+
+            if (K > 0 && H > 0 && A > 0) {
+                message = `🎉 MFA PASSED! You have all three factors: KNOW (${K}), HAVE (${H}), ARE (${A}).`;
+                color = 'bg-green-100 border-green-500 text-green-800';
+            } else {
+                message = `MFA Check: Need at least one of each factor (K: ${K}, H: ${H}, A: ${A}) to pass.`;
+                color = 'bg-red-100 border-red-500 text-red-800';
+            }
+
+            statusElement.textContent = message;
+            statusElement.className = `mt-6 p-3 rounded-lg font-bold text-center border-2 ${color}`;
+        }
+
+        function matchFactor(event, item, factor) {
+            const button = event.target;
+            const isSelected = button.classList.toggle('bg-green-300');
+
+            if (isSelected) {
+                state.mfaFactors[factor]++;
+                button.classList.add('border-4', 'border-green-600');
+            } else {
+                state.mfaFactors[factor]--;
+                button.classList.remove('border-4', 'border-green-600');
+            }
+            updateMFAStatus();
+        }
+
+        // --- Module 8: Risk Management ---
+        function updateRiskGauge(vulnerability) {
+            const valueDisplay = document.getElementById('vulnerability-value');
+            const gauge = document.getElementById('risk-gauge');
+            
+            valueDisplay.textContent = vulnerability;
+
+            let riskLevel = '';
+            let color = '';
+
+            if (vulnerability <= 3) {
+                riskLevel = 'LOW';
+                color = 'text-green-600';
+            } else if (vulnerability <= 7) {
+                riskLevel = 'MEDIUM';
+                color = 'text-yellow-600';
+            } else {
+                riskLevel = 'HIGH';
+                color = 'text-red-600';
+            }
+
+            gauge.textContent = riskLevel;
+            gauge.className = `text-2xl font-extrabold ${color}`;
+        }
+        
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+            
+            // Observe all study cards for scroll highlighting
+            document.querySelectorAll('.study-card').forEach(card => {
+                moduleObserver.observe(card);
+            });
+
+             // Highlight the first module on load
+             if (modules.length > 0) {
+                updateActiveLink(modules[0].id);
+             }
+        });
+
+    </script>
+</body>
+</html>
