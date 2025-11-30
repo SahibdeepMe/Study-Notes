@@ -30,6 +30,11 @@
             background-color: #111827;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* Ensure the footer stays at the bottom */
+        }
+        main {
+            flex-grow: 1; /* Allow main content to push the footer down */
         }
         .chapter-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -61,7 +66,14 @@
 
     <!-- Header Section -->
     <header class="py-10 bg-bg-dark border-b border-gray-700 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Added 'relative' to the container for absolute positioning of the link -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative"> 
+            
+            <!-- About Link (Moved to Top Right Corner of the Header) -->
+            <a href="about.html" class="absolute right-4 sm:right-6 lg:right-8 top-4 text-secondary-cyan hover:text-primary-blue transition duration-200 font-medium p-2 rounded-lg hover:bg-gray-700 z-10">
+                About
+            </a>
+
             <h1 class="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-secondary-cyan">
                 Study Notes Repository
             </h1>
@@ -77,6 +89,39 @@
             <!-- Chapter Cards will be inserted here by JavaScript -->
         </div>
     </main>
+    
+    <!-- START: FOOTER SECTION (Themed and Modified) -->
+    <footer class="mt-auto py-6 px-4 sm:px-6 lg:px-8 bg-card-light border-t border-gray-700 shadow-inner">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 1. Copyright Line -->
+            <div class="text-sm text-gray-400 text-center mb-3">
+                &copy; All rights reserved Sahibdeep_yt
+            </div>
+
+            <!-- 2. Blue Separator Line -->
+            <!-- The blue line should be in a blue color -->
+            <div class="h-0.5 bg-primary-blue w-full mx-auto mb-4 rounded-full"></div>
+
+            <!-- 3. Collaboration Line (Centered) -->
+            <!-- Changed layout to justify-center to center the collaboration text -->
+            <div class="flex justify-center items-center text-sm">
+                
+                <!-- Collaboration Text (Sahibdeep + Logo + GEMINI) -->
+                <div class="flex items-center space-x-3 text-primary-blue font-semibold">
+                    <span>Sahibdeep</span>
+                    <!-- Logo: Using the 'two hands' handshake emoji for the Nokia-style collaboration logo -->
+                    <span class="text-xl inline-block transition-transform duration-300 transform hover:scale-110" title="Collaboration Logo">🤝</span>
+                    <span>GEMINI</span>
+                </div>
+
+                <!-- About Link removed from here as requested -->
+
+            </div>
+        </div>
+    </footer>
+    <!-- END: FOOTER SECTION -->
+
 
     <script>
         // Data structure for the notes/chapters
@@ -95,7 +140,7 @@
                     "The human eye acts like a convex lens."
                 ]
             },
-			 {
+            {
                 title: "CyberSecurity",
                 subtitle: "Unseen threats, visible protection.",
                 file: "Cybersecurity.html",
@@ -183,6 +228,7 @@
          * @returns {string} The HTML string for the card.
          */
         function createChapterCard(chapter) {
+            // Note: The color classes like ring-pink-500 are safe because Tailwind is loaded and configured.
             const cardHtml = `
                 <a href="${chapter.file}" class="chapter-card block h-full rounded-2xl bg-card-light overflow-hidden cursor-pointer transform hover:ring-4 ring-${chapter.color}-500 transition duration-300 ease-in-out">
                     <div class="p-6 h-full flex flex-col justify-between">
@@ -274,6 +320,3 @@
 </body>
 
 </html>
-
-
-
