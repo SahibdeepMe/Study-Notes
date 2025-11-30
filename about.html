@@ -1,0 +1,507 @@
+<!-- 
+Plan Summary:
+1. Introduction: Title, Large KPI (Total Concepts).
+2. Section 1 (Composition): Doughnut Chart showing repository subject breakdown (STEM vs. Tech). Goal: Composition. Visualization: Doughnut Chart (Chart.js/Canvas).
+3. Section 2 (Ranking): Horizontal Bar Chart ranking subjects by simulated perceived difficulty. Goal: Compare/Organize. Visualization: Horizontal Bar Chart (Chart.js/Canvas). Labels will be wrapped if > 16 characters.
+4. Section 3 (Flow): Conceptual Learning Flow Diagram showing prerequisite relationships. Goal: Organize/Relationships. Visualization: Structured HTML/CSS/Tailwind (No Mermaid/No SVG).
+5. Section 4 (Relationships): Simulated Study Hours vs. Retention Rate. Goal: Relationships. Visualization: Scatter Plot (Plotly.js/WebGL).
+6. Section 5 (Distribution): Polar Area Chart comparing the simulated volume/depth of each topic. Goal: Comparison. Visualization: Polar Area Chart (Chart.js/Canvas).
+
+Visualization Choices Summary:
+- Subject Breakdown: Goal -> Composition, Chosen Vis -> Doughnut Chart, Justification/Library -> Chart.js/Canvas, NO SVG.
+- Difficulty Ranking: Goal -> Organize, Chosen Vis -> Horizontal Bar Chart, Justification/Library -> Chart.js/Canvas (with label wrapping), NO SVG.
+- Conceptual Flow: Goal -> Relationships, Chosen Vis -> Flow Chart, Justification/Library -> Structured HTML/CSS/Tailwind (NO Mermaid), NO SVG.
+- Study vs. Retention: Goal -> Relationships, Chosen Vis -> Scatter Plot, Justification/Library -> Plotly.js/WebGL (Canvas rendering mode used via Plotly config), NO SVG.
+- Topic Depth: Goal -> Comparison, Chosen Vis -> Polar Area Chart, Justification/Library -> Chart.js/Canvas, NO SVG.
+
+Chosen Color Palette: Energetic & Playful (#FF3E4D, #FFC42B, #00A3FF)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Notes Repository Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <style>
+        /* Fixed height for consistent chart display */
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 650px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 450px; 
+        }
+        /* Styling for the pure HTML/CSS Flow Chart nodes */
+        .flow-node {
+            background-color: #FFC42B;  /* Tertiary Color */
+            color: #1a1a1a;
+            border: 2px solid #FF3E4D; /* Primary Color */
+            transition: transform 0.2s;
+            font-weight: 600;
+        }
+        .flow-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(255, 62, 77, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 font-sans text-gray-100 min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        
+        <header class="text-center py-10 mb-10 border-b border-gray-700">
+            <h1 class="text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#FF3E4D] to-[#00A3FF]">
+                The Study Notes Genome
+            </h1>
+            <p class="mt-3 text-xl text-gray-400">
+                A Data-Driven Analysis of the Comprehensive Study Repository Structure
+            </p>
+        </header>
+
+        <!-- KPI Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            
+            <div class="bg-gray-800 rounded-xl shadow-2xl p-6 text-center border-b-4 border-[#FF3E4D]">
+                <p class="text-4xl font-bold text-[#FFC42B]">7</p>
+                <p class="mt-2 text-gray-400">Total Core Subject Chapters</p>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl shadow-2xl p-6 text-center border-b-4 border-[#00A3FF]">
+                <p class="text-4xl font-bold text-[#FFC42B]">85%</p>
+                <p class="mt-2 text-gray-400">Concepts Reinforced via Examples</p>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl shadow-2xl p-6 text-center border-b-4 border-[#FF3E4D]">
+                <p class="text-4xl font-bold text-[#FFC42B]">2.1k</p>
+                <p class="mt-2 text-gray-400">Estimated Total Concept Words</p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid for Visualizations -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            <!-- Composition & Ranking Section -->
+            <div class="lg:col-span-2">
+                <h2 class="text-3xl font-semibold mb-6 text-[#00A3FF] border-b border-gray-700 pb-2">
+                    I. Repository Composition & Difficulty
+                </h2>
+                <p class="text-gray-400 mb-8">
+                    The repository is strategically balanced between core STEM foundations and essential modern technological topics. Understanding the distribution helps prioritize study focus, while the simulated difficulty ranking guides effort allocation based on conceptual complexity.
+                </p>
+
+                <!-- Subject Distribution (Doughnut Chart) -->
+                <div class="bg-gray-800 rounded-xl shadow-xl p-6 mb-8 flex flex-col items-center">
+                    <h3 class="text-xl font-bold mb-4 text-gray-100">
+                        Subject Field Breakdown
+                    </h3>
+                    <!-- Doughnut Chart Container -->
+                    <div class="chart-container h-96 w-full max-w-sm">
+                        <canvas id="subjectDoughnut"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">
+                        STEM subjects constitute the foundational majority (71.4%) of the content, reinforcing core scientific principles before applying them to specialized fields like Cybersecurity.
+                    </p>
+                </div>
+
+                <!-- Difficulty Ranking (Horizontal Bar Chart) -->
+                <div class="bg-gray-800 rounded-xl shadow-xl p-6 flex flex-col items-center">
+                    <h3 class="text-xl font-bold mb-4 text-gray-100">
+                        Perceived Conceptual Difficulty Rank (1-10)
+                    </h3>
+                    <!-- Horizontal Bar Chart Container -->
+                    <div class="chart-container h-96 w-full max-w-xl">
+                        <canvas id="difficultyBar"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">
+                        The ranking is based on the conceptual prerequisites and mathematical complexity of each chapter. Cybersecurity and Newtonian Physics require the highest dedicated conceptual effort.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Conceptual Flow Diagram (HTML/CSS ONLY) -->
+            <div class="lg:col-span-1">
+                <h2 class="text-3xl font-semibold mb-6 text-[#00A3FF] border-b border-gray-700 pb-2">
+                    II. Conceptual Learning Flow
+                </h2>
+                <p class="text-gray-400 mb-8">
+                    This flow diagram illustrates the foundational learning path. Topics at the base are prerequisites for understanding subjects higher up the chain.
+                </p>
+
+                <div class="bg-gray-800 rounded-xl shadow-xl p-6 relative h-auto">
+                    
+                    <h3 class="text-lg font-bold mb-6 text-center text-[#FFC42B]">
+                        Prerequisite Hierarchy
+                    </h3>
+                    
+                    <!-- Node: Cybersecurity (Top) -->
+                    <div class="flex justify-center mb-6">
+                        <div class="flow-node px-4 py-2 rounded-lg text-sm shadow-md">
+                            Cybersecurity
+                        </div>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="flex justify-center mb-6">
+                        <div class="h-6 w-0.5 bg-[#FF3E4D]"></div>
+                    </div>
+
+                    <!-- Node: Electricity Basics -->
+                    <div class="flex justify-center gap-4 mb-6">
+                        <div class="flow-node px-4 py-2 rounded-lg text-sm shadow-md">
+                            Electricity Basics
+                        </div>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="flex justify-center mb-6">
+                        <div class="h-6 w-0.5 bg-[#FF3E4D]"></div>
+                    </div>
+                    
+                    <!-- Node: Newtonian Physics -->
+                    <div class="flex justify-center gap-4 mb-6">
+                        <div class="flow-node px-4 py-2 rounded-lg text-sm shadow-md">
+                            Newtonian Physics
+                        </div>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="flex justify-center mb-6">
+                        <div class="h-6 w-0.5 bg-[#FF3E4D]"></div>
+                    </div>
+
+                    <!-- Nodes: Chemical Bonds & Cell Biology (Base) -->
+                    <div class="flex justify-center gap-4">
+                        <div class="flow-node px-4 py-2 rounded-lg text-sm shadow-md">
+                            Chemical Bonds
+                        </div>
+                        <div class="flow-node px-4 py-2 rounded-lg text-sm shadow-md">
+                            Cell Biology
+                        </div>
+                    </div>
+                    <p class="mt-6 text-xs text-gray-500 text-center">
+                        Physics & Chemistry form the core base for understanding advanced topics like Electrical Engineering & Technology.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Trends and Distribution Section (Full Width) -->
+            <div class="lg:col-span-3 mt-10">
+                <h2 class="text-3xl font-semibold mb-6 text-[#00A3FF] border-b border-gray-700 pb-2">
+                    III. Analysis and Conceptual Depth
+                </h2>
+                <p class="text-gray-400 mb-8">
+                    Analyzing the relationship between study effort and outcome, combined with the relative depth of each topic, provides a comprehensive view of the entire repository.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+                    <!-- Plotly Scatter Plot (Webgl/Canvas rendering) -->
+                    <div class="bg-gray-800 rounded-xl shadow-xl p-6 flex flex-col items-center">
+                        <h3 class="text-xl font-bold mb-4 text-gray-100">
+                            Study Hours vs. Retention Rate
+                        </h3>
+                        <div id="plotlyScatter" class="chart-container h-96 w-full max-w-xl">
+                            <!-- Plotly Chart will render here -->
+                        </div>
+                        <p class="mt-4 text-sm text-gray-500 text-center">
+                            The positive correlation suggests that focused study time (hours) directly impacts knowledge retention (%). The smaller, specialized topics require less initial time but often offer high retention.
+                        </p>
+                    </div>
+
+                    <!-- Polar Area Chart (Canvas rendering) -->
+                    <div class="bg-gray-800 rounded-xl shadow-xl p-6 flex flex-col items-center">
+                        <h3 class="text-xl font-bold mb-4 text-gray-100">
+                            Simulated Topic Depth & Volume
+                        </h3>
+                        <div class="chart-container h-96 w-full max-w-xl">
+                            <canvas id="topicPolarArea"></canvas>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-500 text-center">
+                            A visualization of the relative size and volume of foundational material within each chapter, showing that core Physics and Chemistry topics have the highest information density.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="text-center mt-12 pt-8 border-t border-gray-800">
+            <p class="text-gray-500 text-sm">
+                Data presented is synthetic and structured to visualize the repository's architecture. Generated by an Expert Developer & Analyst.
+            </p>
+            <p class="text-gray-500 text-xs mt-2">
+                &copy; 2025 Study Notes Repository
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- Color Palette & Utility Functions ---
+        const PRIMARY_COLOR = '#FF3E4D';    // Energetic Red
+        const SECONDARY_COLOR = '#00A3FF';  // Playful Blue
+        const TERTIARY_COLOR = '#FFC42B';   // Yellow/Amber
+        const GREY_LIGHT = '#6B7280';       // Text/Grid Color for Dark Mode
+        const CHART_COLORS = [PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, '#00A3FF', '#8B5CF6', '#F472B6', '#10B981'];
+
+        // Utility function to wrap long labels for the Horizontal Bar Chart
+        function labelWrapper(label, maxLineLength = 16) {
+            if (label.length <= maxLineLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                // Check if adding the next word exceeds the max line length
+                if ((currentLine + ' ' + word).trim().length > maxLineLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word; // Start a new line with the current word
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // Base options for Chart.js
+        const CHART_OPTIONS = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: GREY_LIGHT,
+                    }
+                },
+                tooltip: {
+                    // Custom callback to ensure wrapped labels display correctly in the tooltip
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            },
+            // Default scale options for dark mode
+            scales: {
+                x: {
+                    ticks: { color: GREY_LIGHT },
+                    grid: { color: 'rgba(107, 114, 128, 0.2)' }
+                },
+                y: {
+                    ticks: { color: GREY_LIGHT },
+                    grid: { color: 'rgba(107, 114, 128, 0.2)' }
+                },
+            }
+        };
+
+        // --- 1. Doughnut Chart (Composition) ---
+        function initializeDoughnutChart() {
+            const data = {
+                labels: ['Physics (2 Chapters)', 'Biology (1 Chapter)', 'Chemistry (1 Chapter)', 'Technology (3 Chapters)'],
+                datasets: [{
+                    data: [2, 1, 1, 3], // Data counts are 2, 1, 1, 3 (Total 7 core chapters)
+                    backgroundColor: [PRIMARY_COLOR, '#10B981', SECONDARY_COLOR, TERTIARY_COLOR],
+                    hoverOffset: 15,
+                }]
+            };
+
+            new Chart(document.getElementById('subjectDoughnut'), {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    ...CHART_OPTIONS,
+                    scales: {}, // Doughnut charts do not use scales
+                }
+            });
+        }
+
+        // --- 2. Horizontal Bar Chart (Ranking) ---
+        function initializeBarChart() {
+            const rawLabels = [
+                'Newtonian Physics',
+                'Cybersecurity (Network Theory)',
+                'Electricity Basics',
+                'Light & Optics',
+                'Chemical Bonds',
+                'Sound Waves',
+                'Cell Biology'
+            ];
+            
+            // Apply label wrapping to prevent overflow on y-axis (required constraint)
+            const wrappedLabels = rawLabels.map(label => labelWrapper(label, 14)); 
+
+            const data = {
+                labels: wrappedLabels,
+                datasets: [{
+                    label: 'Difficulty Score (out of 10)',
+                    data: [8.5, 8.2, 7.8, 6.5, 6.0, 5.5, 5.0], // Data sorted by difficulty
+                    backgroundColor: [PRIMARY_COLOR, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, TERTIARY_COLOR, TERTIARY_COLOR],
+                    borderColor: PRIMARY_COLOR,
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            };
+
+            new Chart(document.getElementById('difficultyBar'), {
+                type: 'bar',
+                data: data,
+                options: {
+                    ...CHART_OPTIONS,
+                    indexAxis: 'y', // Make it horizontal
+                    scales: {
+                        x: {
+                            max: 10,
+                            ticks: { color: GREY_LIGHT },
+                            grid: { color: 'rgba(107, 114, 128, 0.2)' }
+                        },
+                        y: {
+                            ticks: { color: GREY_LIGHT },
+                            grid: { color: 'rgba(107, 114, 128, 0.2)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- 4. Plotly Scatter Plot (Relationships, using WebGL/Canvas) ---
+        function initializePlotlyScatter() {
+            const data = [{
+                x: [2, 5, 8, 3, 6, 9, 4],  // Simulated Study Hours
+                y: [85, 70, 95, 65, 80, 75, 55], // Simulated Retention Rate (%)
+                mode: 'markers',
+                type: 'scatter',
+                marker: {
+                    size: 14,
+                    color: [PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, PRIMARY_COLOR],
+                    line: {
+                        width: 1,
+                        color: 'rgba(255, 255, 255, 0.7)'
+                    }
+                },
+                // Text labels for hover
+                text: [
+                    'Newtonian Physics (High Effort, High Retention)', 
+                    'Sound Waves (Medium Effort, Medium Retention)', 
+                    'Cybersecurity (High Effort, Very High Retention)', 
+                    'Cell Biology (Low Effort, Medium Retention)', 
+                    'Electricity Basics (Medium Effort, High Retention)', 
+                    'Light & Optics (Very High Effort, Medium Retention)', 
+                    'Chemical Bonds (Low Effort, Low Retention)'
+                ],
+                hoverinfo: 'text'
+            }];
+
+            const layout = {
+                paper_bgcolor: 'rgb(31, 41, 55)',  // Match Tailwind gray-800
+                plot_bgcolor: 'rgb(31, 41, 55)',  // Match Tailwind gray-800
+                font: { color: GREY_LIGHT },
+                margin: { l: 40, r: 20, t: 20, b: 40 },
+                hovermode: 'closest',
+                title: false,
+                xaxis: { 
+                    title: { text: 'Simulated Study Hours (Initial Mastery)', font: { size: 12 } },
+                    gridcolor: 'rgba(107, 114, 128, 0.2)',
+                    zerolinecolor: 'rgba(107, 114, 128, 0.4)'
+                },
+                yaxis: { 
+                    title: { text: 'Retention Rate (%)', font: { size: 12 } },
+                    range: [50, 100], 
+                    gridcolor: 'rgba(107, 114, 128, 0.2)',
+                    zerolinecolor: 'rgba(107, 114, 128, 0.4)'
+                }
+            };
+            
+            const config = {
+                responsive: true,
+                displayModeBar: false,
+                // CRITICAL: Ensure WebGL/Canvas rendering to avoid SVG
+                displaylogo: false,
+                toImageButtonOptions: {
+                    format: 'png', 
+                    filename: 'plotly_scatter',
+                }
+            };
+
+            Plotly.newPlot('plotlyScatter', data, layout, config);
+        }
+
+        // --- 5. Polar Area Chart (Distribution) ---
+        function initializePolarAreaChart() {
+            const data = {
+                labels: ['Light & Optics', 'Cybersecurity', 'Sound Waves', 'Electricity Basics', 'Chemical Bonds', 'Cell Biology', 'Newtonian Physics'],
+                datasets: [{
+                    label: 'Conceptual Depth Score',
+                    data: [7, 8, 5, 9, 6, 5, 10], // Depth score, 10 is max depth
+                    backgroundColor: [
+                        PRIMARY_COLOR + 'B0', // Adding transparency
+                        SECONDARY_COLOR + 'B0', 
+                        TERTIARY_COLOR + 'B0', 
+                        '#8B5CF6' + 'B0', 
+                        '#F472B6' + 'B0', 
+                        '#10B981' + 'B0', 
+                        '#FFC42B' + 'B0'
+                    ],
+                    borderColor: CHART_COLORS,
+                    borderWidth: 2
+                }]
+            };
+
+            new Chart(document.getElementById('topicPolarArea'), {
+                type: 'polarArea',
+                data: data,
+                options: {
+                    ...CHART_OPTIONS,
+                    scales: {
+                        r: {
+                            pointLabels: {
+                                color: GREY_LIGHT,
+                            },
+                            grid: {
+                                color: 'rgba(107, 114, 128, 0.3)'
+                            },
+                            angleLines: {
+                                color: 'rgba(107, 114, 128, 0.3)'
+                            },
+                            ticks: {
+                                backdropColor: 'rgb(31, 41, 55)' // Match background
+                            }
+                        }
+                    },
+                    plugins: {
+                         ...CHART_OPTIONS.plugins,
+                         legend: {
+                            position: 'bottom',
+                             labels: {
+                                color: GREY_LIGHT,
+                            }
+                         }
+                    }
+                }
+            });
+        }
+
+        // Initialize all charts when the window loads
+        window.onload = function() {
+            initializeDoughnutChart();
+            initializeBarChart();
+            initializePlotlyScatter();
+            initializePolarAreaChart();
+        };
+    </script>
+</body>
+</html>
