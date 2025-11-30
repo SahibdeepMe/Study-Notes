@@ -3,578 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Bonds - Interactive Scroll Lesson</title>
-    <!-- Load Tailwind CSS -->
+    <title>Interactive Cell Biology Live Lesson</title>
+    <!-- Load Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Define a custom font setup */
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d0c11; /* Dark space background */
-            color: #e5e7eb; /* Light gray text */
-        }
-        
-        /* Apply custom styles for headings */
-        h1, h2, h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.05em;
+        /* --- Premium Educational Dark Theme --- */
+        :root {
+            --bg-color: #0d1321; /* Deep Navy/Indigo */
+            --card-bg: #1e293b; /* Slate */
+            --text-color: #e2e8f0; /* Off-White */
+            --primary-accent: #38bdf8; /* Sky Blue */
+            --secondary-accent: #a78bfa; /* Violet */
+            --gradient-start: #1e293b;
+            --gradient-end: #0d1321;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.7);
         }
 
-        /* Base class for all sections */
-        .lesson-section {
-            min-height: 100vh;
+        body {
+            background: linear-gradient(180deg, var(--gradient-start) 0%, var(--bg-color) 100%);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+        }
+        
+        /* --- Scroll Reveal Animation --- */
+        .section-container {
+            min-height: 100vh; /* Ensures full-page feel */
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 8rem 1rem;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(40, 40, 50, 0.5);
-        }
-        
-        /* Scroll-Reveal animation setup */
-        .section-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-            max-width: 1200px;
-            width: 100%;
         }
 
-        .section-content.is-visible {
+        .section-container.active {
             opacity: 1;
             transform: translateY(0);
         }
         
-        /* Custom styles for interactive bond elements */
-        .electron-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #fcd34d; /* Amber */
-            border-radius: 50%;
-            position: absolute;
-            transition: transform 0.5s ease-in-out;
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 30px var(--shadow-color);
+            transition: all 0.3s;
+            border-radius: 1.5rem; /* Large rounded corners */
         }
 
-        .atom-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column; /* Added to center text elements */
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            border: 4px solid;
-            position: relative;
+        /* --- Interactivity Styles --- */
+        .interactive-element {
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .interactive-element:hover {
+            box-shadow: 0 0 10px var(--primary-accent);
+        }
+        .interactive-element:active {
+            transform: scale(0.99);
         }
 
-        /* Custom range slider thumb */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
+        /* --- Organelle Animation (Endomembrane System - S5) --- */
+        /* Updated keyframes to use absolute 'left' percentages for smooth, precise movement between RER, Golgi, and Export */
+        @keyframes vesicle-move {
+            0% { 
+                left: 10%; /* Start position (near RER) */
+                opacity: 1; 
+                transform: translateY(-50%) scale(1);
+                background-color: #fcd34d; /* Yellow (Start) */
+            }
+            33% { 
+                left: 40%; /* Approaching Golgi */
+                transform: translateY(-50%) scale(1.1); 
+                background-color: #fca5a5; /* Pink (Middle) */
+            }
+            66% { 
+                left: 70%; /* Approaching Export */
+                opacity: 0.8; 
+                transform: translateY(-50%) scale(0.9); 
+                background-color: #a78bfa; /* Violet (End) */
+            }
+            100% { 
+                left: 90%; /* Exits right */
+                opacity: 0; 
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        .vesicle-animation {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #f87171; /* Red-400 */
-            cursor: grab;
-            box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
-            transition: background 0.3s;
+            position: absolute;
+            /* Initial starting position (must match 0% keyframe start) */
+            left: 10%; 
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            box-shadow: 0 0 10px currentColor;
+        }
+        .vesicle-animation.active {
+            animation: vesicle-move 3s ease-in-out forwards;
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-<!-- SECTION 1: TITLE SCREEN -->
-<div class="lesson-section bg-gradient-to-b from-gray-900 to-gray-950" id="sec-title">
-    <div class="section-content text-center">
-        <h1 class="text-7xl sm:text-9xl font-extrabold mb-4">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-500">
-                CHEMICAL BONDS
-            </span>
-        </h1>
-        <p class="text-2xl sm:text-3xl text-gray-400 max-w-3xl mx-auto mt-6">
-            Exploring the atomic forces that hold all matter together: from table salt to DNA. Scroll to understand the rules of electron interaction.
-        </p>
-    </div>
-</div>
-
-<!-- SECTION 2: VALENCE ELECTRONS & THE OCTET RULE -->
-<div class="lesson-section bg-gray-950" id="sec-valence">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-pink-400">1. The Players: Valence Electrons</h2>
-        <div class="grid md:grid-cols-2 gap-10 items-center">
-            <div class="p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
-                <h3 class="text-3xl font-semibold mb-4 text-purple-400 flex items-center"><i class="fas fa-microchip mr-3"></i> The Outer Shell</h3>
-                <p class="text-gray-300 mb-4">Chemical reactions are driven by **valence electrons**—the electrons in the outermost shell. Atoms strive for stability, which usually means having a **full outer shell**.</p>
-                <div class="mt-6 p-4 bg-gray-700 rounded-lg">
-                    <p class="font-mono text-yellow-300">The Octet Rule:</p>
-                    <p class="text-sm text-gray-400">Atoms are most stable with 8 valence electrons (except Hydrogen and Helium, which need 2). Bonding is how they achieve this magic number.</p>
-                </div>
-            </div>
-            <div class="p-6 bg-gray-900 rounded-xl shadow-inner h-full min-h-[300px] flex flex-col justify-center items-center">
-                <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Stability Check</h3>
-                <div class="flex flex-col items-center w-full max-w-sm">
-                    <label for="valence-input" class="text-lg font-semibold mb-2">Electrons in Outer Shell:</label>
-                    <input type="number" id="valence-input" min="1" max="8" value="7" class="w-24 text-center p-2 rounded bg-gray-700 text-white text-2xl font-mono" oninput="checkStability(this.value)">
-                    <div id="stability-result" class="mt-6 text-2xl font-bold text-red-400">Needs 1 more electron. Unstable.</div>
-                    <p id="stability-action" class="mt-2 text-md text-gray-400 text-center">Likely to GAIN one electron (or share).</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION 3: IONIC BONDS (TRANSFER) -->
-<div class="lesson-section bg-gray-950" id="sec-ionic">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-red-400">2. Ionic Bonds: The Electron Transfer</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Formed between a **metal** (low electronegativity) and a **nonmetal** (high electronegativity). The metal *loses* electrons to become a positive ion (cation), and the nonmetal *gains* electrons to become a negative ion (anion). They are then held together by electrostatic attraction.</p>
+    <div id="app" class="max-w-4xl mx-auto px-4 sm:px-8">
         
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex justify-around items-center relative">
-            
-            <!-- Sodium Atom (Metal) -->
-            <div id="na-atom" class="atom-circle border-blue-400 bg-blue-900/50" data-electrons="1">
-                Na <span class="text-xl font-normal">(1+)</span>
-                <div id="na-electron" class="electron-dot" style="top: 10px; right: 10px;"></div>
-            </div>
+        <!-- Header - Fixed/Sticky -->
+        <header class="sticky top-0 z-20 w-full pt-8 pb-4 mb-10 bg-[var(--bg-color)]/95 backdrop-blur-sm border-b border-[var(--border-color)] shadow-xl">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-[var(--primary-accent)] text-center tracking-tight">
+                🧬 Cell Biology: The Interactive Lesson
+            </h1>
+            <p class="text-center text-sm text-gray-400 mt-2">Scroll Down to Begin Your Live Class</p>
+        </header>
 
-            <div class="text-6xl font-extrabold text-red-400" id="transfer-arrow">
-                <i class="fas fa-arrow-right"></i>
-            </div>
-            
-            <!-- Chlorine Atom (Nonmetal) -->
-            <div id="cl-atom" class="atom-circle border-green-400 bg-green-900/50" data-electrons="7">
-                Cl <span class="text-xl font-normal">(1-)</span>
-                <!-- 7 static electrons -->
-                <div class="electron-dot" style="top: 10px; left: 70px;"></div>
-                <div class="electron-dot" style="top: 10px; right: 10px;"></div>
-                <div class="electron-dot" style="top: 70px; right: 10px;"></div>
-                <div class="electron-dot" style="bottom: 10px; right: 10px;"></div>
-                <div class="electron-dot" style="bottom: 10px; left: 70px;"></div>
-                <div class="electron-dot" style="bottom: 10px; left: 10px;"></div>
-                <div class="electron-dot" style="top: 70px; left: 10px;"></div>
-            </div>
-
-            <button class="absolute bottom-[-20px] px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition shadow-lg" onclick="simulateIonicBond()">
-                Simulate Na$^+$Cl$^-$ Bond
-            </button>
-        </div>
-        <p id="ionic-result" class="mt-10 text-xl font-bold text-center text-gray-300">Click the button to see the electron transfer and ion formation.</p>
-    </div>
-</div>
-
-<!-- SECTION 4: COVALENT BONDS (SHARING) -->
-<div class="lesson-section bg-gray-950" id="sec-covalent">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-green-400">3. Covalent Bonds: The Electron Share</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Formed between two **nonmetals**. Instead of transferring, atoms share electrons to fill their outer shells. This results in the formation of molecules.</p>
-        
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
-            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Degree of Sharing</h3>
-            
-            <div class="flex space-x-12 items-center">
-                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(1)">Single Bond (1 pair)</button>
-                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(2)">Double Bond (2 pairs)</button>
-                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(3)">Triple Bond (3 pairs)</button>
-            </div>
-            
-            <div class="mt-8 relative flex justify-center items-center">
-                <div id="atom-1" class="atom-circle border-teal-400 bg-teal-900/50 mr-[-50px]">O</div>
-                <div id="shared-electrons" class="w-32 h-16 flex flex-col justify-center items-center z-10">
-                    <!-- Shared electrons will appear here -->
-                </div>
-                <div id="atom-2" class="atom-circle border-teal-400 bg-teal-900/50 ml-[-50px]">O</div>
-            </div>
-
-            <p id="sharing-result" class="mt-6 text-2xl font-bold text-white">Select a bond type to form the O₂ molecule (Double Bond).</p>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION 5: ELECTRONEGATIVITY & BOND SPECTRUM -->
-<div class="lesson-section bg-gray-950" id="sec-electronegativity">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-purple-400">4. Electronegativity: The Tug-of-War</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Electronegativity is an atom's ability to attract electrons in a bond. The **difference** in electronegativity ($\Delta \text{EN}$) determines the bond type.</p>
-        
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl">
-            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Bond Spectrum Simulator ($\Delta \text{EN}$)</h3>
-            
-            <div class="px-10">
-                <input type="range" id="en-slider" min="0" max="3.3" step="0.1" value="1.7" oninput="checkBondType(this.value)" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
-            </div>
-
-            <div class="flex justify-between text-center mt-3 text-sm font-semibold">
-                <span class="text-green-400">0.0 (Nonpolar Covalent)</span>
-                <span class="text-blue-400">1.7 (Polar/Ionic Border)</span>
-                <span class="text-red-400">3.3 (Highly Ionic)</span>
-            </div>
-
-            <div class="mt-8 p-4 bg-gray-700 rounded-lg">
-                <p class="text-xl font-bold text-white">
-                    $\Delta \text{EN}$ Value: <span id="en-value" class="text-3xl font-mono text-pink-300">1.7</span>
+        <!-- 1. Overview: Cell Theory -->
+        <section id="sec-1" class="section-container">
+            <div class="card p-10 space-y-6">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)]">1. Overview: The Cell Theory</h2>
+                <p class="text-xl opacity-80 border-l-4 border-yellow-400 pl-4 py-2 bg-[var(--gradient-start)]/50 rounded-md">
+                    The cell is the **fundamental, functional, and structural unit** of all known living organisms.
                 </p>
-                <div class="mt-2">
-                    <p id="bond-type-result" class="text-2xl font-extrabold text-blue-400">Polar Covalent / Ionic Transition</p>
-                    <p id="bond-description" class="text-md text-gray-400 mt-1">Electrons are shared highly unequally, or completely transferred.</p>
+                <ul class="space-y-3 text-lg list-none pl-0">
+                    <li class="p-3 bg-gray-700/30 rounded-lg shadow-inner">1. All living things are composed of one or more cells.</li>
+                    <li class="p-3 bg-gray-700/30 rounded-lg shadow-inner">2. The cell is the basic structural and functional unit of life.</li>
+                    <li class="p-3 bg-gray-700/30 rounded-lg shadow-inner">3. All cells arise from pre-existing cells.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. Key Concepts: Prokaryotic vs. Eukaryotic (Interactive Comparison) -->
+        <section id="sec-2" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--primary-accent)]">2. Key Concepts: Pro vs. Eu (Toggle View)</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    Life is categorized into two fundamental cell types. Click the tabs below to compare their structure and complexity.
+                </p>
+
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button id="btn-pro" class="tab-button p-3 w-40 rounded-full font-bold text-lg bg-red-600 hover:bg-red-700 interactive-element transition-colors">Prokaryote</button>
+                    <button id="btn-eu" class="tab-button p-3 w-40 rounded-full font-bold text-lg bg-blue-600 hover:bg-blue-700 interactive-element transition-colors">Eukaryote</button>
+                </div>
+
+                <div id="pro-content" class="tab-content space-y-4 text-left p-6 bg-red-900/40 border border-red-500 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-red-300">Prokaryotic Cells (Simple)</h3>
+                    <p>Bacteria and Archaea. They are generally smaller (0.1 - 5 micrometers).</p>
+                    <p class="text-lg font-mono text-yellow-300">KEY: NO MEMBRANE-BOUND NUCLEUS OR ORGANELLES.</p>
+                    <p>DNA is in a region called the **Nucleoid**.</p>
+                </div>
+
+                <div id="eu-content" class="tab-content space-y-4 text-left p-6 bg-blue-900/40 border border-blue-500 rounded-xl hidden">
+                    <h3 class="text-2xl font-semibold text-blue-300">Eukaryotic Cells (Complex)</h3>
+                    <p>Plants, Animals, Fungi, Protists. They are larger (10 - 100 micrometers).</p>
+                    <p class="text-lg font-mono text-yellow-300">KEY: TRUE NUCLEUS AND MANY MEMBRANE-BOUND ORGANELLES.</p>
+                    <p>They are highly compartmentalized for advanced functions.</p>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
 
-<!-- SECTION 6: POLARITY & DIPOLE MOMENTS -->
-<div class="lesson-section bg-gray-950" id="sec-polarity">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-blue-400">5. Polarity: Unequal Sharing</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">In a polar covalent bond, one atom (the more electronegative one) pulls the shared electrons closer, creating **partial negative** and **partial positive** charges, called a dipole moment. A classic example is the water molecule (H₂O).</p>
-        
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
-            <div class="relative w-80 h-40">
-                <!-- Oxygen (Center, negative) -->
-                <div id="o-atom" class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-20 bg-red-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                    O (Neg.)
-                </div>
-                <!-- Hydrogen 1 (Positive) -->
-                <div id="h1-atom" class="absolute bottom-0 left-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                    H (Pos.)
-                </div>
-                <!-- Hydrogen 2 (Positive) -->
-                <div id="h2-atom" class="absolute bottom-0 right-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                    H (Pos.)
-                </div>
-
-                <!-- Dipole Arrows -->
-                <i class="fas fa-arrow-right absolute top-10 left-[60px] transform rotate-[-45deg] text-yellow-400 text-3xl"></i>
-                <i class="fas fa-arrow-left absolute top-10 right-[60px] transform rotate-[45deg] text-yellow-400 text-3xl"></i>
-            </div>
-            <p class="mt-8 text-xl text-center text-gray-400">
-                The Oxygen atom hogs the electrons, giving it a partial negative charge, leaving the Hydrogen atoms partially positive. This makes water a **Polar Solvent**.
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION 7: INTERMOLECULAR FORCES (HYDROGEN BONDS) -->
-<div class="lesson-section bg-gray-950" id="sec-hbond">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-teal-400">6. Intermolecular Forces: Hydrogen Bonds</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">These are the weakest type of bonds, occurring *between* molecules. The **Hydrogen Bond** is a special type of strong dipole-dipole attraction where Hydrogen is bonded to a highly electronegative atom (N, O, or F).</p>
-        
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
-            <h3 class="text-3xl font-semibold mb-4 text-pink-400">The Power of Weak Bonds</h3>
-            <div class="relative flex items-center justify-around w-full">
-                <!-- Water Molecule 1 -->
-                <div class="water-mol p-4 border border-blue-600 rounded-xl">
-                    <p class="text-2xl text-white">H₂O (Molecule 1)</p>
-                    <p class="text-sm text-red-300">O (Neg.) / H (Pos.)</p>
-                </div>
-
-                <!-- Dotted Hydrogen Bond -->
-                <div class="text-4xl text-gray-400 font-extrabold px-8">
-                    <i class="fas fa-ellipsis-h"></i><i class="fas fa-ellipsis-h"></i>
-                </div>
-
-                <!-- Water Molecule 2 -->
-                <div class="water-mol p-4 border border-blue-600 rounded-xl">
-                    <p class="text-2xl text-white">H₂O (Molecule 2)</p>
-                    <p class="text-sm text-red-300">O (Neg.) / H (Pos.)</p>
+        <!-- 3. Visual Diagrams: The Eukaryotic Cell (Diagram + Components) -->
+        <section id="sec-3" class="section-container">
+            <div class="card p-10 space-y-6">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)] text-center">3. The Eukaryotic Cell: The Factory Floor</h2>
+                <p class="text-lg opacity-80 text-center max-w-2xl mx-auto">
+                    Every compartment, or organelle, has a specialized role. Let's look at the key players.
+                </p>
+                [Image of a typical eukaryotic animal cell and its organelles]
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-[var(--gradient-start)] rounded-lg border-l-4 border-yellow-500">
+                        <h3 class="font-bold text-yellow-300">Plasma Membrane</h3>
+                        <p class="text-sm">The security gate. A selective barrier regulating all substances.</p>
+                    </div>
+                    <div class="p-4 bg-[var(--gradient-start)] rounded-lg border-l-4 border-purple-500">
+                        <h3 class="font-bold text-purple-300">Nucleus</h3>
+                        <p class="text-sm">The command center. Stores DNA and directs cell function.</p>
+                    </div>
+                    <div class="p-4 bg-[var(--gradient-start)] rounded-lg border-l-4 border-red-500">
+                        <h3 class="font-bold text-red-300">Mitochondrion</h3>
+                        <p class="text-sm">The power plant. Produces ATP (energy) via cellular respiration.</p>
+                    </div>
+                    <div class="p-4 bg-[var(--gradient-start)] rounded-lg border-l-4 border-green-500">
+                        <h3 class="font-bold text-green-300">Cytoskeleton</h3>
+                        <p class="text-sm">The scaffolding and railway. Provides structure and internal transport.</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <p class="mt-6 text-xl text-center text-gray-400">
-                The positive Hydrogen from one molecule attracts the negative Oxygen from another. This weak bond is responsible for water's high boiling point and is crucial for the structure of DNA.
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- SECTION 8: METALLIC BONDS -->
-<div class="lesson-section bg-gray-950" id="sec-metallic">
-    <div class="section-content">
-        <h2 class="text-5xl font-bold mb-12 text-center text-yellow-400">7. Metallic Bonds: The Sea of Electrons</h2>
-        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Found in metals. The atoms release their valence electrons, which then roam freely in a "sea of electrons" surrounding the positive metal ions (cations). This unique structure gives metals their characteristic properties.</p>
-        
-        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
-            <h3 class="text-3xl font-semibold mb-4 text-purple-400">Why Metals Conduct</h3>
-            <div class="w-full h-40 bg-gray-900 rounded-lg relative overflow-hidden flex items-center justify-center border-4 border-yellow-400">
-                <!-- Cations: Changed from M$^+$ to M+ -->
-                <div class="grid grid-cols-5 gap-8">
-                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
-                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
-                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
-                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
-                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+        <!-- 4. Deep Explanation: Central Dogma (Animated Flow) -->
+        <section id="sec-4" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--primary-accent)]">4. The Central Dogma: DNA to Protein</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    This is how genetic instructions become functional proteins. Click to start the flow!
+                </p>
+                
+                <div class="flex justify-center items-center space-x-4 relative p-8 bg-gray-800/50 rounded-xl">
+                    <!-- Steps -->
+                    <div class="text-center">
+                        <div id="dna-box" class="p-3 bg-purple-600 rounded-lg transition-all duration-500">DNA</div>
+                        <p class="text-sm mt-1">Template</p>
+                    </div>
+                    <div class="text-4xl text-gray-500">
+                        <span id="arrow1" class="transition-opacity duration-500 opacity-0">&rarr;</span>
+                    </div>
+                    <div class="text-center">
+                        <div id="rna-box" class="p-3 bg-yellow-600 rounded-lg transition-all duration-500">mRNA</div>
+                        <p class="text-sm mt-1">Messenger</p>
+                    </div>
+                    <div class="text-4xl text-gray-500">
+                        <span id="arrow2" class="transition-opacity duration-500 opacity-0">&rarr;</span>
+                    </div>
+                    <div class="text-center">
+                        <div id="ribosome-box" class="p-3 bg-red-600 rounded-lg transition-all duration-500">Ribosome</div>
+                        <p class="text-sm mt-1">Factory</p>
+                    </div>
                 </div>
-                <!-- Simulated Electron Movement (Free Flow) -->
-                <div id="free-electrons">
-                    <!-- Electrons generated by JS for animation -->
+
+                <div class="h-8">
+                    <p id="dogma-status" class="text-xl font-mono text-green-400"></p>
+                </div>
+
+                <button class="p-3 px-6 rounded-full bg-[var(--primary-accent)] hover:bg-sky-500 text-white font-bold interactive-element" onclick="startCentralDogma()">
+                    Start Protein Synthesis Flow
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. Deep Explanation: Endomembrane System (Animated Pathway) -->
+        <section id="sec-5" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)]">5. Endomembrane System: Shipping & Sorting</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    Proteins destined for secretion follow a critical path. Visualize the journey of a secretory protein.
+                </p>
+
+                <div class="flex justify-around items-center h-40 relative p-6 bg-gray-800/50 rounded-xl">
+                    <div class="text-center w-1/4">
+                        <div class="p-4 bg-red-800/70 rounded-lg text-lg font-bold">RER</div>
+                        <p class="text-sm mt-1">Synthesis/Folding</p>
+                    </div>
+
+                    <!-- Animated path markers, the vesicle moves between these points -->
+                    <div class="w-1/4 h-1 bg-gray-600 absolute left-[20%] top-1/2"></div>
+                    <div class="w-1/4 h-1 bg-gray-600 absolute left-[55%] top-1/2"></div>
+
+                    <div id="vesicle1" class="vesicle-animation" style="background-color: #fcd34d;"></div>
+
+                    <div class="text-center w-1/4">
+                        <div class="p-4 bg-yellow-800/70 rounded-lg text-lg font-bold">Golgi</div>
+                        <p class="text-sm mt-1">Modify/Package</p>
+                    </div>
+                    <div class="text-center w-1/4">
+                        <div class="p-4 bg-blue-800/70 rounded-lg text-lg font-bold">Export</div>
+                        <p class="text-sm mt-1">Release</p>
+                    </div>
+                </div>
+                <button class="p-3 px-6 rounded-full bg-[var(--primary-accent)] hover:bg-sky-500 text-white font-bold interactive-element" onclick="startVesicleFlow()">
+                    Start Vesicle Transit
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. Deep Explanation: The Mitochondria (Interactive ATP Generation) -->
+        <section id="sec-6" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--primary-accent)]">6. Mitochondria: The ATP Generator</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    The final step of cellular respiration occurs here. Click the button to 'generate' ATP and track the energy output.
+                </p>
+                [Image of a mitochondrion structure with cristae]
+                <div class="bg-green-900/40 p-6 rounded-xl border border-green-500 max-w-md mx-auto space-y-4">
+                    <p class="text-xl font-semibold text-green-300">Total ATP Generated:</p>
+                    <div id="atp-counter" class="text-6xl font-extrabold text-white">0</div>
+                    <button class="w-full p-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold interactive-element" onclick="generateATP()">
+                        Generate ATP (Click)
+                    </button>
+                </div>
+                <p class="text-sm text-gray-400">**Fact:** The inner membrane folds (cristae) increase surface area for maximum ATP synthesis.</p>
+            </div>
+        </section>
+
+        <!-- 7. Key Concepts: Cytoskeleton and Motility -->
+        <section id="sec-7" class="section-container">
+            <div class="card p-10 space-y-6">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)]">7. The Cytoskeleton: Structure and Movement</h2>
+                <p class="text-lg opacity-80 border-l-4 border-red-400 pl-4 py-2">
+                    The cellular skeleton is a dynamic network of fibers critical for structure, motility, and cargo transport.
+                </p>
+                [Image of the three types of cytoskeleton fibers]
+                <ul class="space-y-3">
+                    <li class="p-3 bg-[var(--gradient-start)] rounded-lg">
+                        <span class="font-bold text-lg text-yellow-300">Microtubules:</span> Thickest. Maintains cell shape, organelle movement, cell division (spindle fibers).
+                    </li>
+                    <li class="p-3 bg-[var(--gradient-start)] rounded-lg">
+                        <span class="font-bold text-lg text-red-300">Microfilaments (Actin):</span> Thinnest. Cell motility, muscle contraction, and cell division (cleavage furrow).
+                    </li>
+                    <li class="p-3 bg-[var(--gradient-start)] rounded-lg">
+                        <span class="font-bold text-lg text-blue-300">Intermediate Filaments:</span> Permanent structures. Anchors organelles, maintains cell shape (e.g., Keratin).
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 8. Deep Explanation: Membrane Transport (Interactive Toggle) -->
+        <section id="sec-8" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--primary-accent)]">8. Membrane Transport: Gate Control</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    How do materials cross the **selectively permeable** plasma membrane? Toggle the energy requirement.
+                </p>
+
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button id="btn-passive" class="tab-button p-3 w-40 rounded-full font-bold text-lg bg-gray-600 hover:bg-gray-700 interactive-element transition-colors">Passive</button>
+                    <button id="btn-active" class="tab-button p-3 w-40 rounded-full font-bold text-lg bg-red-600 hover:bg-red-700 interactive-element transition-colors">Active</button>
+                </div>
+
+                <div id="passive-content" class="tab-content space-y-4 text-left p-6 bg-gray-900/40 border border-gray-500 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-gray-300">Passive Transport (No Energy ATP)</h3>
+                    <p>Moves substances **Down** the concentration gradient (High &rarr; Low).</p>
+                    <ul class="list-disc ml-6 space-y-1 text-sm">
+                        <li>**Diffusion:** Small, nonpolar molecules (like Oxygen, Carbon Dioxide).</li>
+                        <li>**Osmosis:** Movement of Water.</li>
+                        <li>**Facilitated Diffusion:** Uses channel proteins for large/polar molecules.</li>
+                    </ul>
+                </div>
+
+                <div id="active-content" class="tab-content space-y-4 text-left p-6 bg-red-900/40 border border-red-500 rounded-xl hidden">
+                    <h3 class="text-2xl font-semibold text-red-300">Active Transport (Requires ATP)</h3>
+                    <p>Moves substances **Against** the concentration gradient (Low &rarr; High).</p>
+                    <p class="text-sm">Requires specific carrier proteins (e.g., Sodium-Potassium pump) to maintain steep concentration gradients vital for nerve signaling and nutrient uptake.</p>
                 </div>
             </div>
-            <ul class="mt-6 list-disc list-inside text-gray-400 space-y-2 text-left w-full max-w-lg">
-                <li>**Conductivity:** The free movement of the electron sea allows charge (electricity) and heat to flow easily.</li>
-                <li>**Malleability:** The non-directional nature of the bond allows the layers of metal ions to slide past each other without breaking the material.</li>
-            </ul>
-        </div>
-    </div>
-</div>
+        </section>
 
-<!-- SECTION 9: CONCLUSION & SUMMARY -->
-<div class="lesson-section bg-gradient-to-t from-gray-900 to-gray-950" id="sec-conclusion" style="min-height: 50vh;">
-    <div class="section-content text-center">
-        <h2 class="text-6xl sm:text-7xl font-bold mb-6 text-pink-400">Bonds Understood!</h2>
-        <p class="text-2xl text-gray-300 max-w-4xl mx-auto">
-            You've mastered how atoms achieve stability: by **transferring** (Ionic), **sharing** (Covalent), or surrounding themselves in a **sea** (Metallic) of electrons.
-        </p>
-        <div class="mt-10 p-6 bg-gray-900/50 rounded-xl inline-block">
-            <h3 class="text-3xl font-semibold text-purple-400 mb-3">Key Takeaways</h3>
-            <p class="text-xl text-gray-400">The difference in electronegativity dictates the entire landscape of chemical bonding.</p>
-        </div>
-    </div>
-</div>
+        <!-- 9. Visual Diagrams: Mitosis (Step-by-Step Interactive) -->
+        <section id="sec-9" class="section-container">
+            <div class="card p-10 space-y-6 text-center">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)]">9. Cell Cycle: Mitosis Visualization</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    Mitosis ensures growth and repair by creating two identical daughter cells (diploid - 2n). Click to advance through the phases!
+                </p>
+                
+                <div class="max-w-xs mx-auto my-8 p-4 border-2 border-[var(--primary-accent)] rounded-full relative h-64 flex items-center justify-center">
+                    <!-- Cell Diagram Holder -->
+                    <div id="cell-diagram" class="w-20 h-20 bg-gray-500 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-1000 ease-in-out">
+                        DNA (G1)
+                    </div>
+                </div>
 
-<!-- --- JAVASCRIPT LOGIC --- -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- 1. SCROLL OBSERVER SETUP (Reveal on Scroll) ---
+                <div class="flex justify-center space-x-4">
+                    <button class="p-3 px-6 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold interactive-element" onclick="resetMitosis()">Reset</button>
+                    <button class="p-3 px-6 rounded-full bg-green-600 hover:bg-green-700 text-white font-bold interactive-element" onclick="nextMitosisStep()">Next Phase</button>
+                </div>
+                <div class="h-8">
+                    <p id="mitosis-status" class="text-xl font-mono text-yellow-300 mt-4">Phase: Interphase (G1)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Bioenergetics: The Equations (FIXED: Plain text only, no LaTeX math symbols) -->
+        <section id="sec-10" class="section-container">
+            <div class="card p-10 space-y-6">
+                <h2 class="text-3xl font-bold text-[var(--primary-accent)]">10. Bioenergetics: Photosynthesis vs. Respiration</h2>
+                <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                    These two processes are the inverse of each other, driving the entire biosphere.
+                </p>
+                
+                <div class="bg-green-900/40 p-6 rounded-xl border border-green-500 space-y-3">
+                    <h3 class="text-2xl font-bold text-green-300">Photosynthesis (Chloroplasts)</h3>
+                    <p class="text-lg">Captures light energy to create glucose.</p>
+                    <p class="text-lg font-mono text-white break-words">
+                        6 Carbon Dioxide + 6 Water + Light Energy &rarr; Glucose + 6 Oxygen
+                    </p>
+                </div>
+
+                <div class="bg-red-900/40 p-6 rounded-xl border border-red-500 space-y-3">
+                    <h3 class="text-2xl font-bold text-red-300">Cellular Respiration (Mitochondria)</h3>
+                    <p class="text-lg">Breaks down glucose to create usable ATP energy.</p>
+                    <p class="text-lg font-mono text-white break-words">
+                        Glucose + 6 Oxygen &rarr; 6 Carbon Dioxide + 6 Water + Energy (ATP)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Summary & Final Notes -->
+        <section id="sec-11" class="section-container">
+            <div class="card p-10 space-y-6">
+                <h2 class="text-3xl font-bold text-[var(--secondary-accent)]">11. Summary & Final Notes</h2>
+                <p class="text-xl opacity-80 border-l-4 border-blue-400 pl-4 py-2">
+                    Two crucial concepts that relate back to cell evolution and structure.
+                </p>
+                
+                <div class="question-block p-4 rounded-xl bg-[var(--gradient-start)] border border-[var(--border-color)] interactive-element" onclick="toggleAnswer('endo-info')">
+                    <p class="font-semibold text-lg text-yellow-300">Endosymbiosis Theory (Click to reveal)</p>
+                    <p id="endo-info" class="text-sm text-gray-400 mt-2 hidden">
+                        <span class="font-bold text-green-400">Concept:</span> Explains the origin of mitochondria and chloroplasts. They were once free-living prokaryotes engulfed by an ancestral host cell, forming a symbiotic relationship.
+                        <span class="font-bold text-yellow-400 block mt-1">Evidence:</span> Double membranes, their own circular DNA, and they reproduce independently.
+                    </p>
+                </div>
+
+                <div class="question-block p-4 rounded-xl bg-[var(--gradient-start)] border border-[var(--border-color)] interactive-element" onclick="toggleAnswer('turgor-info')">
+                    <p class="font-semibold text-lg text-yellow-300">Turgor Pressure (Click to reveal)</p>
+                    <p id="turgor-info" class="text-sm text-gray-400 mt-2 hidden">
+                        <span class="font-bold text-green-400">Concept:</span> The pressure exerted by Water pushing outward against the cell wall in plant cells. This is vital for maintaining plant rigidity (structure).
+                    </p>
+                </div>
+                
+                <p class="pt-4 text-center text-gray-500 text-sm">You have completed the Cell Biology Lesson!</p>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 pt-10 pb-16 text-sm">
+            End of Interactive Lesson. Review the sections above to solidify your knowledge.
+        </footer>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE ---
+        let atpCount = 0;
+        let mitosisPhase = 0;
+        const mitosisPhases = ["Interphase (G1)", "S Phase (DNA Replicates)", "Prophase (Chromosomes Condense)", "Metaphase (Chromosomes Align)", "Anaphase (Sister Chromatids Separate)", "Telophase (Nuclei Reform)"];
+
+
+        // --- SECTION SCROLL ANIMATION (Intersection Observer) ---
+        const sections = document.querySelectorAll('.section-container');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                const content = entry.target.querySelector('.section-content');
-                if (content) {
-                    if (entry.isIntersecting) {
-                        content.classList.add('is-visible');
-                        // Section-specific setup
-                        if (entry.target.id === 'sec-covalent') {
-                            updateSharing(2); // Default to double bond
-                        }
-                        // Note: setupMetallicFlow is called only once when 'sec-metallic' comes into view.
-                        if (entry.target.id === 'sec-metallic' && metallicElectrons.length === 0) {
-                            setupMetallicFlow();
-                            animateMetallicFlow();
-                        }
-                    }
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
             });
         }, {
-            threshold: 0.3
+            threshold: 0.1 // Triggers when 10% of the section is visible
         });
 
-        document.querySelectorAll('.lesson-section').forEach(section => {
+        sections.forEach(section => {
             observer.observe(section);
         });
 
-        // Initial calls
-        checkStability(7);
-        checkBondType(1.7);
-    });
+        // --- GENERAL INTERACTIVITY ---
+        const toggleAnswer = (id) => {
+            document.getElementById(id).classList.toggle('hidden');
+        };
 
-    // --- 2. SECTION 2: STABILITY CHECK ---
-    window.checkStability = function(value) {
-        const num = parseInt(value);
-        const resultEl = document.getElementById('stability-result');
-        const actionEl = document.getElementById('stability-action');
-        
-        let message, color, action;
 
-        if (num === 8) {
-            message = 'Perfectly Stable! Full Octet.';
-            color = 'text-green-400';
-            action = 'A Noble Gas configuration. Does not form bonds.';
-        } else if (num === 7 || num === 6) {
-            message = `Needs ${8 - num} electron(s). Unstable.`;
-            color = 'text-yellow-400';
-            action = 'Likely to GAIN electrons (Nonmetal) or share.';
-        } else if (num <= 3) {
-            message = `Needs ${8 - num} electrons. Very Unstable.`;
-            color = 'text-red-400';
-            action = 'Likely to LOSE electrons (Metal) to revert to a full inner shell.';
-        } else { // 4 or 5
-            message = `Needs ${8 - num} electrons. Unstable.`;
-            color = 'text-blue-400';
-            action = 'Likely to SHARE electrons.';
+        // --- SECTION 2: PRO/EU TOGGLE ---
+        const proContent = document.getElementById('pro-content');
+        const euContent = document.getElementById('eu-content');
+        const btnPro = document.getElementById('btn-pro');
+        const btnEu = document.getElementById('btn-eu');
+
+        btnPro.onclick = () => {
+            proContent.classList.remove('hidden');
+            euContent.classList.add('hidden');
+            btnPro.classList.add('ring-4', 'ring-red-300');
+            btnEu.classList.remove('ring-4', 'ring-blue-300');
+        };
+
+        btnEu.onclick = () => {
+            proContent.classList.add('hidden');
+            euContent.classList.remove('hidden');
+            btnEu.classList.add('ring-4', 'ring-blue-300');
+            btnPro.classList.remove('ring-4', 'ring-red-300');
+        };
+        // Initial state setup
+        btnPro.classList.add('ring-4', 'ring-red-300'); 
+
+        // --- SECTION 4: CENTRAL DOGMA ANIMATION ---
+        const dogmaStatus = document.getElementById('dogma-status');
+        const arrow1 = document.getElementById('arrow1');
+        const arrow2 = document.getElementById('arrow2');
+        const rnaBox = document.getElementById('rna-box');
+        const ribosomeBox = document.getElementById('ribosome-box');
+
+        const resetCentralDogma = () => {
+            arrow1.style.opacity = 0;
+            arrow2.style.opacity = 0;
+            rnaBox.style.transform = 'scale(1)';
+            ribosomeBox.style.transform = 'scale(1)';
+            dogmaStatus.textContent = '';
         }
 
-        resultEl.textContent = message;
-        resultEl.className = `mt-6 text-2xl font-bold ${color}`;
-        actionEl.textContent = action;
-    }
-
-    // --- 3. SECTION 3: IONIC BOND SIMULATOR ---
-    window.simulateIonicBond = function() {
-        const naAtom = document.getElementById('na-atom');
-        const clAtom = document.getElementById('cl-atom');
-        const naElectron = document.getElementById('na-electron');
-        const resultEl = document.getElementById('ionic-result');
-        const originalNaText = 'Na <span class="text-xl font-normal">(1+)</span>';
-        const originalClText = 'Cl <span class="text-xl font-normal">(1-)</span>';
-        const finalNaText = 'Na+ <p class="text-sm">Cation</p>';
-        const finalClText = 'Cl- <p class="text-sm">Anion</p>';
-
-
-        // Prevent multiple simultaneous clicks
-        if (naAtom.dataset.animating === 'true') return;
-        naAtom.dataset.animating = 'true';
-
-        // Animation: Move the electron from Na to Cl
-        naElectron.style.transform = 'translate(100px, 0) scale(0)';
-        naElectron.style.transition = 'transform 1s ease-out';
-
-        // Update atom appearance and charge text
-        naAtom.classList.remove('border-blue-400');
-        naAtom.classList.add('border-red-400', 'bg-red-900/50');
-        naAtom.innerHTML = finalNaText;
-
-        clAtom.classList.remove('border-green-400');
-        clAtom.classList.add('border-blue-400', 'bg-blue-900/50');
-        clAtom.innerHTML = finalClText;
-        
-        // Wait for the animation to complete before showing final state
-        setTimeout(() => {
-            resultEl.innerHTML = '<i class="fas fa-check-circle mr-2 text-red-400"></i> **Success!** The atoms are now stable ions held by a strong electrostatic force (Na+ and Cl-).';
-            resultEl.classList.add('text-red-400');
-        }, 1000);
-        
-        // Reset for next click
-        setTimeout(() => {
-            naElectron.style.transform = 'translate(0, 0) scale(1)';
-            naAtom.classList.remove('border-red-400', 'bg-red-900/50');
-            naAtom.classList.add('border-blue-400', 'bg-blue-900/50');
-            naAtom.innerHTML = originalNaText;
-            clAtom.classList.remove('border-blue-400', 'bg-blue-900/50');
-            clAtom.classList.add('border-green-400', 'bg-green-900/50');
-            clAtom.innerHTML = originalClText;
-            resultEl.innerHTML = 'Click the button to see the electron transfer and ion formation.';
-            resultEl.classList.remove('text-red-400');
-            delete naAtom.dataset.animating;
-        }, 3000);
-    }
-
-    // --- 4. SECTION 4: COVALENT SHARING ---
-    window.updateSharing = function(pairs) {
-        const sharedEl = document.getElementById('shared-electrons');
-        const resultEl = document.getElementById('sharing-result');
-        sharedEl.innerHTML = '';
-        let message = "";
-
-        // If/Then Logic: Add electron dots based on bond type
-        for (let i = 0; i < pairs; i++) {
-            const e1 = document.createElement('div');
-            e1.className = 'electron-dot bg-yellow-400';
-            e1.style.top = `${20 + i * 15}px`;
-            e1.style.left = '40px';
-            sharedEl.appendChild(e1);
-
-            const e2 = document.createElement('div');
-            e2.className = 'electron-dot bg-yellow-400';
-            e2.style.top = `${20 + i * 15}px`;
-            e2.style.right = '40px';
-            sharedEl.appendChild(e2);
-        }
-
-        if (pairs === 1) {
-            message = 'Single Bond: Sharing 1 pair of electrons (H₂).';
-        } else if (pairs === 2) {
-            message = 'Double Bond: Sharing 2 pairs of electrons (O₂). Stronger and shorter.';
-        } else if (pairs === 3) {
-            message = 'Triple Bond: Sharing 3 pairs of electrons (N₂). Strongest and shortest.';
-        }
-
-        resultEl.innerHTML = `<i class="fas fa-handshake mr-2 text-green-400"></i> ${message}`;
-    }
-
-    // --- 5. SECTION 5: ELECTRONEGATIVITY SPECTRUM ---
-    window.checkBondType = function(deltaEN) {
-        const enValEl = document.getElementById('en-value');
-        const typeEl = document.getElementById('bond-type-result');
-        const descEl = document.getElementById('bond-description');
-        const slider = document.getElementById('en-slider');
-        let type, color, description;
-
-        deltaEN = parseFloat(deltaEN);
-        
-        // If/Then Logic: Determine bond type based on standard cutoffs
-        if (deltaEN <= 0.4) {
-            type = 'Nonpolar Covalent';
-            color = 'text-green-400';
-            description = 'Electrons are shared almost equally. Typical of bonds between identical atoms (C-H or H₂).';
-        } else if (deltaEN <= 1.7) {
-            type = 'Polar Covalent';
-            color = 'text-blue-400';
-            description = 'Electrons are shared unequally, creating a dipole moment (H₂O).';
-        } else {
-            type = 'Ionic';
-            color = 'text-red-400';
-            description = 'Electrons are essentially transferred. The bond is due to electrostatic attraction (NaCl).';
-        }
-
-        enValEl.textContent = deltaEN.toFixed(1);
-        typeEl.textContent = type;
-        typeEl.className = `text-2xl font-extrabold ${color}`;
-        descEl.textContent = description;
-
-        // Visual gradient on the slider
-        const percent = ((deltaEN / 3.3) * 100).toFixed(0);
-        slider.style.background = `linear-gradient(to right, #10b981 0%, #3b82f6 30%, #f87171 70%, #ef4444 100%)`;
-    }
-
-    // --- 8. SECTION 8: METALLIC BOND SIMULATION ---
-    let metallicElectrons = [];
-    const metallicElectronCount = 15;
-
-    function setupMetallicFlow() {
-        const container = document.getElementById('free-electrons');
-        if (metallicElectrons.length > 0) return; // Prevent double initialization
-        
-        for (let i = 0; i < metallicElectronCount; i++) {
-            const electron = document.createElement('div');
-            electron.className = 'electron-dot bg-blue-400';
-            electron.style.left = `${Math.random() * 100}%`;
-            electron.style.top = `${Math.random() * 100}%`;
-            container.appendChild(electron);
-            metallicElectrons.push({ 
-                element: electron, 
-                x: parseFloat(electron.style.left), 
-                y: parseFloat(electron.style.top), 
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: (Math.random() - 0.5) * 1.5,
-            });
-        }
-    }
-
-    function animateMetallicFlow() {
-        metallicElectrons.forEach(e => {
-            e.x += e.vx * 0.1;
-            e.y += e.vy * 0.1;
-
-            // Bounce off walls (If/Then Logic)
-            if (e.x > 100 || e.x < 0) e.vx *= -1;
-            if (e.y > 100 || e.y < 0) e.vy *= -1;
+        const startCentralDogma = async () => {
+            resetCentralDogma();
+            dogmaStatus.textContent = "1. Transcription: DNA -> mRNA (in Nucleus)";
             
-            // Randomly perturb movement for 'free flow' look
-            e.vx += (Math.random() - 0.5) * 0.05;
-            e.vy += (Math.random() - 0.5) * 0.05;
+            // Step 1: DNA -> mRNA
+            arrow1.style.opacity = 1;
+            rnaBox.style.transform = 'scale(1.1)';
+            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            rnaBox.style.transform = 'scale(1)';
 
-            // Clamp speed to prevent runaway
-            const speed = Math.sqrt(e.vx * e.vx + e.vy * e.vy);
-            if (speed > 1.5) {
-                e.vx *= (1.5 / speed);
-                e.vy *= (1.5 / speed);
+            // Step 2: mRNA -> Ribosome
+            dogmaStatus.textContent = "2. Translation: mRNA -> Protein (at Ribosome)";
+            arrow2.style.opacity = 1;
+            ribosomeBox.style.transform = 'scale(1.1)';
+            await new Promise(resolve => setTimeout(resolve, 1500)); 
+            ribosomeBox.style.transform = 'scale(1)';
+            
+            dogmaStatus.textContent = "Protein Synthesis Complete!";
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            resetCentralDogma();
+        }
+
+
+        // --- SECTION 5: ENDOMEMBRANE SYSTEM ANIMATION ---
+        const vesicle = document.getElementById('vesicle1');
+
+        const startVesicleFlow = () => {
+            // Clear any previous animation
+            vesicle.classList.remove('active');
+            void vesicle.offsetWidth; // Force reflow/restart
+            vesicle.style.opacity = 1;
+            vesicle.classList.add('active');
+            
+            // Hide at the end of animation
+            vesicle.addEventListener('animationend', () => {
+                vesicle.classList.remove('active');
+                vesicle.style.opacity = 0;
+            }, { once: true });
+        };
+
+
+        // --- SECTION 6: ATP GENERATION ---
+        const atpCounter = document.getElementById('atp-counter');
+
+        const generateATP = () => {
+            atpCount += 3; // Simulate the net gain of a few ATP per glucose molecule cycle step
+            atpCounter.textContent = atpCount.toString();
+            
+            // Visual feedback
+            atpCounter.classList.add('text-yellow-300', 'scale-110');
+            setTimeout(() => {
+                atpCounter.classList.remove('text-yellow-300', 'scale-110');
+            }, 300);
+        };
+
+        // --- SECTION 8: TRANSPORT TOGGLE ---
+        const passiveContent = document.getElementById('passive-content');
+        const activeContent = document.getElementById('active-content');
+        const btnPassive = document.getElementById('btn-passive');
+        const btnActive = document.getElementById('btn-active');
+
+        btnPassive.onclick = () => {
+            passiveContent.classList.remove('hidden');
+            activeContent.classList.add('hidden');
+            btnPassive.classList.add('ring-4', 'ring-gray-300');
+            btnActive.classList.remove('ring-4', 'ring-red-300');
+        };
+
+        btnActive.onclick = () => {
+            passiveContent.classList.add('hidden');
+            activeContent.classList.remove('hidden');
+            btnActive.classList.add('ring-4', 'ring-red-300');
+            btnPassive.classList.remove('ring-4', 'ring-gray-300');
+        };
+        // Initial state setup
+        btnPassive.classList.add('ring-4', 'ring-gray-300'); 
+
+        // --- SECTION 9: MITOSIS STEPPER ---
+        const cellDiagram = document.getElementById('cell-diagram');
+        const mitosisStatus = document.getElementById('mitosis-status');
+
+        const updateCellDiagram = () => {
+            const phase = mitosisPhases[mitosisPhase];
+            mitosisStatus.textContent = `Phase: ${phase}`;
+            cellDiagram.textContent = phase.split(' ')[0]; // Show short phase name
+
+            // Resetting and adding class for transition
+            cellDiagram.className = '';
+            cellDiagram.classList.add('w-20', 'h-20', 'rounded-full', 'flex', 'items-center', 'justify-center', 'text-xs', 'font-bold', 'transition-all', 'duration-1000', 'ease-in-out', 'bg-gray-500');
+
+            switch(mitosisPhase) {
+                case 0: // Interphase
+                    cellDiagram.style.backgroundColor = 'rgba(74, 222, 128, 0.8)'; // Green
+                    cellDiagram.style.borderRadius = '50%';
+                    cellDiagram.style.transform = 'scale(1)';
+                    break;
+                case 1: // S Phase (DNA Replicates - gets "busy")
+                    cellDiagram.style.backgroundColor = 'rgba(251, 191, 36, 0.8)'; // Yellow
+                    cellDiagram.style.borderRadius = '50%';
+                    cellDiagram.style.transform = 'scale(1.1)';
+                    break;
+                case 2: // Prophase (Condense)
+                    cellDiagram.style.backgroundColor = 'rgba(248, 113, 113, 0.8)'; // Red
+                    cellDiagram.style.borderRadius = '50%';
+                    cellDiagram.style.transform = 'scale(0.9) rotate(360deg)';
+                    break;
+                case 3: // Metaphase (Align)
+                    cellDiagram.style.backgroundColor = 'rgba(96, 165, 250, 0.8)'; // Blue
+                    cellDiagram.style.borderRadius = '50%';
+                    cellDiagram.style.transform = 'translateY(0) scale(1.1)';
+                    cellDiagram.innerHTML = '<span class="text-white">Align!</span>'; // Custom text/visual cue
+                    break;
+                case 4: // Anaphase (Separate)
+                    cellDiagram.style.backgroundColor = 'rgba(250, 204, 21, 0.8)'; // Amber
+                    cellDiagram.style.borderRadius = '30%'; // Stretches
+                    cellDiagram.style.transform = 'scale(1.5, 0.7)'; // Stretches vertically
+                    cellDiagram.innerHTML = '<span class="text-white">Pull!</span>';
+                    break;
+                case 5: // Telophase (Reform)
+                    cellDiagram.style.backgroundColor = 'rgba(167, 139, 250, 0.8)'; // Violet
+                    cellDiagram.style.borderRadius = '10%'; // Splitting visually
+                    cellDiagram.style.transform = 'scale(1.3)';
+                    cellDiagram.innerHTML = '<span class="text-white">TWO!</span>';
+                    break;
             }
+        };
 
-            e.element.style.left = `${e.x}%`;
-            e.element.style.top = `${e.y}%`;
+        const nextMitosisStep = () => {
+            mitosisPhase = (mitosisPhase + 1) % mitosisPhases.length;
+            updateCellDiagram();
+        };
+
+        const resetMitosis = () => {
+            mitosisPhase = 0;
+            updateCellDiagram();
+        };
+
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            updateCellDiagram(); // Initial state for Mitosis
         });
-        requestAnimationFrame(animateMetallicFlow);
-    }
-</script>
-
+    </script>
 </body>
 </html>
