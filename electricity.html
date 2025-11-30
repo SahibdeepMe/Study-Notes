@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity - Interactive Scroll Lesson</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Define a custom font setup */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0c11; /* Dark space background */
+            color: #e5e7eb; /* Light gray text */
+        }
+        
+        /* Apply custom styles for headings */
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.05em;
+        }
+
+        /* Base class for all sections */
+        .lesson-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 1rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(40, 40, 50, 0.5);
+        }
+        
+        /* Scroll-Reveal animation setup */
+        .section-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-content.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f1d24;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6; /* Blue-500 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Styling for the animated electron flow (Section 3) */
+        #circuit-wire {
+            width: 100%;
+            height: 40px;
+            background-color: #3f3f46; /* Gray-600 */
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .electron {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fcd34d; /* Amber-300 */
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            /* Animation applied via JS for variable speed */
+        }
+
+        /* Custom range slider thumb for better interaction */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: grab;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+            transition: background 0.3s;
+        }
+
+        /* AC/DC toggle switch styling */
+        .toggle-switch {
+            width: 150px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #4b5563; /* Gray-600 */
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-switch-handle {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .toggle-switch.ac .toggle-switch-handle {
+            transform: translateX(100px);
+            background-color: #10b981; /* Emerald-500 */
+        }
+        .toggle-switch-label {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 700;
+            color: #9ca3af;
+        }
+        .toggle-switch-label.dc { left: 15px; }
+        .toggle-switch-label.ac { right: 15px; }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- SECTION 1: TITLE SCREEN -->
+<div class="lesson-section bg-gradient-to-b from-gray-900 to-gray-950" id="sec-title">
+    <div class="section-content text-center">
+        <h1 class="text-7xl sm:text-9xl font-extrabold mb-4">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+                ELECTRICITY
+            </span>
+        </h1>
+        <p class="text-2xl sm:text-3xl text-gray-400 max-w-3xl mx-auto mt-6">
+            An interactive journey into the invisible forces that power our world: Voltage, Current, and Resistance. Scroll to activate the circuit.
+        </p>
+    </div>
+</div>
+
+<!-- SECTION 2: FUNDAMENTALS - ATOMS & CHARGE -->
+<div class="lesson-section bg-gray-950" id="sec-fundamentals">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-blue-400">1. Fundamentals: Charge & The Atom</h2>
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+                <h3 class="text-3xl font-semibold mb-4 text-indigo-400 flex items-center"><i class="fas fa-atom mr-3"></i> The Charge Carriers</h3>
+                <p class="text-gray-300 mb-4">Electricity is the flow of electric charge. In metals, the charge is carried by electrons, which are loosely bound to atoms. [Image of Bohr model of a Lithium atom showing protons, neutrons, and orbiting electrons]</p>
+                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                    <li>**Protons** ($+$) - Fixed in the nucleus.</li>
+                    <li>**Electrons** ($-$) - Move freely in conductors.</li>
+                    <li>**Like Charges** ($\text{+ and +}$ or $\text{- and -}$) - Repel.</li>
+                    <li>**Opposite Charges** ($\text{+ and -}$) - Attract.</li>
+                </ul>
+            </div>
+            <div class="p-6 bg-gray-900 rounded-xl shadow-inner h-full min-h-[300px] flex flex-col justify-center items-center">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Interactive Charge Law</h3>
+                <div class="flex space-x-10 items-center">
+                    <button class="charge-btn w-20 h-20 bg-red-600 rounded-full text-4xl font-extrabold text-white shadow-lg" data-charge="plus" onclick="interactCharge(this)">$+$</button>
+                    <div id="charge-interaction" class="text-6xl text-gray-400 font-bold">?</div>
+                    <button class="charge-btn w-20 h-20 bg-blue-600 rounded-full text-4xl font-extrabold text-white shadow-lg" data-charge="minus" onclick="interactCharge(this)">$-$</button>
+                </div>
+                <p id="charge-result" class="mt-6 text-xl font-bold text-gray-300">Click the buttons to change the charges.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 3: CURRENT (THE FLOW RATE) -->
+<div class="lesson-section bg-gray-950" id="sec-current">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-indigo-400">2. Current: The Electron Flow ($I$)</h2>
+        <p class="text-center text-xl max-w-3xl mx-auto mb-10 text-gray-300">Current ($I$) is the rate of flow of charge (Coulombs) per unit time (seconds), measured in Amperes ($\text{A}$). $\text{I} = \text{Q}/\text{t}$.</p>
+
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl">
+            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Electron Flow Simulation (Current Intensity)</h3>
+            
+            <div id="circuit-wire" class="my-8">
+                <!-- Electrons will be generated here by JS -->
+            </div>
+
+            <div class="flex justify-between items-center mt-6">
+                <div class="flex flex-col">
+                    <label for="current-slider" class="text-xl font-semibold mb-3 text-blue-400">
+                        Current Flow Rate: <span id="current-val" class="text-2xl font-mono text-pink-400">50% (Medium)</span>
+                    </label>
+                    <input type="range" id="current-slider" min="1" max="100" value="50" step="1" class="w-96 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="updateCurrent(this.value)">
+                </div>
+                <div id="light-bulb" class="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center text-gray-900 shadow-inner transition duration-500">
+                    <i class="fas fa-lightbulb text-3xl" style="color: #4b5563;"></i>
+                </div>
+            </div>
+            <p id="current-feedback" class="mt-4 text-center text-gray-400"></p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 4: VOLTAGE (THE PUSH) -->
+<div class="lesson-section bg-gray-950" id="sec-voltage">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-blue-400">3. Voltage: Electric Potential ($V$)</h2>
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+                <h3 class="text-3xl font-semibold mb-4 text-indigo-400 flex items-center"><i class="fas fa-bolt mr-3"></i> Potential Difference</h3>
+                <p class="text-gray-300 mb-4">Voltage ($V$) is the potential difference between two points. Think of it as the <strong>pressure</strong> or the <strong>"push"</strong> that drives the charge, measured in Volts ($\text{V}$).</p>
+                <div class="mt-6 p-4 bg-gray-700 rounded-lg">
+                    <p class="font-mono text-yellow-300">Water Analogy:</p>
+                    <p class="text-sm text-gray-400">Voltage is the height of a water tower, providing the potential energy to push water (charge) through pipes (wire).</p>
+                </div>
+            </div>
+            <div class="p-6 bg-gray-900 rounded-xl shadow-inner h-full min-h-[300px] flex flex-col justify-center items-center">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Height-to-Push Demo</h3>
+                <div class="w-full h-40 bg-gray-700 rounded-lg relative overflow-hidden flex items-end justify-center">
+                    <!-- Water (Voltage) Column -->
+                    <div id="voltage-water" class="w-full bg-blue-500 transition-all duration-500" style="height: 50%;"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i id="water-push" class="fas fa-hand-point-right text-4xl text-white transition-transform duration-500"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col w-64 mt-6">
+                    <label for="voltage-slider" class="text-lg font-semibold mb-2 text-blue-400">
+                        Tower Height (Voltage):
+                    </label>
+                    <input type="range" id="voltage-slider" min="10" max="100" value="50" oninput="updateVoltage(this.value)">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 5: RESISTANCE (THE OBSTACLE) -->
+<div class="lesson-section bg-gray-950" id="sec-resistance">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-teal-400">4. Resistance: The Obstacle ($R$)</h2>
+        <p class="text-center text-xl max-w-3xl mx-auto mb-10 text-gray-300">Resistance ($R$) is the opposition to the flow of charge, measured in Ohms ($\Omega$). Higher resistance means fewer electrons can pass.</p>
+
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl">
+            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Interactive Resistor Material Test</h3>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="col-span-1 text-center">
+                    <button class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition" onclick="testResistor('copper')">Test: Copper Wire</button>
+                    <p class="mt-2 text-sm text-gray-400">Low Resistance</p>
+                </div>
+                <div class="col-span-1 text-center">
+                    <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="testResistor('nichrome')">Test: Nichrome Wire</button>
+                    <p class="mt-2 text-sm text-gray-400">High Resistance (Used in heaters)</p>
+                </div>
+                <div class="col-span-1 text-center">
+                    <button class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg transition" onclick="testResistor('plastic')">Test: Plastic Casing</button>
+                    <p class="mt-2 text-sm text-gray-400">Extremely High Resistance (Insulator)</p>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-gray-700 rounded-lg flex items-center">
+                <i class="fas fa-road-barrier text-4xl mr-4 text-pink-400"></i>
+                <div>
+                    <p id="resistance-result" class="text-xl font-bold text-white">Click a material to see its resistance level.</p>
+                    <p id="resistance-impact" class="text-sm text-gray-400 mt-1"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 6: OHM'S LAW (THE RELATIONSHIP) -->
+<div class="lesson-section bg-gray-950" id="sec-ohms">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-blue-400">5. Ohm's Law: $V = I \cdot R$</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Ohm's Law defines the relationship between Voltage ($V$), Current ($I$), and Resistance ($R$). Drag any slider to see the impact on the other two variables.</p>
+
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl grid md:grid-cols-3 gap-8">
+            <!-- V Slider -->
+            <div class="flex flex-col items-center">
+                <h3 class="text-3xl font-semibold mb-4 text-indigo-400">Voltage ($V$)</h3>
+                <input type="range" id="v-slider" min="1" max="100" value="50" oninput="calculateOhms('V')" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                <p id="v-value" class="mt-4 text-3xl font-mono text-indigo-300">50 V</p>
+            </div>
+            <!-- I Slider -->
+            <div class="flex flex-col items-center">
+                <h3 class="text-3xl font-semibold mb-4 text-pink-400">Current ($I$)</h3>
+                <input type="range" id="i-slider" min="1" max="100" value="50" oninput="calculateOhms('I')" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                <p id="i-value" class="mt-4 text-3xl font-mono text-pink-300">50 A</p>
+            </div>
+            <!-- R Slider -->
+            <div class="flex flex-col items-center">
+                <h3 class="text-3xl font-semibold mb-4 text-teal-400">Resistance ($R$)</h3>
+                <input type="range" id="r-slider" min="1" max="100" value="1" oninput="calculateOhms('R')" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                <p id="r-value" class="mt-4 text-3xl font-mono text-teal-300">1 $\Omega$</p>
+            </div>
+        </div>
+
+        <div class="mt-10 text-center">
+             <p class="text-2xl font-bold text-yellow-400">
+                Formula: Voltage = Current $\times$ Resistance
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 7: CIRCUIT TYPES (SERIES VS PARALLEL) -->
+<div class="lesson-section bg-gray-950" id="sec-circuits">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-teal-400">6. Circuits: Series vs. Parallel</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">How components are connected fundamentally changes the entire circuit's behavior and total resistance. [Image of Series Circuit vs Parallel Circuit diagram]</p>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Series Circuit -->
+            <div class="p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700 hover:border-red-500 transition duration-300" onclick="simulateCircuit('series')">
+                <h3 class="text-3xl font-semibold mb-4 text-red-400 flex items-center"><i class="fas fa-link mr-3"></i> Series Circuit (Chain)</h3>
+                <p class="text-gray-300 mb-4">Components are in a single path. If one bulb fails, the **entire** circuit breaks. Total resistance ($R_T$) adds up: $\text{R}_T = \text{R}_1 + \text{R}_2 + \dots$</p>
+                <div id="series-status" class="mt-4 text-xl font-bold text-gray-400">Click to Simulate Breakage</div>
+            </div>
+
+            <!-- Parallel Circuit -->
+            <div class="p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700 hover:border-green-500 transition duration-300" onclick="simulateCircuit('parallel')">
+                <h3 class="text-3xl font-semibold mb-4 text-green-400 flex items-center"><i class="fas fa-code-branch mr-3"></i> Parallel Circuit (Branches)</h3>
+                <p class="text-gray-300 mb-4">Components are on separate branches. If one bulb fails, the **rest** remain lit. Total resistance ($R_T$) is less than the smallest resistor.</p>
+                <div id="parallel-status" class="mt-4 text-xl font-bold text-gray-400">Click to Simulate Breakage</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 8: AC vs DC (CURRENT DIRECTION) -->
+<div class="lesson-section bg-gray-950" id="sec-acdc">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-indigo-400">7. AC vs. DC: The Direction of Flow</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">The difference between Alternating Current (AC) and Direct Current (DC) is crucial for power generation and electronics. [Image of AC vs DC wave graphs]</p>
+
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
+            
+            <!-- Toggle Switch -->
+            <div class="flex items-center space-x-6">
+                <span class="text-xl font-bold text-white">Current Type:</span>
+                <div id="ac-dc-toggle" class="toggle-switch dc" onclick="toggleACDC()">
+                    <span class="toggle-switch-label dc">DC</span>
+                    <span class="toggle-switch-label ac">AC</span>
+                    <div class="toggle-switch-handle">DC</div>
+                </div>
+            </div>
+
+            <div id="acdc-graph-container" class="w-full h-40 bg-gray-700 rounded-lg mt-8 relative flex items-center justify-center">
+                <svg id="acdc-graph" width="100%" height="160" viewBox="0 0 500 160">
+                    <line x1="0" y1="80" x2="500" y2="80" stroke="#4b5563" stroke-width="2"/>
+                    <!-- DC line (starts visible) -->
+                    <path id="dc-path" d="M0 80 L500 80" stroke="#3b82f6" stroke-width="4" style="transition: opacity 0.5s;"/>
+                    <!-- AC line (starts hidden) -->
+                    <path id="ac-path" d="M0 80 C60 20, 180 140, 250 80 C320 20, 440 140, 500 80" stroke="#10b981" stroke-width="4" fill="none" style="opacity: 0; transition: opacity 0.5s;"/>
+                </svg>
+            </div>
+
+            <p id="acdc-explanation" class="mt-6 text-xl text-gray-300 text-center">**DC (Direct Current):** Charge flows in a single direction (Batteries, Electronics).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 9: ELECTRICAL POWER (P = V*I) -->
+<div class="lesson-section bg-gray-950" id="sec-power">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-yellow-400">8. Electrical Power: Energy Consumption ($P$)</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Power ($P$) is the rate at which energy is transferred, measured in Watts ($\text{W}$). $\text{P} = \text{V} \times \text{I}$. It tells you how much energy a device consumes.</p>
+
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl">
+            <h3 class="text-3xl font-semibold mb-6 text-pink-400 text-center">If Voltage and Current Change, What is the Power?</h3>
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                
+                <div class="flex flex-col items-center">
+                    <label for="p-v-slider" class="text-xl font-semibold mb-3 text-indigo-400">Voltage (V):</label>
+                    <input type="range" id="p-v-slider" min="1" max="10" value="5" oninput="calculatePower()" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <p id="p-v-value" class="mt-2 text-2xl font-mono text-indigo-300">5 V</p>
+                </div>
+
+                <div class="text-center">
+                    <i class="fas fa-times text-4xl text-gray-400"></i>
+                </div>
+                
+                <div class="flex flex-col items-center">
+                    <label for="p-i-slider" class="text-xl font-semibold mb-3 text-pink-400">Current (I):</label>
+                    <input type="range" id="p-i-slider" min="1" max="10" value="5" oninput="calculatePower()" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <p id="p-i-value" class="mt-2 text-2xl font-mono text-pink-300">5 A</p>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+                <p class="text-2xl font-semibold text-white">Electrical Power ($P$):</p>
+                <p id="power-result" class="text-6xl font-extrabold text-yellow-400 mt-2">25 W</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 10: CONCLUSION & SUMMARY -->
+<div class="lesson-section bg-gradient-to-t from-gray-900 to-gray-950" id="sec-conclusion" style="min-height: 50vh;">
+    <div class="section-content text-center">
+        <h2 class="text-6xl sm:text-7xl font-bold mb-6 text-blue-400">Circuit Completed!</h2>
+        <p class="text-2xl text-gray-300 max-w-4xl mx-auto">
+            You've successfully explored the 8 key concepts of electric circuits and power. You now understand the **push (Voltage)**, the **flow (Current)**, and the **block (Resistance)**.
+        </p>
+        <div class="mt-10 p-6 bg-gray-900/50 rounded-xl inline-block">
+            <h3 class="text-3xl font-semibold text-indigo-400 mb-3">Next Steps</h3>
+            <p class="text-xl text-gray-400">Dive deeper into magnetism, induction, or semiconductor physics!</p>
+        </div>
+    </div>
+</div>
+
+<!-- --- JAVASCRIPT LOGIC --- -->
+<script>
+    // --- Global State and Setup ---
+    const electronCount = 20;
+    let electrons = [];
+    let flowSpeed = 5; // Base speed for current flow
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. SCROLL OBSERVER SETUP (Reveal on Scroll) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const content = entry.target.querySelector('.section-content');
+                if (content) {
+                    if (entry.isIntersecting) {
+                        content.classList.add('is-visible');
+                        // Section-specific setup/animation triggers
+                        if (entry.target.id === 'sec-current') {
+                            if (electrons.length === 0) setupElectronFlow();
+                            updateCurrent(50); // Start animation
+                        }
+                    }
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initial calls
+        calculateOhms('V'); // Initialize Ohm's Law
+        calculatePower(); // Initialize Power
+        updateVoltage(50); // Initialize Voltage demo
+    });
+
+    // --- 2. SECTION 2: CHARGE INTERACTION ---
+    window.interactCharge = function(clickedButton) {
+        const buttons = document.querySelectorAll('.charge-btn');
+        const interactionEl = document.getElementById('charge-interaction');
+        const resultEl = document.getElementById('charge-result');
+        
+        // Find the other button
+        const otherButton = Array.from(buttons).find(btn => btn !== clickedButton);
+        const charge1 = clickedButton.dataset.charge;
+        const charge2 = otherButton.dataset.charge;
+
+        let interaction, message, iconColor;
+
+        if (charge1 === charge2) {
+            interaction = '<i class="fas fa-arrows-alt-h text-red-500"></i>';
+            message = `**Like Charges (${charge1} and ${charge2}):** They strongly REPEL each other.`;
+            iconColor = 'text-red-500';
+        } else {
+            interaction = '<i class="fas fa-arrows-alt text-green-500"></i>';
+            message = `**Opposite Charges (${charge1} and ${charge2}):** They strongly ATTRACT each other.`;
+            iconColor = 'text-green-500';
+        }
+
+        interactionEl.innerHTML = interaction;
+        resultEl.innerHTML = message;
+        interactionEl.className = `text-6xl font-bold ${iconColor}`;
+    }
+
+
+    // --- 3. SECTION 3: CURRENT FLOW SIMULATION ---
+    function setupElectronFlow() {
+        const wire = document.getElementById('circuit-wire');
+        for (let i = 0; i < electronCount; i++) {
+            const electron = document.createElement('div');
+            electron.className = 'electron';
+            electron.style.left = `${Math.random() * 100}%`;
+            electron.style.animationDelay = `-${Math.random() * 5}s`;
+            wire.appendChild(electron);
+            electrons.push({ element: electron, position: parseFloat(electron.style.left) });
+        }
+        animateElectronFlow();
+    }
+
+    window.updateCurrent = function(value) {
+        const currentValEl = document.getElementById('current-val');
+        const bulb = document.getElementById('light-bulb');
+        const feedback = document.getElementById('current-feedback');
+
+        flowSpeed = (parseInt(value) / 10) + 1; // 1 to 11
+        
+        let brightness;
+        if (value < 30) {
+            brightness = '20%';
+            currentValEl.textContent = `${value}% (Slow)`;
+            feedback.textContent = 'Low current: The bulb is dim. Few electrons are passing.';
+        } else if (value < 70) {
+            brightness = '50%';
+            currentValEl.textContent = `${value}% (Medium)`;
+            feedback.textContent = 'Medium current: The bulb is working normally.';
+        } else {
+            brightness = '100%';
+            currentValEl.textContent = `${value}% (Fast)`;
+            feedback.textContent = 'High current: The bulb is very bright (but might burn out!).';
+        }
+
+        // If/Then Logic: Bulb brightness changes based on current (flow speed)
+        bulb.style.backgroundColor = `rgba(255, 255, 0, ${parseFloat(brightness) / 100})`;
+        bulb.style.boxShadow = `0 0 20px ${brightness} rgba(255, 255, 0, 0.8)`;
+        bulb.querySelector('i').style.color = (value > 20) ? '#fcd34d' : '#4b5563';
+    }
+
+    function animateElectronFlow() {
+        electrons.forEach(e => {
+            e.position += flowSpeed * 0.1; // Move the electron
+            if (e.position > 100) {
+                e.position = -5; // Reset to the start
+            }
+            e.element.style.left = `${e.position}%`;
+        });
+        requestAnimationFrame(animateElectronFlow);
+    }
+
+    // --- 4. SECTION 4: VOLTAGE DEMO ---
+    window.updateVoltage = function(value) {
+        const waterEl = document.getElementById('voltage-water');
+        const pushIcon = document.getElementById('water-push');
+        const height = parseInt(value);
+
+        // If/Then Logic: Water level (Voltage) and 'Push' intensity change
+        waterEl.style.height = `${height}%`;
+        
+        const scaleFactor = 1 + (height / 100) * 0.5;
+        const color = height < 50 ? '#60a5fa' : '#3b82f6';
+        
+        waterEl.style.backgroundColor = color;
+        pushIcon.style.transform = `translateY(-50%) translateX(${ (height - 50) / 10}px) scale(${scaleFactor})`;
+        document.getElementById('voltage-slider').style.background = `linear-gradient(to right, ${color} ${height}%, #4b5563 ${height}%)`;
+    }
+
+    // --- 5. SECTION 5: RESISTANCE TEST ---
+    window.testResistor = function(material) {
+        const resultEl = document.getElementById('resistance-result');
+        const impactEl = document.getElementById('resistance-impact');
+        let resistanceLevel, color, message, impact;
+
+        if (material === 'copper') {
+            resistanceLevel = 'Very Low'; color = 'text-blue-400';
+            message = '**Copper Wire:** Very Low Resistance ($\approx 10^{-8} \Omega\cdot m$). Excellent conductor.';
+            impact = 'Impact: Maximum current flow. Minimal heat loss.';
+        } else if (material === 'nichrome') {
+            resistanceLevel = 'High'; color = 'text-green-400';
+            message = '**Nichrome Wire:** High Resistance ($\approx 10^{-6} \Omega\cdot m$). Used to generate heat.';
+            impact = 'Impact: Current flow is restricted and creates significant heat (e.g., in a toaster).';
+        } else if (material === 'plastic') {
+            resistanceLevel = 'Extremely High'; color = 'text-red-400';
+            message = '**Plastic Casing:** Extremely High Resistance ($\approx 10^{15} \Omega\cdot m$). Excellent insulator.';
+            impact = 'Impact: Virtually zero current flow. It safely contains the charge.';
+        }
+        
+        // If/Then Logic: Text feedback and color change based on material
+        resultEl.innerHTML = message;
+        resultEl.className = `text-xl font-bold ${color}`;
+        impactEl.textContent = impact;
+    }
+
+    // --- 6. SECTION 6: OHM'S LAW CALCULATOR ---
+    window.calculateOhms = function(changed) {
+        const vSlider = document.getElementById('v-slider');
+        const iSlider = document.getElementById('i-slider');
+        const rSlider = document.getElementById('r-slider');
+        const vValue = document.getElementById('v-value');
+        const iValue = document.getElementById('i-value');
+        const rValue = document.getElementById('r-value');
+
+        let V = parseFloat(vSlider.value);
+        let I = parseFloat(iSlider.value);
+        let R = parseFloat(rSlider.value);
+
+        // Apply Ohm's Law (V = I * R) by holding two values constant and calculating the third
+        if (changed === 'V') {
+            R = V / I; // Calculate R based on fixed I
+            if (R > 100) R = 100; // Cap at max slider value
+            if (R < 1) R = 1; // Min value
+            rSlider.value = R;
+        } else if (changed === 'I') {
+            V = I * R; // Calculate V based on fixed R
+            if (V > 100) V = 100;
+            if (V < 1) V = 1;
+            vSlider.value = V;
+        } else if (changed === 'R') {
+            V = I * R; // Calculate V based on fixed I
+            if (V > 100) V = 100;
+            if (V < 1) V = 1;
+            vSlider.value = V;
+        }
+
+        // Update display values
+        vValue.textContent = `${V.toFixed(0)} V`;
+        iValue.textContent = `${I.toFixed(1)} A`;
+        rValue.textContent = `${R.toFixed(1)} \u2126`; // Ohm symbol
+    }
+
+    // --- 7. SECTION 7: CIRCUIT SIMULATION (If/Then Logic) ---
+    window.simulateCircuit = function(type) {
+        const seriesStatus = document.getElementById('series-status');
+        const parallelStatus = document.getElementById('parallel-status');
+        
+        if (type === 'series') {
+            // Series: Break one, all break
+            seriesStatus.innerHTML = '<i class="fas fa-exclamation-triangle mr-2 text-red-500"></i> **Circuit Open!** All bulbs go out.';
+            seriesStatus.classList.add('text-red-500');
+            parallelStatus.innerHTML = 'Click to Simulate Breakage';
+            parallelStatus.classList.remove('text-green-500');
+        } else {
+            // Parallel: Break one, others stay on
+            parallelStatus.innerHTML = '<i class="fas fa-check-circle mr-2 text-green-500"></i> **Bulbs Stay Lit!** Current flows through the other branches.';
+            parallelStatus.classList.add('text-green-500');
+            seriesStatus.innerHTML = 'Click to Simulate Breakage';
+            seriesStatus.classList.remove('text-red-500');
+        }
+    }
+
+    // --- 8. SECTION 8: AC/DC TOGGLE ---
+    window.toggleACDC = function() {
+        const toggle = document.getElementById('ac-dc-toggle');
+        const dcPath = document.getElementById('dc-path');
+        const acPath = document.getElementById('ac-path');
+        const explanationEl = document.getElementById('acdc-explanation');
+        const handle = toggle.querySelector('.toggle-switch-handle');
+
+        const isDC = toggle.classList.contains('dc');
+
+        if (isDC) {
+            // Switch to AC
+            toggle.classList.remove('dc');
+            toggle.classList.add('ac');
+            handle.textContent = 'AC';
+            dcPath.style.opacity = 0;
+            acPath.style.opacity = 1;
+            explanationEl.innerHTML = '**AC (Alternating Current):** Charge flow direction constantly reverses (Power grids, Wall outlets).';
+        } else {
+            // Switch to DC
+            toggle.classList.remove('ac');
+            toggle.classList.add('dc');
+            handle.textContent = 'DC';
+            dcPath.style.opacity = 1;
+            acPath.style.opacity = 0;
+            explanationEl.innerHTML = '**DC (Direct Current):** Charge flows in a single direction (Batteries, Electronics).';
+        }
+    }
+
+    // --- 9. SECTION 9: POWER CALCULATION ---
+    window.calculatePower = function() {
+        const v = parseInt(document.getElementById('p-v-slider').value);
+        const i = parseInt(document.getElementById('p-i-slider').value);
+        const power = v * i;
+
+        document.getElementById('p-v-value').textContent = `${v} V`;
+        document.getElementById('p-i-value').textContent = `${i} A`;
+        document.getElementById('power-result').textContent = `${power} W`;
+
+        // If/Then Logic: Background color intensity based on power
+        const intensity = Math.min(1, power / 100); // 0 to 1 scale
+        document.getElementById('power-result').style.color = `rgba(252, 211, 77, ${0.5 + intensity * 0.5})`;
+    }
+
+</script>
+
+</body>
+</html>
