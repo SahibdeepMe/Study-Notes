@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Bonds - Interactive Scroll Lesson</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Define a custom font setup */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0c11; /* Dark space background */
+            color: #e5e7eb; /* Light gray text */
+        }
+        
+        /* Apply custom styles for headings */
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.05em;
+        }
+
+        /* Base class for all sections */
+        .lesson-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 1rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(40, 40, 50, 0.5);
+        }
+        
+        /* Scroll-Reveal animation setup */
+        .section-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-content.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom styles for interactive bond elements */
+        .electron-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #fcd34d; /* Amber */
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .atom-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column; /* Added to center text elements */
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 4px solid;
+            position: relative;
+        }
+
+        /* Custom range slider thumb */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f87171; /* Red-400 */
+            cursor: grab;
+            box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
+            transition: background 0.3s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- SECTION 1: TITLE SCREEN -->
+<div class="lesson-section bg-gradient-to-b from-gray-900 to-gray-950" id="sec-title">
+    <div class="section-content text-center">
+        <h1 class="text-7xl sm:text-9xl font-extrabold mb-4">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-500">
+                CHEMICAL BONDS
+            </span>
+        </h1>
+        <p class="text-2xl sm:text-3xl text-gray-400 max-w-3xl mx-auto mt-6">
+            Exploring the atomic forces that hold all matter together: from table salt to DNA. Scroll to understand the rules of electron interaction.
+        </p>
+    </div>
+</div>
+
+<!-- SECTION 2: VALENCE ELECTRONS & THE OCTET RULE -->
+<div class="lesson-section bg-gray-950" id="sec-valence">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-pink-400">1. The Players: Valence Electrons</h2>
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+                <h3 class="text-3xl font-semibold mb-4 text-purple-400 flex items-center"><i class="fas fa-microchip mr-3"></i> The Outer Shell</h3>
+                <p class="text-gray-300 mb-4">Chemical reactions are driven by **valence electrons**—the electrons in the outermost shell. Atoms strive for stability, which usually means having a **full outer shell**.</p>
+                <div class="mt-6 p-4 bg-gray-700 rounded-lg">
+                    <p class="font-mono text-yellow-300">The Octet Rule:</p>
+                    <p class="text-sm text-gray-400">Atoms are most stable with 8 valence electrons (except Hydrogen and Helium, which need 2). Bonding is how they achieve this magic number.</p>
+                </div>
+            </div>
+            <div class="p-6 bg-gray-900 rounded-xl shadow-inner h-full min-h-[300px] flex flex-col justify-center items-center">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Stability Check</h3>
+                <div class="flex flex-col items-center w-full max-w-sm">
+                    <label for="valence-input" class="text-lg font-semibold mb-2">Electrons in Outer Shell:</label>
+                    <input type="number" id="valence-input" min="1" max="8" value="7" class="w-24 text-center p-2 rounded bg-gray-700 text-white text-2xl font-mono" oninput="checkStability(this.value)">
+                    <div id="stability-result" class="mt-6 text-2xl font-bold text-red-400">Needs 1 more electron. Unstable.</div>
+                    <p id="stability-action" class="mt-2 text-md text-gray-400 text-center">Likely to GAIN one electron (or share).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 3: IONIC BONDS (TRANSFER) -->
+<div class="lesson-section bg-gray-950" id="sec-ionic">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-red-400">2. Ionic Bonds: The Electron Transfer</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Formed between a **metal** (low electronegativity) and a **nonmetal** (high electronegativity). The metal *loses* electrons to become a positive ion (cation), and the nonmetal *gains* electrons to become a negative ion (anion). They are then held together by electrostatic attraction.</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex justify-around items-center relative">
+            
+            <!-- Sodium Atom (Metal) -->
+            <div id="na-atom" class="atom-circle border-blue-400 bg-blue-900/50" data-electrons="1">
+                Na <span class="text-xl font-normal">(1+)</span>
+                <div id="na-electron" class="electron-dot" style="top: 10px; right: 10px;"></div>
+            </div>
+
+            <div class="text-6xl font-extrabold text-red-400" id="transfer-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            
+            <!-- Chlorine Atom (Nonmetal) -->
+            <div id="cl-atom" class="atom-circle border-green-400 bg-green-900/50" data-electrons="7">
+                Cl <span class="text-xl font-normal">(1-)</span>
+                <!-- 7 static electrons -->
+                <div class="electron-dot" style="top: 10px; left: 70px;"></div>
+                <div class="electron-dot" style="top: 10px; right: 10px;"></div>
+                <div class="electron-dot" style="top: 70px; right: 10px;"></div>
+                <div class="electron-dot" style="bottom: 10px; right: 10px;"></div>
+                <div class="electron-dot" style="bottom: 10px; left: 70px;"></div>
+                <div class="electron-dot" style="bottom: 10px; left: 10px;"></div>
+                <div class="electron-dot" style="top: 70px; left: 10px;"></div>
+            </div>
+
+            <button class="absolute bottom-[-20px] px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition shadow-lg" onclick="simulateIonicBond()">
+                Simulate Na$^+$Cl$^-$ Bond
+            </button>
+        </div>
+        <p id="ionic-result" class="mt-10 text-xl font-bold text-center text-gray-300">Click the button to see the electron transfer and ion formation.</p>
+    </div>
+</div>
+
+<!-- SECTION 4: COVALENT BONDS (SHARING) -->
+<div class="lesson-section bg-gray-950" id="sec-covalent">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-green-400">3. Covalent Bonds: The Electron Share</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Formed between two **nonmetals**. Instead of transferring, atoms share electrons to fill their outer shells. This results in the formation of molecules.</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
+            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Degree of Sharing</h3>
+            
+            <div class="flex space-x-12 items-center">
+                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(1)">Single Bond (1 pair)</button>
+                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(2)">Double Bond (2 pairs)</button>
+                <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition" onclick="updateSharing(3)">Triple Bond (3 pairs)</button>
+            </div>
+            
+            <div class="mt-8 relative flex justify-center items-center">
+                <div id="atom-1" class="atom-circle border-teal-400 bg-teal-900/50 mr-[-50px]">O</div>
+                <div id="shared-electrons" class="w-32 h-16 flex flex-col justify-center items-center z-10">
+                    <!-- Shared electrons will appear here -->
+                </div>
+                <div id="atom-2" class="atom-circle border-teal-400 bg-teal-900/50 ml-[-50px]">O</div>
+            </div>
+
+            <p id="sharing-result" class="mt-6 text-2xl font-bold text-white">Select a bond type to form the O₂ molecule (Double Bond).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 5: ELECTRONEGATIVITY & BOND SPECTRUM -->
+<div class="lesson-section bg-gray-950" id="sec-electronegativity">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-purple-400">4. Electronegativity: The Tug-of-War</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Electronegativity is an atom's ability to attract electrons in a bond. The **difference** in electronegativity ($\Delta \text{EN}$) determines the bond type.</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl">
+            <h3 class="text-3xl font-semibold mb-6 text-yellow-400 text-center">Bond Spectrum Simulator ($\Delta \text{EN}$)</h3>
+            
+            <div class="px-10">
+                <input type="range" id="en-slider" min="0" max="3.3" step="0.1" value="1.7" oninput="checkBondType(this.value)" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+            <div class="flex justify-between text-center mt-3 text-sm font-semibold">
+                <span class="text-green-400">0.0 (Nonpolar Covalent)</span>
+                <span class="text-blue-400">1.7 (Polar/Ionic Border)</span>
+                <span class="text-red-400">3.3 (Highly Ionic)</span>
+            </div>
+
+            <div class="mt-8 p-4 bg-gray-700 rounded-lg">
+                <p class="text-xl font-bold text-white">
+                    $\Delta \text{EN}$ Value: <span id="en-value" class="text-3xl font-mono text-pink-300">1.7</span>
+                </p>
+                <div class="mt-2">
+                    <p id="bond-type-result" class="text-2xl font-extrabold text-blue-400">Polar Covalent / Ionic Transition</p>
+                    <p id="bond-description" class="text-md text-gray-400 mt-1">Electrons are shared highly unequally, or completely transferred.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 6: POLARITY & DIPOLE MOMENTS -->
+<div class="lesson-section bg-gray-950" id="sec-polarity">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-blue-400">5. Polarity: Unequal Sharing</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">In a polar covalent bond, one atom (the more electronegative one) pulls the shared electrons closer, creating **partial negative** and **partial positive** charges, called a dipole moment. A classic example is the water molecule (H₂O).</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
+            <div class="relative w-80 h-40">
+                <!-- Oxygen (Center, negative) -->
+                <div id="o-atom" class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-20 bg-red-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                    O (Neg.)
+                </div>
+                <!-- Hydrogen 1 (Positive) -->
+                <div id="h1-atom" class="absolute bottom-0 left-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                    H (Pos.)
+                </div>
+                <!-- Hydrogen 2 (Positive) -->
+                <div id="h2-atom" class="absolute bottom-0 right-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                    H (Pos.)
+                </div>
+
+                <!-- Dipole Arrows -->
+                <i class="fas fa-arrow-right absolute top-10 left-[60px] transform rotate-[-45deg] text-yellow-400 text-3xl"></i>
+                <i class="fas fa-arrow-left absolute top-10 right-[60px] transform rotate-[45deg] text-yellow-400 text-3xl"></i>
+            </div>
+            <p class="mt-8 text-xl text-center text-gray-400">
+                The Oxygen atom hogs the electrons, giving it a partial negative charge, leaving the Hydrogen atoms partially positive. This makes water a **Polar Solvent**.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 7: INTERMOLECULAR FORCES (HYDROGEN BONDS) -->
+<div class="lesson-section bg-gray-950" id="sec-hbond">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-teal-400">6. Intermolecular Forces: Hydrogen Bonds</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">These are the weakest type of bonds, occurring *between* molecules. The **Hydrogen Bond** is a special type of strong dipole-dipole attraction where Hydrogen is bonded to a highly electronegative atom (N, O, or F).</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
+            <h3 class="text-3xl font-semibold mb-4 text-pink-400">The Power of Weak Bonds</h3>
+            <div class="relative flex items-center justify-around w-full">
+                <!-- Water Molecule 1 -->
+                <div class="water-mol p-4 border border-blue-600 rounded-xl">
+                    <p class="text-2xl text-white">H₂O (Molecule 1)</p>
+                    <p class="text-sm text-red-300">O (Neg.) / H (Pos.)</p>
+                </div>
+
+                <!-- Dotted Hydrogen Bond -->
+                <div class="text-4xl text-gray-400 font-extrabold px-8">
+                    <i class="fas fa-ellipsis-h"></i><i class="fas fa-ellipsis-h"></i>
+                </div>
+
+                <!-- Water Molecule 2 -->
+                <div class="water-mol p-4 border border-blue-600 rounded-xl">
+                    <p class="text-2xl text-white">H₂O (Molecule 2)</p>
+                    <p class="text-sm text-red-300">O (Neg.) / H (Pos.)</p>
+                </div>
+            </div>
+
+            <p class="mt-6 text-xl text-center text-gray-400">
+                The positive Hydrogen from one molecule attracts the negative Oxygen from another. This weak bond is responsible for water's high boiling point and is crucial for the structure of DNA.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 8: METALLIC BONDS -->
+<div class="lesson-section bg-gray-950" id="sec-metallic">
+    <div class="section-content">
+        <h2 class="text-5xl font-bold mb-12 text-center text-yellow-400">7. Metallic Bonds: The Sea of Electrons</h2>
+        <p class="text-center text-xl max-w-4xl mx-auto mb-10 text-gray-300">Found in metals. The atoms release their valence electrons, which then roam freely in a "sea of electrons" surrounding the positive metal ions (cations). This unique structure gives metals their characteristic properties.</p>
+        
+        <div class="w-full max-w-5xl mx-auto p-8 bg-gray-800 rounded-xl shadow-2xl flex flex-col items-center">
+            <h3 class="text-3xl font-semibold mb-4 text-purple-400">Why Metals Conduct</h3>
+            <div class="w-full h-40 bg-gray-900 rounded-lg relative overflow-hidden flex items-center justify-center border-4 border-yellow-400">
+                <!-- Cations: Changed from M$^+$ to M+ -->
+                <div class="grid grid-cols-5 gap-8">
+                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+                    <div class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold text-lg border border-white">M+</div>
+                </div>
+                <!-- Simulated Electron Movement (Free Flow) -->
+                <div id="free-electrons">
+                    <!-- Electrons generated by JS for animation -->
+                </div>
+            </div>
+            <ul class="mt-6 list-disc list-inside text-gray-400 space-y-2 text-left w-full max-w-lg">
+                <li>**Conductivity:** The free movement of the electron sea allows charge (electricity) and heat to flow easily.</li>
+                <li>**Malleability:** The non-directional nature of the bond allows the layers of metal ions to slide past each other without breaking the material.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 9: CONCLUSION & SUMMARY -->
+<div class="lesson-section bg-gradient-to-t from-gray-900 to-gray-950" id="sec-conclusion" style="min-height: 50vh;">
+    <div class="section-content text-center">
+        <h2 class="text-6xl sm:text-7xl font-bold mb-6 text-pink-400">Bonds Understood!</h2>
+        <p class="text-2xl text-gray-300 max-w-4xl mx-auto">
+            You've mastered how atoms achieve stability: by **transferring** (Ionic), **sharing** (Covalent), or surrounding themselves in a **sea** (Metallic) of electrons.
+        </p>
+        <div class="mt-10 p-6 bg-gray-900/50 rounded-xl inline-block">
+            <h3 class="text-3xl font-semibold text-purple-400 mb-3">Key Takeaways</h3>
+            <p class="text-xl text-gray-400">The difference in electronegativity dictates the entire landscape of chemical bonding.</p>
+        </div>
+    </div>
+</div>
+
+<!-- --- JAVASCRIPT LOGIC --- -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. SCROLL OBSERVER SETUP (Reveal on Scroll) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const content = entry.target.querySelector('.section-content');
+                if (content) {
+                    if (entry.isIntersecting) {
+                        content.classList.add('is-visible');
+                        // Section-specific setup
+                        if (entry.target.id === 'sec-covalent') {
+                            updateSharing(2); // Default to double bond
+                        }
+                        // Note: setupMetallicFlow is called only once when 'sec-metallic' comes into view.
+                        if (entry.target.id === 'sec-metallic' && metallicElectrons.length === 0) {
+                            setupMetallicFlow();
+                            animateMetallicFlow();
+                        }
+                    }
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initial calls
+        checkStability(7);
+        checkBondType(1.7);
+    });
+
+    // --- 2. SECTION 2: STABILITY CHECK ---
+    window.checkStability = function(value) {
+        const num = parseInt(value);
+        const resultEl = document.getElementById('stability-result');
+        const actionEl = document.getElementById('stability-action');
+        
+        let message, color, action;
+
+        if (num === 8) {
+            message = 'Perfectly Stable! Full Octet.';
+            color = 'text-green-400';
+            action = 'A Noble Gas configuration. Does not form bonds.';
+        } else if (num === 7 || num === 6) {
+            message = `Needs ${8 - num} electron(s). Unstable.`;
+            color = 'text-yellow-400';
+            action = 'Likely to GAIN electrons (Nonmetal) or share.';
+        } else if (num <= 3) {
+            message = `Needs ${8 - num} electrons. Very Unstable.`;
+            color = 'text-red-400';
+            action = 'Likely to LOSE electrons (Metal) to revert to a full inner shell.';
+        } else { // 4 or 5
+            message = `Needs ${8 - num} electrons. Unstable.`;
+            color = 'text-blue-400';
+            action = 'Likely to SHARE electrons.';
+        }
+
+        resultEl.textContent = message;
+        resultEl.className = `mt-6 text-2xl font-bold ${color}`;
+        actionEl.textContent = action;
+    }
+
+    // --- 3. SECTION 3: IONIC BOND SIMULATOR ---
+    window.simulateIonicBond = function() {
+        const naAtom = document.getElementById('na-atom');
+        const clAtom = document.getElementById('cl-atom');
+        const naElectron = document.getElementById('na-electron');
+        const resultEl = document.getElementById('ionic-result');
+        const originalNaText = 'Na <span class="text-xl font-normal">(1+)</span>';
+        const originalClText = 'Cl <span class="text-xl font-normal">(1-)</span>';
+        const finalNaText = 'Na+ <p class="text-sm">Cation</p>';
+        const finalClText = 'Cl- <p class="text-sm">Anion</p>';
+
+
+        // Prevent multiple simultaneous clicks
+        if (naAtom.dataset.animating === 'true') return;
+        naAtom.dataset.animating = 'true';
+
+        // Animation: Move the electron from Na to Cl
+        naElectron.style.transform = 'translate(100px, 0) scale(0)';
+        naElectron.style.transition = 'transform 1s ease-out';
+
+        // Update atom appearance and charge text
+        naAtom.classList.remove('border-blue-400');
+        naAtom.classList.add('border-red-400', 'bg-red-900/50');
+        naAtom.innerHTML = finalNaText;
+
+        clAtom.classList.remove('border-green-400');
+        clAtom.classList.add('border-blue-400', 'bg-blue-900/50');
+        clAtom.innerHTML = finalClText;
+        
+        // Wait for the animation to complete before showing final state
+        setTimeout(() => {
+            resultEl.innerHTML = '<i class="fas fa-check-circle mr-2 text-red-400"></i> **Success!** The atoms are now stable ions held by a strong electrostatic force (Na+ and Cl-).';
+            resultEl.classList.add('text-red-400');
+        }, 1000);
+        
+        // Reset for next click
+        setTimeout(() => {
+            naElectron.style.transform = 'translate(0, 0) scale(1)';
+            naAtom.classList.remove('border-red-400', 'bg-red-900/50');
+            naAtom.classList.add('border-blue-400', 'bg-blue-900/50');
+            naAtom.innerHTML = originalNaText;
+            clAtom.classList.remove('border-blue-400', 'bg-blue-900/50');
+            clAtom.classList.add('border-green-400', 'bg-green-900/50');
+            clAtom.innerHTML = originalClText;
+            resultEl.innerHTML = 'Click the button to see the electron transfer and ion formation.';
+            resultEl.classList.remove('text-red-400');
+            delete naAtom.dataset.animating;
+        }, 3000);
+    }
+
+    // --- 4. SECTION 4: COVALENT SHARING ---
+    window.updateSharing = function(pairs) {
+        const sharedEl = document.getElementById('shared-electrons');
+        const resultEl = document.getElementById('sharing-result');
+        sharedEl.innerHTML = '';
+        let message = "";
+
+        // If/Then Logic: Add electron dots based on bond type
+        for (let i = 0; i < pairs; i++) {
+            const e1 = document.createElement('div');
+            e1.className = 'electron-dot bg-yellow-400';
+            e1.style.top = `${20 + i * 15}px`;
+            e1.style.left = '40px';
+            sharedEl.appendChild(e1);
+
+            const e2 = document.createElement('div');
+            e2.className = 'electron-dot bg-yellow-400';
+            e2.style.top = `${20 + i * 15}px`;
+            e2.style.right = '40px';
+            sharedEl.appendChild(e2);
+        }
+
+        if (pairs === 1) {
+            message = 'Single Bond: Sharing 1 pair of electrons (H₂).';
+        } else if (pairs === 2) {
+            message = 'Double Bond: Sharing 2 pairs of electrons (O₂). Stronger and shorter.';
+        } else if (pairs === 3) {
+            message = 'Triple Bond: Sharing 3 pairs of electrons (N₂). Strongest and shortest.';
+        }
+
+        resultEl.innerHTML = `<i class="fas fa-handshake mr-2 text-green-400"></i> ${message}`;
+    }
+
+    // --- 5. SECTION 5: ELECTRONEGATIVITY SPECTRUM ---
+    window.checkBondType = function(deltaEN) {
+        const enValEl = document.getElementById('en-value');
+        const typeEl = document.getElementById('bond-type-result');
+        const descEl = document.getElementById('bond-description');
+        const slider = document.getElementById('en-slider');
+        let type, color, description;
+
+        deltaEN = parseFloat(deltaEN);
+        
+        // If/Then Logic: Determine bond type based on standard cutoffs
+        if (deltaEN <= 0.4) {
+            type = 'Nonpolar Covalent';
+            color = 'text-green-400';
+            description = 'Electrons are shared almost equally. Typical of bonds between identical atoms (C-H or H₂).';
+        } else if (deltaEN <= 1.7) {
+            type = 'Polar Covalent';
+            color = 'text-blue-400';
+            description = 'Electrons are shared unequally, creating a dipole moment (H₂O).';
+        } else {
+            type = 'Ionic';
+            color = 'text-red-400';
+            description = 'Electrons are essentially transferred. The bond is due to electrostatic attraction (NaCl).';
+        }
+
+        enValEl.textContent = deltaEN.toFixed(1);
+        typeEl.textContent = type;
+        typeEl.className = `text-2xl font-extrabold ${color}`;
+        descEl.textContent = description;
+
+        // Visual gradient on the slider
+        const percent = ((deltaEN / 3.3) * 100).toFixed(0);
+        slider.style.background = `linear-gradient(to right, #10b981 0%, #3b82f6 30%, #f87171 70%, #ef4444 100%)`;
+    }
+
+    // --- 8. SECTION 8: METALLIC BOND SIMULATION ---
+    let metallicElectrons = [];
+    const metallicElectronCount = 15;
+
+    function setupMetallicFlow() {
+        const container = document.getElementById('free-electrons');
+        if (metallicElectrons.length > 0) return; // Prevent double initialization
+        
+        for (let i = 0; i < metallicElectronCount; i++) {
+            const electron = document.createElement('div');
+            electron.className = 'electron-dot bg-blue-400';
+            electron.style.left = `${Math.random() * 100}%`;
+            electron.style.top = `${Math.random() * 100}%`;
+            container.appendChild(electron);
+            metallicElectrons.push({ 
+                element: electron, 
+                x: parseFloat(electron.style.left), 
+                y: parseFloat(electron.style.top), 
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
+            });
+        }
+    }
+
+    function animateMetallicFlow() {
+        metallicElectrons.forEach(e => {
+            e.x += e.vx * 0.1;
+            e.y += e.vy * 0.1;
+
+            // Bounce off walls (If/Then Logic)
+            if (e.x > 100 || e.x < 0) e.vx *= -1;
+            if (e.y > 100 || e.y < 0) e.vy *= -1;
+            
+            // Randomly perturb movement for 'free flow' look
+            e.vx += (Math.random() - 0.5) * 0.05;
+            e.vy += (Math.random() - 0.5) * 0.05;
+
+            // Clamp speed to prevent runaway
+            const speed = Math.sqrt(e.vx * e.vx + e.vy * e.vy);
+            if (speed > 1.5) {
+                e.vx *= (1.5 / speed);
+                e.vy *= (1.5 / speed);
+            }
+
+            e.element.style.left = `${e.x}%`;
+            e.element.style.top = `${e.y}%`;
+        });
+        requestAnimationFrame(animateMetallicFlow);
+    }
+</script>
+
+</body>
+</html>
