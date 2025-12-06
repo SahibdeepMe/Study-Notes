@@ -6,269 +6,713 @@
     <title>⚡ Dynamic Study Notes Hub 🧠</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind to use Inter font and custom colors -->
+    <!-- Animate.css for extra animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Configure Tailwind with custom theme -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'Montserrat', 'sans-serif'],
                     },
                     colors: {
-                        'primary-blue': '#4F46E5', // Indigo 600
-                        'secondary-cyan': '#22D3EE', // Cyan 400
-                        'bg-dark': '#111827', // Gray 900
-                        'card-light': '#1F2937', // Gray 800
+                        'yt-red': '#FF0000',
+                        'telegram-blue': '#0088CC',
+                        'neon-pink': '#FF00FF',
+                        'electric-blue': '#00F0FF',
+                        'vivid-purple': '#9D4EDD',
+                        'lime-green': '#00FF88',
+                        'sunset-orange': '#FF6B35',
+                        'cyber-yellow': '#FFEE32',
+                        'holo-blue': '#00D2FF',
+                        'matrix-green': '#00FF41',
+                        'gradient-1': '#667EEA',
+                        'gradient-2': '#764BA2',
+                        'gradient-3': '#F093FB',
+                        'gradient-4': '#F5576C',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'shimmer': 'shimmer 3s infinite',
+                        'wave': 'wave 5s ease-in-out infinite',
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'rotate-3d': 'rotate3d 20s linear infinite',
+                        'handshake': 'handshake 1.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { 
+                                opacity: 1,
+                                filter: 'drop-shadow(0 0 10px currentColor)'
+                            },
+                            '50%': { 
+                                opacity: 0.8,
+                                filter: 'drop-shadow(0 0 20px currentColor)'
+                            },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% center' },
+                            '100%': { backgroundPosition: '200% center' },
+                        },
+                        wave: {
+                            '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+                            '25%': { transform: 'translateX(-10px) rotate(-2deg)' },
+                            '75%': { transform: 'translateX(10px) rotate(2deg)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        slideIn: {
+                            '0%': { 
+                                transform: 'translateY(50px)',
+                                opacity: 0
+                            },
+                            '100%': { 
+                                transform: 'translateY(0)',
+                                opacity: 1
+                            },
+                        },
+                        rotate3d: {
+                            '0%': { transform: 'rotateY(0deg) rotateX(0deg)' },
+                            '100%': { transform: 'rotateY(360deg) rotateX(360deg)' },
+                        },
+                        handshake: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(10deg)' },
+                            '75%': { transform: 'rotate(-10deg)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Custom styles for background and reel container */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+        
         body {
-            background-color: #111827;
+            background: linear-gradient(-45deg, #667EEA, #764BA2, #F093FB, #F5576C);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column; /* Ensure the footer stays at the bottom */
+            overflow-x: hidden;
+            position: relative;
         }
-        main {
-            flex-grow: 1; /* Allow main content to push the footer down */
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23FFFFFF" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
+            opacity: 0.3;
+            z-index: -1;
         }
-        .chapter-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        .chapter-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(34, 211, 238, 0.5), 0 8px 10px -6px rgba(34, 211, 238, 0.3);
+
+        .neon-border {
+            position: relative;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
+            background-clip: padding-box;
+            border-radius: 1rem;
         }
-        /* Style for the "Reel" effect */
-        .content-reel-text {
-            /* Fade transition for the text change */
-            transition: opacity 0.5s ease;
+
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
+            border-radius: 1rem;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.7;
         }
-        /* Mobile-first grid: single column for small screens, 2/3 columns for larger screens */
-        @media (min-width: 640px) {
-            .notes-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+
+        .text-gradient {
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #9D4EDD, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        @media (min-width: 1024px) {
-            .notes-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
+
+        .hover-3d {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hover-3d:hover {
+            transform: perspective(1000px) rotateY(10deg) rotateX(5deg) translateZ(20px);
+        }
+
+        .stagger-delay-1 { animation-delay: 0.1s; }
+        .stagger-delay-2 { animation-delay: 0.2s; }
+        .stagger-delay-3 { animation-delay: 0.3s; }
+        .stagger-delay-4 { animation-delay: 0.4s; }
+        .stagger-delay-5 { animation-delay: 0.5s; }
+        .stagger-delay-6 { animation-delay: 0.6s; }
+        .stagger-delay-7 { animation-delay: 0.7s; }
+
+        .typing-effect::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .notes-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .category-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-btn:hover::before {
+            left: 100%;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(45deg, #FF00FF, #00F0FF);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Black & White Handshake Logo */
+        .handshake-logo {
+            filter: grayscale(100%) contrast(150%);
+            transition: all 0.3s ease;
+        }
+
+        .handshake-logo:hover {
+            filter: grayscale(0%) contrast(100%);
+            transform: scale(1.1);
+        }
+
+        /* Search bar focus effect */
+        .search-bar:focus {
+            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Search results animation */
+        .search-result {
+            animation: slideIn 0.3s ease-out;
         }
     </style>
 </head>
-<body class="text-white">
-
+<body class="text-white relative">
+    
     <!-- Header Section -->
-    <header class="py-10 bg-bg-dark border-b border-gray-700 shadow-xl">
-        <!-- Added 'relative' to the container for absolute positioning of the link -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative"> 
+    <header class="py-12 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             
-            <!-- About Link (Moved to Top Right Corner of the Header) -->
-            <a href="about.html" class="absolute right-4 sm:right-6 lg:right-8 top-4 text-secondary-cyan hover:text-primary-blue transition duration-200 font-medium p-2 rounded-lg hover:bg-gray-700 z-10">
-                About
-            </a>
+            <!-- Contact Links -->
+            <div class="flex flex-col items-center mb-8">
+                <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight">
+                    <span class="text-gradient animate-gradient-x bg-clip-text">
+                        STUDY<span class="animate-pulse">⚡</span>NOTES
+                    </span>
+                </h1>
+                
+                <!-- Contact Links -->
+                <div class="flex flex-wrap justify-center gap-6 mt-4">
+                    <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
+                       target="_blank"
+                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yt-red to-red-600 hover:scale-105 transition-transform duration-300 shadow-lg">
+                        <span class="text-xl">▶️</span>
+                        <span class="font-bold">YouTube</span>
+                    </a>
+                    
+                    <a href="https://t.me/SAHIBDEEP_Channel" 
+                       target="_blank"
+                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-telegram-blue to-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg">
+                        <span class="text-xl">✈️</span>
+                        <span class="font-bold">Telegram</span>
+                    </a>
+                    
+                    <a href="https://contact-right-yt.w3spaces.com" 
+                       target="_blank"
+                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105 transition-transform duration-300 shadow-lg">
+                        <span class="text-xl">🌐</span>
+                        <span class="font-bold">Contact</span>
+                    </a>
+                </div>
+            </div>
 
-            <h1 class="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-secondary-cyan">
-                Study Notes Repository
-            </h1>
-            <p class="mt-3 text-xl text-gray-400">
-                Explore bite-sized, animated previews of concepts before diving deep.
+            <!-- Subtitle -->
+            <p class="text-2xl md:text-3xl font-bold mb-4">
+                <span class="typing-effect inline-block">Where Learning Comes Alive</span>
             </p>
+            
+            <p class="text-xl text-white/80 max-w-3xl mx-auto mb-8 animate__animated animate__fadeInUp">
+                Explore <span class="font-bold text-cyber-yellow">animated</span> concepts, 
+                <span class="font-bold text-lime-green">interactive</span> previews, and 
+                <span class="font-bold text-electric-blue">dynamic</span> learning experiences
+            </p>
+
+            <!-- Functional Search Bar -->
+            <div class="max-w-2xl mx-auto mb-8 animate__animated animate__fadeInUp">
+                <div class="relative">
+                    <input type="text" 
+                           id="searchInput"
+                           placeholder="🔍 Search for subjects, concepts, or keywords..." 
+                           class="w-full px-6 py-4 rounded-2xl glass-card border border-white/20 focus:outline-none focus:ring-4 focus:ring-electric-blue/50 text-lg placeholder-white/50 shadow-lg search-bar">
+                    <div id="searchResults" class="absolute w-full mt-2 bg-gray-900/90 backdrop-blur-sm rounded-xl border border-white/20 shadow-2xl z-50 hidden overflow-hidden">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats with animated counters -->
+            <div class="flex justify-center items-center space-x-8 mb-6">
+                <div class="text-center animate__animated animate__fadeInLeft">
+                    <div class="text-4xl font-bold text-neon-pink" id="subject-count">0</div>
+                    <div class="text-sm text-white/70">Subjects</div>
+                </div>
+                <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+                <div class="text-center animate__animated animate__fadeInUp">
+                    <div class="text-4xl font-bold text-electric-blue" id="concept-count">0</div>
+                    <div class="text-sm text-white/70">Key Concepts</div>
+                </div>
+                <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+                <div class="text-center animate__animated animate__fadeInRight">
+                    <div class="text-4xl font-bold text-lime-green" id="animation-count">0</div>
+                    <div class="text-sm text-white/70">Animations</div>
+                </div>
+            </div>
         </div>
+
+        <!-- Floating decorative elements -->
+        <div class="absolute top-4 left-4 w-16 h-16 rounded-full bg-gradient-to-br from-neon-pink to-transparent animate-spin-slow"></div>
+        <div class="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-gradient-to-tr from-electric-blue to-transparent animate-spin-slow" style="animation-direction: reverse;"></div>
     </header>
 
     <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div id="notes-grid" class="notes-grid grid gap-8">
-            <!-- Chapter Cards will be inserted here by JavaScript -->
+        <!-- Section Title -->
+        <div class="text-center mb-16">
+            <h2 class="text-5xl font-bold mb-4 relative inline-block">
+                <span class="text-gradient">Interactive Subjects</span>
+                <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-blue to-transparent animate-pulse"></span>
+            </h2>
+            <p class="text-xl text-white/80 max-w-2xl mx-auto animate__animated animate__fadeIn">
+                Click any subject to dive into animated learning experiences
+            </p>
+        </div>
+
+        <!-- Category Filters with Climax Effect -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12 animate__animated animate__fadeInUp">
+            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold active" data-category="all">
+                🎯 All Subjects
+            </button>
+            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="physics">
+                ⚡ Physics
+            </button>
+            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="biology">
+                🧬 Biology
+            </button>
+            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="security">
+                🛡️ Security
+            </button>
+            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="chemistry">
+                🧪 Chemistry
+            </button>
+        </div>
+
+        <!-- Notes Grid -->
+        <div id="notes-grid" class="notes-grid mb-16">
+            <!-- Cards will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mb-12">
+            <div class="relative inline-block">
+                <div class="absolute inset-0 bg-gradient-to-r from-neon-pink via-vivid-purple to-electric-blue rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+                <div class="relative glass-card px-12 py-8 rounded-2xl border border-white/20">
+                    <h3 class="text-3xl font-bold mb-4">Ready to Master More?</h3>
+                    <p class="text-xl mb-6 max-w-2xl">Join thousands of students using our animated study system</p>
+                    <button onclick="window.location.href='about.html'" 
+                            class="px-10 py-4 rounded-full bg-gradient-to-r from-lime-green to-cyan-500 text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shimmer-button">
+                        🚀 Get Started Now
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
     
-    <!-- START: FOOTER SECTION (Themed and Modified) -->
-    <footer class="mt-auto py-6 px-4 sm:px-6 lg:px-8 bg-card-light border-t border-gray-700 shadow-inner">
-        <div class="max-w-7xl mx-auto">
-            
-            <!-- 1. Copyright Line -->
-            <div class="text-sm text-gray-400 text-center mb-3">
-                &copy; All rights reserved Sahibdeep_yt
-            </div>
-
-            <!-- 2. Blue Separator Line -->
-            <!-- The blue line should be in a blue color -->
-            <div class="h-0.5 bg-primary-blue w-full mx-auto mb-4 rounded-full"></div>
-
-            <!-- 3. Collaboration Line (Centered) -->
-            <!-- Changed layout to justify-center to center the collaboration text -->
-            <div class="flex justify-center items-center text-sm">
-                
-                <!-- Collaboration Text (Sahibdeep + Logo + GEMINI) -->
-                <div class="flex items-center space-x-3 text-primary-blue font-semibold">
-                    <span>Sahibdeep</span>
-                    <!-- Logo: Using the 'two hands' handshake emoji for the Nokia-style collaboration logo -->
-                    <span class="text-xl inline-block transition-transform duration-300 transform hover:scale-110" title="Collaboration Logo">🤝</span>
-                    <span>GEMINI</span>
+    <!-- Footer Section -->
+    <footer class="mt-auto py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Logo Section -->
+                <div class="text-center md:text-left">
+                    <div class="text-3xl font-bold mb-4 inline-block">
+                        <span class="text-gradient">SNH</span>
+                    </div>
+                    <p class="text-white/70 mb-4">Making learning fun, interactive, and unforgettable through animation.</p>
                 </div>
 
-                <!-- About Link removed from here as requested -->
+                <!-- Quick Links -->
+                <div class="text-center">
+                    <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Quick Links</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="block hover:text-electric-blue transition-colors duration-200">📚 All Subjects</a>
+                        <a href="#" class="block hover:text-electric-blue transition-colors duration-200">🎨 Interactive Demos</a>
+                        <a href="about.html" class="block hover:text-electric-blue transition-colors duration-200">📜 About Project</a>
+                        <a href="#contact" class="block hover:text-electric-blue transition-colors duration-200">📞 Contact Us</a>
+                    </div>
+                </div>
 
+                <!-- Contact Links Footer -->
+                <div class="text-center md:text-right">
+                    <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Connect With Us</h4>
+                    <div class="flex flex-col items-center md:items-end space-y-3">
+                        <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
+                           target="_blank"
+                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                            <span class="text-2xl">▶️</span>
+                            <span class="font-medium">YouTube Channel</span>
+                        </a>
+                        <a href="https://t.me/SAHIBDEEP_Channel" 
+                           target="_blank"
+                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                            <span class="text-2xl">✈️</span>
+                            <span class="font-medium">Telegram Channel</span>
+                        </a>
+                        <a href="https://contact-right-yt.w3spaces.com" 
+                           target="_blank"
+                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                            <span class="text-2xl">🌐</span>
+                            <span class="font-medium">Contact Portal</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collaboration Section -->
+            <div class="border-t border-white/20 pt-8 text-center">
+                <div class="flex flex-col items-center space-y-6">
+                    <!-- Black & White Handshake Logo with animation -->
+                    <div class="flex items-center space-x-6 animate-wave">
+                        <span class="text-3xl font-bold text-white">Sahibdeep</span>
+                        <div class="handshake-logo animate-handshake">
+                            <span class="text-5xl">🤝</span>
+                        </div>
+                        <span class="text-3xl font-bold text-white">GEMINI</span>
+                    </div>
+                    
+                    <div class="text-white/70 text-lg">
+                        AI-Powered Educational Collaboration
+                    </div>
+                    
+                    <!-- Copyright -->
+                    <div class="text-sm text-white/50 mt-4">
+                        © 2024 Study Notes Hub • All animations created with ❤️ for students worldwide
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
-    <!-- END: FOOTER SECTION -->
-
 
     <script>
-        // Data structure for the notes/chapters
-        // The 'reelContent' simulates the short, looping animation preview
+        // Enhanced data with categories (removed organic chemistry, human anatomy, network security)
         const chapters = [
             {
                 title: "Light & Optics",
-                subtitle: "The Science of Seeing",
+                subtitle: "Waves • Reflection • Refraction",
                 file: "Light.html",
                 icon: "💡",
-                color: "pink",
+                color: "from-neon-pink to-purple-500",
+                category: "physics",
                 reelContent: [
-                    "Reflection is bouncing off a surface.",
-                    "Refraction is bending of light.",
-                    "Lenses use refraction to focus light.",
-                    "The human eye acts like a convex lens."
-                ]
+                    "🌈 Prisms create rainbow magic!",
+                    "🔍 Lenses bend light to focus",
+                    "👁️ Human eye = natural camera",
+                    "✨ Total internal reflection in fibers"
+                ],
+                tags: ["Physics", "Optics", "Waves"],
+                animation: "pulse-glow"
             },
             {
-                title: "CyberSecurity",
-                subtitle: "Unseen threats, visible protection.",
-                file: "Cybersecurity.html",
-                icon: "🧑‍💻",
-                color: "green",
+                title: "Newton's Laws",
+                subtitle: "Motion • Forces • Gravity",
+                file: "newtonian-physics.html",
+                icon: "🍎",
+                color: "from-purple-500 to-indigo-600",
+                category: "physics",
                 reelContent: [
-                    "Stay safe online, stay secure offline.",
-                    "Think before you click.",
-                    "Privacy protected, threats detected.",
-                    "Strong passwords, strong defenses."
-                ]
+                    "🎾 Inertia keeps things moving",
+                    "🚀 Force = mass × acceleration",
+                    "🤝 Action meets reaction",
+                    "🌎 Gravity pulls us down"
+                ],
+                tags: ["Physics", "Motion", "Forces"],
+                animation: "float"
             },
             {
                 title: "Sound Waves",
-                subtitle: "Vibration and Hearing",
+                subtitle: "Vibration • Frequency • Pitch",
                 file: "sound.html",
-                icon: "🔊",
-                color: "green",
+                icon: "🎵",
+                color: "from-cyan-500 to-blue-600",
+                category: "physics",
                 reelContent: [
-                    "Sound needs a medium to travel.",
-                    "Frequency determines the pitch.",
-                    "Amplitude determines the volume.",
-                    "Echo is reflected sound waves."
-                ]
+                    "🎤 Microphones catch vibrations",
+                    "🔊 Speakers push air molecules",
+                    "🎸 Strings vibrate at frequencies",
+                    "🌊 Sound travels in waves"
+                ],
+                tags: ["Physics", "Audio", "Waves"],
+                animation: "bounce-slow"
             },
             {
-                title: "Electricity Basics",
-                subtitle: "Charges and Circuits",
+                title: "Electricity",
+                subtitle: "Circuits • Current • Voltage",
                 file: "electricity.html",
                 icon: "⚡",
-                color: "yellow",
+                color: "from-yellow-400 to-orange-500",
+                category: "physics",
                 reelContent: [
-                    "Ohm's Law: V = I * R.",
-                    "Current flows from positive to negative.",
-                    "Series circuits share one path.",
-                    "Parallel circuits have multiple paths."
-                ]
+                    "💡 Bulbs convert energy to light",
+                    "🔋 Batteries store chemical energy",
+                    "🌀 Transformers change voltage",
+                    "🔌 Conductors vs insulators"
+                ],
+                tags: ["Physics", "Energy", "Circuits"],
+                animation: "pulse-glow"
             },
             {
-                title: "Chemical Bonds",
-                subtitle: "Atomic Interactions",
-                file: "chemistry-bonds.html",
-                icon: "🧪",
-                color: "red",
+                title: "CyberSecurity",
+                subtitle: "Digital Defense • Privacy",
+                file: "Cybersecurity.html",
+                icon: "🛡️",
+                color: "from-matrix-green to-emerald-500",
+                category: "security",
                 reelContent: [
-                    "Covalent bonds share electrons.",
-                    "Ionic bonds transfer electrons.",
-                    "Metallic bonds form a 'sea' of electrons.",
-                    "Bonds determine molecule stability."
-                ]
+                    "🔐 Encryption protects secrets",
+                    "🛡️ Firewalls block intruders",
+                    "👻 Malware hides in files",
+                    "🔍 Digital forensics investigation"
+                ],
+                tags: ["Tech", "Security", "Digital"],
+                animation: "pulse"
             },
             {
                 title: "Cell Biology",
-                subtitle: "The Unit of Life",
+                subtitle: "Mitochondria • DNA • Life",
                 file: "biology-cells.html",
-                icon: "🔬",
-                color: "indigo",
+                icon: "🧬",
+                color: "from-green-500 to-teal-600",
+                category: "biology",
                 reelContent: [
-                    "Mitochondria is the powerhouse.",
-                    "Nucleus stores genetic information.",
-                    "Cell membrane controls entry/exit.",
-                    "Prokaryotes lack a nucleus."
-                ]
+                    "⚡ Powerhouse mitochondria",
+                    "🧬 DNA holds blueprints",
+                    "🛡️ Immune cells defend",
+                    "🧠 Neurons communicate"
+                ],
+                tags: ["Biology", "Cells", "Science"],
+                animation: "spin-slow"
             },
             {
-                title: "Newtonian Physics",
-                subtitle: "Motion and Forces",
-                file: "newtonian-physics.html",
-                icon: "🍎",
-                color: "purple",
+                title: "Chemical Bonds",
+                subtitle: "Atoms • Molecules • Reactions",
+                file: "chemistry-bonds.html",
+                icon: "⚗️",
+                color: "from-red-500 to-pink-600",
+                category: "chemistry",
                 reelContent: [
-                    "1st Law: Inertia (objects stay in motion).",
-                    "2nd Law: F = ma (Force equals mass times acceleration).",
-                    "3rd Law: Action/Reaction (equal and opposite).",
-                    "Gravity is a universal force."
-                ]
+                    "⚛️ Atoms share electrons",
+                    "🧪 Covalent vs ionic bonds",
+                    "💎 Diamond's strong structure",
+                    "🔗 Hydrogen bonds in water"
+                ],
+                tags: ["Chemistry", "Atoms", "Bonds"],
+                animation: "float"
             }
         ];
 
-        // --- Core Functions ---
-
-        /**
-         * Creates the HTML structure for a single chapter card.
-         * @param {Object} chapter - The chapter data.
-         * @returns {string} The HTML string for the card.
-         */
-        function createChapterCard(chapter) {
-            // Note: The color classes like ring-pink-500 are safe because Tailwind is loaded and configured.
-            const cardHtml = `
-                <a href="${chapter.file}" class="chapter-card block h-full rounded-2xl bg-card-light overflow-hidden cursor-pointer transform hover:ring-4 ring-${chapter.color}-500 transition duration-300 ease-in-out">
-                    <div class="p-6 h-full flex flex-col justify-between">
-                        <!-- Top Section: Icon and Title -->
+        // Search functionality
+        function performSearch(searchTerm) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            
+            if (!searchTerm.trim()) {
+                searchResults.classList.add('hidden');
+                return;
+            }
+            
+            const term = searchTerm.toLowerCase();
+            const results = chapters.filter(chapter => 
+                chapter.title.toLowerCase().includes(term) ||
+                chapter.subtitle.toLowerCase().includes(term) ||
+                chapter.tags.some(tag => tag.toLowerCase().includes(term)) ||
+                chapter.reelContent.some(content => content.toLowerCase().includes(term))
+            );
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="p-4 text-center text-white/70">
+                        No results found for "${searchTerm}"
+                    </div>
+                `;
+                searchResults.classList.remove('hidden');
+                return;
+            }
+            
+            results.forEach(chapter => {
+                const resultItem = document.createElement('a');
+                resultItem.href = chapter.file;
+                resultItem.className = 'block p-4 hover:bg-white/10 transition-colors duration-200 border-b border-white/10 last:border-b-0 search-result';
+                resultItem.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl">${chapter.icon}</div>
                         <div>
-                            <div class="text-5xl mb-4">${chapter.icon}</div>
-                            <h2 class="text-3xl font-bold mb-1 text-gray-50">
-                                ${chapter.title}
-                            </h2>
-                            <p class="text-sm text-gray-400 mb-4">
-                                ${chapter.subtitle}
-                            </p>
-                        </div>
-                        
-                        <!-- Animated Preview Section (The "Shorts" Reel) -->
-                        <div class="relative w-full h-24 mt-4 bg-gray-700/50 p-3 rounded-xl flex items-center justify-center">
-                            <span id="reel-${chapter.title.replace(/\s/g, '-')}" class="content-reel-text text-lg font-medium text-secondary-cyan text-center italic transition-opacity duration-500 ease-in-out">
-                                Click to start notes...
-                            </span>
-                            <div class="absolute top-0 right-0 m-1 px-2 py-1 text-xs font-semibold rounded-full bg-primary-blue text-white shadow-lg">
-                                PREVIEW
+                            <div class="font-bold">${chapter.title}</div>
+                            <div class="text-sm text-white/70">${chapter.subtitle}</div>
+                            <div class="flex gap-1 mt-1">
+                                ${chapter.tags.map(tag => `
+                                    <span class="text-xs px-2 py-1 rounded-full bg-white/10">${tag}</span>
+                                `).join('')}
                             </div>
                         </div>
-
-                        <!-- Action Button Placeholder (Visual cue for click) -->
-                        <div class="mt-6">
-                             <button class="w-full py-3 rounded-lg bg-primary-blue hover:bg-indigo-500 text-white font-semibold transition duration-200">
-                                View Full Notes →
-                            </button>
-                        </div>
                     </div>
-                </a>
-            `;
-            return cardHtml;
+                `;
+                searchResults.appendChild(resultItem);
+            });
+            
+            searchResults.classList.remove('hidden');
         }
 
-        /**
-         * Initializes and manages the looping text animation for the 'Reel' effect.
-         * @param {Object} chapter - The chapter data.
-         */
+        // Animated counter
+        function animateCounter(id, target, duration = 2000) {
+            let start = 0;
+            const element = document.getElementById(id);
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+
+        function createChapterCard(chapter, index) {
+            return `
+                <div class="animate__animated animate__fadeInUp stagger-delay-${(index % 7) + 1} chapter-card" data-category="${chapter.category}">
+                    <a href="${chapter.file}" class="block h-full group hover-3d">
+                        <div class="neon-border h-full rounded-2xl overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-br ${chapter.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
+                            
+                            <div class="p-6 h-full flex flex-col justify-between relative z-10">
+                                <!-- Icon with floating animation -->
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="text-5xl floating-icon animate-${chapter.animation}">
+                                        ${chapter.icon}
+                                    </div>
+                                    <div class="flex flex-wrap gap-1">
+                                        ${chapter.tags.map(tag => `
+                                            <span class="px-2 py-1 text-xs rounded-full bg-white/10 backdrop-blur-sm">${tag}</span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <!-- Title -->
+                                <h2 class="text-2xl font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${chapter.color} transition-all duration-300">
+                                    ${chapter.title}
+                                </h2>
+                                <p class="text-white/70 mb-4">
+                                    ${chapter.subtitle}
+                                </p>
+                                
+                                <!-- Animated Preview -->
+                                <div class="relative h-32 mb-6 rounded-xl overflow-hidden glass-card border border-white/10 group-hover:border-white/30 transition-all duration-300">
+                                    <div class="absolute inset-0 bg-gradient-to-br ${chapter.color} opacity-20"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center p-4">
+                                        <span id="reel-${chapter.title.replace(/\s/g, '-')}" 
+                                              class="content-reel-text text-lg font-semibold text-center italic transition-opacity duration-500 ease-in-out">
+                                            Loading animation...
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-3 right-3">
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r ${chapter.color} text-white shadow-lg">
+                                            LIVE
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Action Button -->
+                                <button class="w-full py-4 rounded-xl bg-gradient-to-r ${chapter.color} text-white font-bold text-lg group-hover:scale-105 transition-transform duration-300 shadow-lg relative overflow-hidden">
+                                    <span class="relative z-10 flex items-center justify-center">
+                                        Explore Now 
+                                        <span class="ml-2 transform group-hover:translate-x-2 transition-transform duration-300">→</span>
+                                    </span>
+                                </button>
+                            </div>
+                            
+                            <!-- Glow effect on hover -->
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <div class="absolute -inset-1 bg-gradient-to-r ${chapter.color} rounded-2xl blur-xl"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        }
+
         function startContentReel(chapter) {
             const reelElement = document.getElementById(`reel-${chapter.title.replace(/\s/g, '-')}`);
             if (!reelElement) return;
@@ -276,47 +720,162 @@
             let currentIndex = 0;
 
             const updateReel = () => {
-                // Fade out (opacity 0)
                 reelElement.style.opacity = '0';
 
-                // After fade out, change text and fade in
                 setTimeout(() => {
                     currentIndex = (currentIndex + 1) % chapter.reelContent.length;
                     reelElement.textContent = chapter.reelContent[currentIndex];
-                    // Fade in (opacity 1)
                     reelElement.style.opacity = '1';
-                }, 500); // Wait for fade-out time
-
+                }, 300);
             };
 
-            // Set the initial content
             reelElement.textContent = chapter.reelContent[0];
-
-            // Start the interval (cycles every 4 seconds: 3.5s display + 0.5s transition time)
-            setInterval(updateReel, 4000);
+            setInterval(updateReel, 3000);
         }
 
-        /**
-         * Main initialization function.
-         */
-        function initializeNotesHub() {
-            const gridContainer = document.getElementById('notes-grid');
+        // Category filtering function
+        function filterChapters(category) {
+            const cards = document.querySelectorAll('.chapter-card');
+            const subjectCount = document.getElementById('subject-count');
+            
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                    // Add entrance animation
+                    card.classList.add('animate__animated', 'animate__fadeInUp');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('animate__animated', 'animate__fadeInUp');
+                }
+            });
+            
+            // Update subject count with animation
+            let currentCount = parseInt(subjectCount.textContent);
+            const targetCount = visibleCount;
+            const duration = 500;
+            const increment = (targetCount - currentCount) / (duration / 16);
+            
+            const counter = setInterval(() => {
+                currentCount += increment;
+                if (Math.abs(currentCount - targetCount) < 0.5) {
+                    currentCount = targetCount;
+                    clearInterval(counter);
+                }
+                subjectCount.textContent = Math.round(currentCount);
+            }, 16);
+            
+            // Update category button active state
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+        }
 
-            // 1. Render all cards to the DOM
-            chapters.forEach(chapter => {
-                gridContainer.innerHTML += createChapterCard(chapter);
+        function initializeNotesHub() {
+            // Animate counters
+            setTimeout(() => {
+                animateCounter('subject-count', chapters.length);
+                animateCounter('concept-count', chapters.length * 4);
+                animateCounter('animation-count', chapters.length * 10);
+            }, 500);
+            
+            // Render cards
+            const gridContainer = document.getElementById('notes-grid');
+            chapters.forEach((chapter, index) => {
+                gridContainer.innerHTML += createChapterCard(chapter, index);
             });
 
-            // 2. Start the animation for each card
-            // This is done after all elements are in the DOM
+            // Start animations
             chapters.forEach(chapter => {
                 startContentReel(chapter);
             });
+
+            // Add category filter event listeners
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    // Add climax effect - scale and glow
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.05)';
+                    }, 200);
+                    
+                    // Filter chapters
+                    filterChapters(category);
+                    
+                    // Hide search results if open
+                    document.getElementById('searchResults').classList.add('hidden');
+                    document.getElementById('searchInput').value = '';
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value;
+                performSearch(searchTerm);
+            });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                    searchResults.classList.add('hidden');
+                }
+            });
+            
+            // Keyboard navigation for search
+            searchInput.addEventListener('keydown', function(event) {
+                const results = searchResults.querySelectorAll('a');
+                const activeResult = searchResults.querySelector('a.bg-white/20');
+                
+                if (event.key === 'ArrowDown' && results.length > 0) {
+                    event.preventDefault();
+                    if (!activeResult) {
+                        results[0].classList.add('bg-white/20');
+                    } else {
+                        const nextIndex = Array.from(results).indexOf(activeResult) + 1;
+                        if (nextIndex < results.length) {
+                            activeResult.classList.remove('bg-white/20');
+                            results[nextIndex].classList.add('bg-white/20');
+                        }
+                    }
+                } else if (event.key === 'ArrowUp' && results.length > 0) {
+                    event.preventDefault();
+                    if (activeResult) {
+                        const prevIndex = Array.from(results).indexOf(activeResult) - 1;
+                        if (prevIndex >= 0) {
+                            activeResult.classList.remove('bg-white/20');
+                            results[prevIndex].classList.add('bg-white/20');
+                        }
+                    }
+                } else if (event.key === 'Enter' && activeResult) {
+                    event.preventDefault();
+                    activeResult.click();
+                } else if (event.key === 'Escape') {
+                    searchResults.classList.add('hidden');
+                    searchInput.blur();
+                }
+            });
+
+            // Add hover effect to cards
+            document.querySelectorAll('.group').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'perspective(1000px) rotateY(5deg) rotateX(3deg) translateZ(20px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+                });
+            });
         }
 
-        // Run the initialization when the window loads
         window.onload = initializeNotesHub;
     </script>
 </body>
-
 </html>
