@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibrant 3D Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Variables & Global Styles (Vibrant Light Theme) --- */
+        :root {
+            --panel-count: 6; 
+            --panel-base-width: 600px; 
+            --panel-base-height: 400px;
+            --angle: calc(360deg / var(--panel-count)); 
+            --perspective-depth: 2200px;
+            
+            /* NEW COLORS: Vibrant Teal and Soft Background */
+            --primary-color: #00a896; /* Vibrant Teal */
+            --light-bg: #f4f7f9; /* Soft Off-White/Light Gray */
+            --dark-text: #1e293b; /* Dark Slate Blue for contrast */
+        }
+
+        /* Base Body Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg); /* Light background */
+            color: var(--dark-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            perspective: var(--perspective-depth);
+            transition: background-color 0.5s;
+        }
+
+        /* --- Header/Title Styling --- */
+        .header-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            z-index: 50; /* Above the carousel container */
+            background: linear-gradient(to bottom, var(--light-bg) 70%, rgba(244, 247, 249, 0));
+        }
+
+        .header-container h1 {
+            /* Adjusted size for the main title */
+            font-size: clamp(1.8rem, 5vw, 3.5rem); 
+            font-weight: 900;
+            color: var(--primary-color);
+            letter-spacing: 2px;
+            margin: 10px 0;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Removed styling for the hidden/deleted <p> tag */
+
+        /* --- 3D Carousel Setup --- */
+        .scene-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0;
+        }
+
+        .carousel {
+            position: relative;
+            transform-style: preserve-3d;
+            transform-origin: 50% 50%;
+            transform: rotateX(-2deg) rotateY(0deg);
+            will-change: transform;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            /* Responsive Size */
+            width: clamp(350px, 60vw, 600px);
+            height: clamp(233px, 40vw, 400px);
+            
+            backface-visibility: visible;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            border-radius: 16px; /* Slightly larger radius */
+            border: 4px solid transparent;
+            overflow: hidden;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+            transform-origin: center center;
+            
+            /* Light theme shadow */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+            background-color: #ffffff;
+        }
+
+        /* Active item styling for the light theme */
+        .carousel-item.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 40px rgba(0, 168, 150, 0.6), /* Primary color glow */
+                        0 15px 45px rgba(0, 0, 0, 0.15); /* Soft, pronounced shadow */
+            transform: scale(1.05);
+        }
+
+        .carousel-item:hover {
+            border-color: rgba(0, 168, 150, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Image/Video Styling --- */
+        .item-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 1;
+            filter: brightness(0.95); /* Subtle effect on media */
+            transition: transform 0.4s, filter 0.4s;
+        }
+
+        .carousel-item.active .item-media {
+            filter: brightness(1.0); /* Full brightness when active */
+        }
+
+        .carousel-item:hover .item-media {
+            transform: scale(1.08);
+            filter: brightness(1.0);
+        }
+
+        /* --- Panel Geometry (No change needed) --- */
+        .carousel-item[style*="--n"] {
+            transform: 
+                translateX(-50%) 
+                translateY(-50%) 
+                rotateY(calc(var(--angle) * (var(--n) - 1))) 
+                translateZ(var(--radius));
+        }
+
+        /* --- Modal Styles (Light overlay) --- */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(244, 247, 249, 0.98); /* Light semi-transparent overlay */
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(8px); /* Added blur for stylish effect */
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            background-color: transparent;
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+            cursor: default;
+        }
+        
+        .modal-media {
+            width: 100%;
+            height: 90vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            /* Updated close button style */
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            color: var(--primary-color);
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-close:hover {
+            color: #fff;
+            background: var(--primary-color);
+            transform: rotate(90deg) scale(1.1); /* Added scale for better feedback */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Overlay - Updated content to "Certificates | Achievement" -->
+    <div class="header-container">
+        <h1>Achievement</h1>
+        <!-- Removed the instructional paragraph -->
+    </div>
+
+    <div class="scene-container">
+        <!-- Main 3D Showcase -->
+        <div class="carousel" id="achievement-carousel">
+            <!-- Items will be injected here by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="modal-body">
+                <!-- Content (Image/Video) goes here -->
+            </div>
+            <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA - 6 ITEMS: Picture, Video, Picture, Video, Video, Picture ---
+        const MEDIA_DATA = [
+            { id: 1, type: 'image', mediaUrl: '1.png', isImage: true },
+            { id: 2, type: 'video', mediaUrl: '3.mp4', isImage: false },
+            { id: 3, type: 'image', mediaUrl: '2.png', isImage: true },
+            { id: 4, type: 'video', mediaUrl: '4.mp4', isImage: false },
+            { id: 5, type: 'video', mediaUrl: '5.mp4', isImage: false },
+            { id: 6, type: 'image', mediaUrl: '6.png', isImage: true },
+        ];
+
+        // --- STATE & CONSTANTS ---
+        const carousel = document.getElementById('achievement-carousel');
+        const numPanels = MEDIA_DATA.length; 
+        const panelAngle = 360 / numPanels; 
+        const initialTiltX = -2;
+        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+
+        // Dynamic State
+        let currentRotationY = 0;
+        let activeIndex = 0;
+
+        // Rotation & Momentum
+        let rotationVelocity = 0;
+        const friction = 0.96;
+        const autoRotationSpeed = 0.02; 
+        const wheelSensitivity = 0.015; 
+
+        // Snapping State
+        let isSnapping = false;
+        let snapStartTime = 0;
+        const snapDuration = 500;
+        let startRotationY = 0;
+        let targetRotationY = 0;
+
+        // Drag State
+        let isDragging = false;
+        let lastX = 0;
+        
+        // --- EASING FUNCTION for Snapping ---
+        function easeOutCubic(t) {
+            return (--t) * t * t + 1;
+        }
+
+        /**
+         * Calculates the dynamic radius for 6 items
+         */
+        function calculateRadius() {
+            // Wait for one item to be rendered to calculate its width
+            const firstItem = document.querySelector('.carousel-item');
+            if (!firstItem) return;
+
+            const panelWidth = parseFloat(getComputedStyle(firstItem).width);
+            const angleRad = (panelAngle / 2) * (Math.PI / 180);
+            
+            // Formula to calculate radius so panels just touch
+            const minimumRadius = (panelWidth / 2) / Math.tan(angleRad);
+            const finalRadius = minimumRadius * 1.8; // Adjusted multiplier for visual spacing
+            
+            carousel.style.setProperty('--radius', `${finalRadius}px`);
+            return finalRadius;
+        }
+
+        /**
+         * Finds the index of the panel closest to the front.
+         */
+        function getNearestPanelIndex() {
+            const normalizedRot = currentRotationY % 360;
+            const positiveRot = (normalizedRot > 0) ? normalizedRot : (360 + normalizedRot);
+            const nearestIndex = Math.round(positiveRot / panelAngle) % numPanels;
+            // The active index should be relative to the initial position (0 is front)
+            activeIndex = (numPanels - nearestIndex) % numPanels; 
+            return activeIndex;
+        }
+
+        /**
+         * Calculates the target rotation angle for snapping.
+         */
+        function getTargetSnapAngle(index) {
+            const targetOffset = index * panelAngle;
+            const currentRevolutions = Math.round(currentRotationY / 360);
+            const revolutionBase = currentRevolutions * 360;
+            
+            let snapTarget = revolutionBase - targetOffset;
+
+            // Find the closest revolution target to the current rotation
+            const option1 = snapTarget;
+            const option2 = snapTarget + 360;
+            const option3 = snapTarget - 360;
+
+            const diff1 = Math.abs(option1 - currentRotationY);
+            const diff2 = Math.abs(option2 - currentRotationY);
+            const diff3 = Math.abs(option3 - currentRotationY);
+
+            if (diff1 <= diff2 && diff1 <= diff3) {
+                return option1;
+            } else if (diff2 <= diff1 && diff2 <= diff3) {
+                return option2;
+            } else {
+                return option3;
+            }
+        }
+
+        /**
+         * Initiates the snap-to-center animation.
+         */
+        function startSnap(targetIndex) {
+            isSnapping = true;
+            snapStartTime = performance.now();
+            startRotationY = currentRotationY;
+            targetRotationY = getTargetSnapAngle(targetIndex);
+            updateActiveState(targetIndex);
+        }
+
+        /**
+         * Updates the 'active' class on the centered panel.
+         */
+        function updateActiveState(index) {
+            const items = document.querySelectorAll('.carousel-item');
+            items.forEach((item, i) => {
+                const isActive = i === index;
+                item.classList.toggle('active', isActive);
+            });
+        }
+
+        // --- EVENT HANDLERS ---
+        function handleWheel(event) {
+            event.preventDefault();
+            const deltaRotation = event.deltaX || (event.deltaY * 0.15);
+            rotationVelocity += deltaRotation * -wheelSensitivity;
+            isSnapping = false;
+        }
+
+        function handleDragStart(event) {
+            if (event.button !== 0 && !event.touches) return;
+            isDragging = true;
+            isSnapping = false;
+            lastX = event.touches ? event.touches[0].clientX : event.clientX;
+            carousel.style.cursor = 'grabbing';
+            event.preventDefault();
+        }
+
+        function handleDragMove(event) {
+            if (!isDragging) return;
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const deltaX = clientX - lastX;
+            rotationVelocity += deltaX * 0.08;
+            lastX = clientX;
+        }
+
+        function handleDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            carousel.style.cursor = 'grab';
+            startSnap(getNearestPanelIndex());
+        }
+
+        function handleKeyDown(event) {
+            if (isSnapping) return;
+            let nextIndex = activeIndex;
+            
+            if (event.key === 'ArrowRight') {
+                nextIndex = (activeIndex + 1) % numPanels;
+            } else if (event.key === 'ArrowLeft') {
+                nextIndex = (activeIndex - 1 + numPanels) % numPanels;
+            } else {
+                return;
+            }
+            
+            event.preventDefault();
+            startSnap(nextIndex);
+        }
+
+        // --- ANIMATION LOOP ---
+        function animate(currentTime) {
+            if (isSnapping) {
+                const elapsed = currentTime - snapStartTime;
+                const progress = Math.min(elapsed / snapDuration, 1);
+                const easedProgress = easeOutCubic(progress);
+
+                currentRotationY = startRotationY + (targetRotationY - startRotationY) * easedProgress;
+                
+                if (progress === 1) {
+                    isSnapping = false;
+                    rotationVelocity = 0;
+                }
+
+            } else if (isDragging) {
+                currentRotationY += rotationVelocity;
+                rotationVelocity *= 0.9;
+
+            } else {
+                // Auto-rotate slowly when idle
+                currentRotationY -= autoRotationSpeed;
+
+                if (Math.abs(rotationVelocity) > 0.005) {
+                    currentRotationY += rotationVelocity;
+                    rotationVelocity *= friction;
+                } else if (Math.abs(rotationVelocity) > 0) {
+                    // Start snapping when velocity is low after drag
+                    rotationVelocity = 0;
+                    startSnap(getNearestPanelIndex());
+                }
+            }
+
+            // Apply Transform
+            carousel.style.transform = `rotateX(${initialTiltX}deg) rotateY(${currentRotationY}deg)`;
+            
+            // Update active state
+            if (!isSnapping) {
+                 updateActiveState(getNearestPanelIndex());
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // --- UTILITY & INIT ---
+        function renderCarousel() {
+            carousel.innerHTML = '';
+            MEDIA_DATA.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = `carousel-item`;
+                itemElement.onclick = () => {
+                    startSnap(index);
+                    // Open modal after the snap transition completes
+                    setTimeout(() => showModal(item), snapDuration + 50); 
+                };
+
+                let mediaElement;
+                if (item.isImage) {
+                    mediaElement = document.createElement('img');
+                    mediaElement.src = item.mediaUrl;
+                    mediaElement.alt = `Media item ${index + 1}`;
+                    mediaElement.className = 'item-media';
+                    mediaElement.loading = 'eager';
+                    // Updated placeholder to match new light theme colors
+                    mediaElement.onerror = function() {
+                        this.onerror = null;
+                        this.src = `https://placehold.co/600x400/${primaryColor.substring(1)}/ffffff?text=Image+${index + 1}`;
+                    };
+                } else {
+                    mediaElement = document.createElement('video');
+                    mediaElement.src = item.mediaUrl;
+                    mediaElement.className = 'item-media';
+                    mediaElement.muted = true;
+                    mediaElement.autoplay = true;
+                    mediaElement.loop = true;
+                    mediaElement.playsInline = true;
+                    mediaElement.controls = false;
+                    mediaElement.onerror = function() {
+                        console.warn(`Could not load video: ${item.mediaUrl}`);
+                        // Fallback: use an image placeholder for the video slot
+                        const fallbackImg = document.createElement('img');
+                        fallbackImg.src = `https://placehold.co/600x400/999999/ffffff?text=Video+Unavailable+${index + 1}`;
+                        fallbackImg.className = 'item-media';
+                        itemElement.appendChild(fallbackImg);
+                        mediaElement.remove(); // Remove the broken video element
+                    };
+                }
+                itemElement.appendChild(mediaElement);
+
+                itemElement.style.setProperty('--n', index + 1);
+                carousel.appendChild(itemElement);
+            });
+        }
+
+        function showModal(item) {
+            const modal = document.getElementById('preview-modal');
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = '';
+
+            let mediaElement;
+            if (item.isImage) {
+                mediaElement = document.createElement('img');
+                mediaElement.src = item.mediaUrl;
+                mediaElement.alt = 'Full size preview';
+                mediaElement.className = 'modal-media';
+                // Updated placeholder for full-size image
+                mediaElement.onerror = function() {
+                    this.onerror = null;
+                    this.src = `https://placehold.co/1400x900/${primaryColor.substring(1)}/ffffff?text=FULL+SIZE+PREVIEW`;
+                };
+            } else {
+                mediaElement = document.createElement('video');
+                mediaElement.src = item.mediaUrl;
+                mediaElement.className = 'modal-media';
+                mediaElement.muted = false; // Video controls visible, so sound is expected
+                mediaElement.autoplay = true;
+                mediaElement.loop = true;
+                mediaElement.controls = true;
+            }
+            modalBody.appendChild(mediaElement);
+            modal.classList.add('active');
+        }
+
+        function closeModal(event) {
+            // Check if the click was on the modal background or the close button
+            if (!event || event.target.classList.contains('modal') || event.target.classList.contains('modal-close')) {
+                const modal = document.getElementById('preview-modal');
+                modal.classList.remove('active');
+                
+                // Pause any video that was playing in the modal
+                const videoElement = document.querySelector('#modal-body video');
+                if (videoElement) {
+                    videoElement.pause();
+                }
+            }
+        }
+
+        function initListeners() {
+            document.addEventListener('wheel', handleWheel, { passive: false });
+            carousel.addEventListener('mousedown', handleDragStart);
+            document.addEventListener('mousemove', handleDragMove);
+            document.addEventListener('mouseup', handleDragEnd);
+            // Touch handlers
+            carousel.addEventListener('touchstart', handleDragStart, { passive: false });
+            document.addEventListener('touchmove', handleDragMove, { passive: false });
+            document.addEventListener('touchend', handleDragEnd);
+            // Keyboard navigation
+            document.addEventListener('keydown', handleKeyDown);
+            window.addEventListener('resize', calculateRadius);
+        }
+
+        window.onload = function() {
+            renderCarousel();
+            // Give the browser a moment to render the elements before calculating radius and starting animation
+            setTimeout(() => {
+                calculateRadius();
+                initListeners();
+                updateActiveState(getNearestPanelIndex());
+                requestAnimationFrame(animate);
+            }, 100);
+        };
+    </script>
+</body>
+</html>
