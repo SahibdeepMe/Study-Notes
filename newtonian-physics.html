@@ -670,4 +670,62 @@
         }
     </script>
 </body>
+<button id="backBtn" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999999;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(45deg, #667EEA, #764BA2, #F093FB, #F5576C);
+    background-size: 400% 400%;
+    animation: gradient-x 15s ease infinite;
+    color: white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+">
+    ⬅ Back to Home
+</button>
+
+<script>
+const btn = document.getElementById("backBtn");
+
+// Add hover effects
+btn.onmouseenter = function() {
+    this.style.transform = 'translateY(-3px) scale(1.05)';
+    this.style.boxShadow = '0 15px 40px rgba(255, 0, 255, 0.3)';
+};
+
+btn.onmouseleave = function() {
+    this.style.transform = 'translateY(0) scale(1)';
+    this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
+};
+
+btn.onclick = function() {
+    this.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 150);
+};
+</script>
+
+<style>
+@keyframes gradient-x {
+    0%, 100% {
+        background-size: 400% 400%;
+        background-position: left center;
+    }
+    50% {
+        background-size: 400% 400%;
+        background-position: right center;
+    }
+}
+</style>
 </html>

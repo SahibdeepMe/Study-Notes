@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Contact - Study Notes Hub</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Animate.css for extra animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Configure Tailwind with custom theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-pink': '#FF00FF',
+                        'electric-blue': '#00F0FF',
+                        'vivid-purple': '#9D4EDD',
+                        'lime-green': '#00FF88',
+                        'cyber-yellow': '#FFEE32',
+                        'gradient-1': '#667EEA',
+                        'gradient-2': '#764BA2',
+                        'gradient-3': '#F093FB',
+                        'gradient-4': '#F5576C',
+                        'contact-bg': '#0F172A',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'shimmer': 'shimmer 3s infinite',
+                        'wave': 'wave 5s ease-in-out infinite',
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'typing': 'typing 3.5s steps(40, end)',
+                        'blink-caret': 'blink-caret .75s step-end infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { 
+                                opacity: 1,
+                                filter: 'drop-shadow(0 0 10px currentColor)'
+                            },
+                            '50%': { 
+                                opacity: 0.8,
+                                filter: 'drop-shadow(0 0 20px currentColor)'
+                            },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% center' },
+                            '100%': { backgroundPosition: '200% center' },
+                        },
+                        wave: {
+                            '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+                            '25%': { transform: 'translateX(-10px) rotate(-2deg)' },
+                            '75%': { transform: 'translateX(10px) rotate(2deg)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        slideIn: {
+                            '0%': { 
+                                transform: 'translateY(50px)',
+                                opacity: 0
+                            },
+                            '100%': { 
+                                transform: 'translateY(0)',
+                                opacity: 1
+                            },
+                        },
+                        typing: {
+                            'from': { width: '0' },
+                            'to': { width: '100%' }
+                        },
+                        'blink-caret': {
+                            'from, to': { 'border-color': 'transparent' },
+                            '50%': { 'border-color': 'white' }
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+        
+        body {
+            background: linear-gradient(-45deg, #0F172A, #1E293B, #334155, #475569);
+            background-size: 400% 400%;
+            animation: gradient-x 20s ease infinite;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: white;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(157, 78, 221, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .neon-border {
+            position: relative;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
+            background-clip: padding-box;
+            border-radius: 1rem;
+        }
+
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
+            border-radius: 1rem;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+
+        .text-gradient {
+            background: linear-gradient(45deg, #FF00FF, #00F0FF, #9D4EDD, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: .15em solid white;
+            white-space: nowrap;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00F0FF;
+            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
+            outline: none;
+        }
+
+        .floating-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .handshake-logo {
+            filter: grayscale(100%) contrast(150%);
+            transition: all 0.3s ease;
+        }
+
+        .handshake-logo:hover {
+            filter: grayscale(0%) contrast(100%);
+            transform: scale(1.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #00F0FF, #9D4EDD);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+        }
+
+        .send-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+
+        .contact-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        /* Particle animation */
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .particle {
+            animation: particle-float 8s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Floating particles -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-gradient-to-r from-neon-pink to-transparent particle" style="animation-delay: 0s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-gradient-to-r from-electric-blue to-transparent particle" style="animation-delay: 1s; animation-duration: 10s;"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-5 h-5 rounded-full bg-gradient-to-r from-vivid-purple to-transparent particle" style="animation-delay: 2s; animation-duration: 12s;"></div>
+        <div class="absolute top-3/4 right-1/3 w-2 h-2 rounded-full bg-gradient-to-r from-lime-green to-transparent particle" style="animation-delay: 3s; animation-duration: 9s;"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="py-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mb-12">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-electric-blue to-cyan-500 flex items-center justify-center text-xl font-bold group-hover:rotate-180 transition-transform duration-500">
+                        ⚡
+                    </div>
+                    <span class="text-2xl font-bold text-gradient">StudyNotes</span>
+                </a>
+
+                <!-- Contact Links -->
+                <div class="flex gap-4">
+                    <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
+                       target="_blank"
+                       class="w-10 h-10 rounded-full bg-gradient-to-r from-yt-red to-red-600 flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg contact-icon"
+                       title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    
+                    <a href="https://t.me/SAHIBDEEP_Channel" 
+                       target="_blank"
+                       class="w-10 h-10 rounded-full bg-gradient-to-r from-telegram-blue to-blue-600 flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg contact-icon"
+                       title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    
+                    <a href="https://contact-right-yt.w3spaces.com" 
+                       target="_blank"
+                       class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg contact-icon"
+                       title="Contact Portal">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                    <span class="text-gradient">Get In Touch</span>
+                </h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto mb-8 animate__animated animate__fadeInUp">
+                    Have questions, suggestions, or feedback? We'd love to hear from you!
+                </p>
+                
+                <!-- Animated typing text -->
+                <div class="text-lg text-electric-blue font-medium mb-4">
+                    <span class="typing-effect">Let's create something amazing together...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Contact Form -->
+    <main class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Contact Information -->
+            <div class="space-y-8 animate__animated animate__fadeInLeft">
+                <!-- Contact Card -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-gradient">Contact Information</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Email Info -->
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-neon-pink to-purple-500 flex items-center justify-center text-xl floating-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Email Address</h4>
+                                <p class="text-white/70">sahibdeep.official@icloud.com</p>
+                                <p class="text-sm text-white/50 mt-1">Primary contact for all inquiries</p>
+                            </div>
+                        </div>
+
+                        <!-- Response Time -->
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-electric-blue to-cyan-500 flex items-center justify-center text-xl floating-icon" style="animation-delay: 1s;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Response Time</h4>
+                                <p class="text-white/70">Within 24-48 hours</p>
+                                <p class="text-sm text-white/50 mt-1">We strive to respond quickly to all messages</p>
+                            </div>
+                        </div>
+
+                        <!-- Support Info -->
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-lime-green to-emerald-500 flex items-center justify-center text-xl floating-icon" style="animation-delay: 2s;">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">Support Type</h4>
+                                <p class="text-white/70">Educational & Technical Support</p>
+                                <p class="text-sm text-white/50 mt-1">Study materials, animations, and platform help</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tips Card -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-gradient">Quick Tips</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-electric-blue text-lg">✓</span>
+                            <span class="text-white/80">Be specific about your query for faster resolution</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-electric-blue text-lg">✓</span>
+                            <span class="text-white/80">Include relevant subject names if about study materials</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-electric-blue text-lg">✓</span>
+                            <span class="text-white/80">Check YouTube & Telegram for quick updates</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-electric-blue text-lg">✓</span>
+                            <span class="text-white/80">Your email app will open automatically to send message</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="animate__animated animate__fadeInRight">
+                <div class="glass-card rounded-2xl p-8 h-full">
+                    <h3 class="text-2xl font-bold mb-6 text-gradient">Send Your Message</h3>
+                    <p class="text-white/70 mb-8">Fill out the form below and we'll get back to you as soon as possible.</p>
+                    
+                    <form id="contactForm" class="space-y-6">
+                        <!-- Name Field -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-white/80 mb-2">
+                                <i class="fas fa-user text-electric-blue mr-2"></i>
+                                Your Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name"
+                                required
+                                class="w-full px-4 py-3 rounded-xl form-input text-white placeholder-white/50 focus:outline-none"
+                                placeholder="Enter your name"
+                                autocomplete="name"
+                            >
+                            <div class="text-xs text-white/50 mt-1 flex items-center gap-1">
+                                <i class="fas fa-info-circle text-electric-blue"></i>
+                                <span>This helps us address you personally</span>
+                            </div>
+                        </div>
+
+                        <!-- Subject Field -->
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-white/80 mb-2">
+                                <i class="fas fa-tag text-neon-pink mr-2"></i>
+                                Subject
+                            </label>
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject"
+                                required
+                                class="w-full px-4 py-3 rounded-xl form-input text-white placeholder-white/50 focus:outline-none"
+                                placeholder="What is this regarding?"
+                                autocomplete="off"
+                            >
+                            <div class="text-xs text-white/50 mt-1 flex items-center gap-1">
+                                <i class="fas fa-lightbulb text-neon-pink"></i>
+                                <span>Brief summary of your message (e.g., "Physics Notes Feedback")</span>
+                            </div>
+                        </div>
+
+                        <!-- Message Field -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-white/80 mb-2">
+                                <i class="fas fa-comment-dots text-lime-green mr-2"></i>
+                                Your Message
+                            </label>
+                            <textarea 
+                                id="message" 
+                                name="message"
+                                rows="6"
+                                required
+                                class="w-full px-4 py-3 rounded-xl form-input text-white placeholder-white/50 focus:outline-none resize-none"
+                                placeholder="Describe your query, feedback, or suggestion in detail..."
+                            ></textarea>
+                            <div class="text-xs text-white/50 mt-1 flex items-center gap-1">
+                                <i class="fas fa-edit text-lime-green"></i>
+                                <span>Please provide as much detail as possible for better assistance</span>
+                            </div>
+                        </div>
+
+                        <!-- Hidden receiver email -->
+                        <input type="hidden" id="receiverEmail" value="sahibdeep.official@icloud.com">
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button 
+                                type="submit"
+                                class="w-full py-4 rounded-xl send-btn text-white font-bold text-lg flex items-center justify-center gap-3"
+                            >
+                                <i class="fas fa-paper-plane"></i>
+                                Send Message via Email
+                            </button>
+                            <div class="text-xs text-white/50 mt-3 text-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                This will open your default email app with the message ready to send
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Alternative Contact Methods -->
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <h4 class="text-lg font-bold mb-4 text-white/80">Prefer other methods?</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
+                               target="_blank"
+                               class="px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium text-center hover:scale-105 transition-transform duration-200">
+                                <i class="fab fa-youtube mr-2"></i>
+                                YouTube
+                            </a>
+                            <a href="https://t.me/SAHIBDEEP_Channel" 
+                               target="_blank"
+                               class="px-4 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium text-center hover:scale-105 transition-transform duration-200">
+                                <i class="fab fa-telegram mr-2"></i>
+                                Telegram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+            <div class="glass-card rounded-2xl p-8 max-w-md mx-4 animate__animated animate__zoomIn">
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-lime-green to-emerald-500 flex items-center justify-center text-3xl mx-auto mb-6 animate__animated animate__bounceIn">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gradient">Message Ready!</h3>
+                    <p class="text-white/80 mb-6">
+                        Your email app should open shortly with the message pre-filled. 
+                        Just click send to deliver your message.
+                    </p>
+                    <button 
+                        onclick="document.getElementById('successModal').classList.add('hidden')"
+                        class="px-6 py-3 rounded-lg bg-gradient-to-r from-electric-blue to-cyan-500 text-white font-medium hover:scale-105 transition-transform duration-200"
+                    >
+                        Got it!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="mt-16 py-12 px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-7xl mx-auto">
+            <!-- Collaboration Section -->
+            <div class="border-t border-white/10 pt-8 text-center">
+                <div class="flex flex-col items-center space-y-6">
+                    <!-- Black & White Handshake Logo with animation -->
+                    <div class="flex items-center space-x-6 animate-wave">
+                        <span class="text-2xl font-bold text-white">Sahibdeep</span>
+                        <div class="handshake-logo animate-handshake">
+                            <span class="text-4xl">🤝</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white">GEMINI</span>
+                    </div>
+                    
+                    <div class="text-white/70">
+                        AI-Powered Educational Collaboration • Making learning magical
+                    </div>
+                    
+                    <!-- Back to Home -->
+                    <a href="index.html" 
+                       class="px-6 py-3 rounded-full glass-card hover:bg-white/10 transition-all duration-300 inline-flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Study Notes
+                    </a>
+                    
+                    <!-- Copyright -->
+                    <div class="text-sm text-white/50 mt-4">
+                        © 2024 Study Notes Hub • Contact Portal • All rights reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Contact Form Handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const receiverEmail = document.getElementById('receiverEmail').value;
+            
+            // Validate form
+            if (!name || !subject || !message) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Format the email body
+            const emailBody = `Hello,\n\n${message}\n\nBest regards,\n${name}`;
+            
+            // Encode the email components
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(emailBody);
+            
+            // Create mailto link
+            const mailtoLink = `mailto:${receiverEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+            
+            // Open the native email app
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            setTimeout(() => {
+                document.getElementById('successModal').classList.remove('hidden');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Hide modal after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successModal').classList.add('hidden');
+                }, 5000);
+            }, 1000);
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 glass-card px-6 py-4 rounded-xl z-50 animate__animated animate__fadeInRight ${
+                type === 'error' ? 'border-l-4 border-red-500' : 'border-l-4 border-green-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'} 
+                       ${type === 'error' ? 'text-red-400' : 'text-green-400'}"></i>
+                    <span class="text-white">${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('animate__fadeOutRight');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add floating animation to form elements on focus
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    this.parentElement.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
+            });
+        });
+
+        // Add character counter for message
+        const messageTextarea = document.getElementById('message');
+        const messageCounter = document.createElement('div');
+        messageCounter.className = 'text-xs text-white/50 mt-1 text-right';
+        messageCounter.innerHTML = '<span id="charCount">0</span> / 1000 characters';
+        messageTextarea.parentElement.appendChild(messageCounter);
+
+        messageTextarea.addEventListener('input', function() {
+            const charCount = this.value.length;
+            document.getElementById('charCount').textContent = charCount;
+            
+            // Change color if approaching limit
+            if (charCount > 900) {
+                messageCounter.style.color = '#FF6B35';
+            } else if (charCount > 700) {
+                messageCounter.style.color = '#FFEE32';
+            } else {
+                messageCounter.style.color = 'rgba(255, 255, 255, 0.5)';
+            }
+        });
+
+        // Auto-resize textarea
+        messageTextarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Add some sample subjects for auto-suggestion
+        const subjects = [
+            "Physics Notes Feedback",
+            "Chemistry Study Material",
+            "Biology Animation Request",
+            "Website Bug Report",
+            "Feature Suggestion",
+            "Collaboration Inquiry",
+            "General Question",
+            "Technical Support"
+        ];
+
+        const subjectInput = document.getElementById('subject');
+        let subjectSuggestions = document.createElement('div');
+        subjectSuggestions.className = 'absolute z-10 w-full mt-1 bg-gray-900/90 backdrop-blur-sm rounded-lg border border-white/20 shadow-lg hidden';
+        subjectSuggestions.id = 'subjectSuggestions';
+        subjectInput.parentElement.appendChild(subjectSuggestions);
+
+        subjectInput.addEventListener('input', function() {
+            const value = this.value.toLowerCase();
+            if (value.length > 1) {
+                const filteredSubjects = subjects.filter(subject => 
+                    subject.toLowerCase().includes(value)
+                );
+                
+                if (filteredSubjects.length > 0) {
+                    subjectSuggestions.innerHTML = filteredSubjects.map(subject => `
+                        <div class="px-4 py-2 hover:bg-white/10 cursor-pointer border-b border-white/10 last:border-b-0"
+                             onclick="document.getElementById('subject').value = '${subject}'; subjectSuggestions.classList.add('hidden');">
+                            ${subject}
+                        </div>
+                    `).join('');
+                    subjectSuggestions.classList.remove('hidden');
+                } else {
+                    subjectSuggestions.classList.add('hidden');
+                }
+            } else {
+                subjectSuggestions.classList.add('hidden');
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!subjectInput.contains(e.target) && !subjectSuggestions.contains(e.target)) {
+                subjectSuggestions.classList.add('hidden');
+            }
+        });
+
+        // Initialize animations
+        window.addEventListener('load', function() {
+            // Add entrance animations to cards
+            document.querySelectorAll('.glass-card').forEach((card, index) => {
+                card.classList.add('animate__animated', 'animate__fadeInUp');
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
