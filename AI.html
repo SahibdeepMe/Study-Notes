@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Nexus</title>
+<!-- Load Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<style>
+    /* Custom Tailwind Configuration */
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+                colors: {
+                    'ai-primary': '#4f46e5', /* Indigo */
+                    'ai-accent': '#06b6d4', /* Cyan */
+                    'ai-dark': '#1e293b', /* Slate 800 */
+                }
+            }
+        }
+    }
+
+    /* Scroll reveal animations */
+    .reveal { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
+        transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
+    .reveal.active { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+
+    /* Highlight hover and animation effect */
+    .highlight { 
+        display: inline-block; 
+        padding: 0.2rem 0.4rem; 
+        background: #fef3c7; /* yellow-100 */
+        color: #78350f; /* amber-900 */
+        border-radius: 0.375rem; 
+        cursor: pointer; 
+        transition: all 0.3s; 
+        font-weight: 600;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .highlight:hover { 
+        background: #fde68a; /* yellow-200 */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        transform: scale(1.02);
+    }
+
+    /* Pulsating focus animation for key concepts */
+    @keyframes pulse-ring {
+        0% { transform: scale(0.3); opacity: 0.8; }
+        100% { transform: scale(1.5); opacity: 0; }
+    }
+    .pulse-animation {
+        position: relative;
+    }
+    .pulse-animation::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #6366f1; /* indigo-500 */
+        opacity: 0.75;
+        z-index: 0;
+        animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.35, 1) infinite;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Interactive button styles */
+    .quiz-btn { 
+        width: 100%; 
+        text-align: left; 
+        padding: 1rem; 
+        margin-bottom: 0.5rem; 
+        border-radius: 0.75rem; 
+        border: 1px solid #e5e7eb; 
+        transition: all 0.3s; 
+        cursor: pointer;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        display: flex;
+        align-items: center;
+    }
+    .quiz-btn:not(.disabled):hover {
+        background-color: #eff6ff; /* blue-50 */
+        border-color: #93c5fd; /* blue-300 */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .quiz-btn.correct { 
+        background: #dcfce7; /* green-100 */
+        border-color: #22c55e; /* green-500 */
+        color: #166534; /* green-900 */
+        font-weight: bold; 
+    }
+    .quiz-btn.wrong { 
+        background: #fee2e2; /* red-100 */
+        border-color: #ef4444; /* red-500 */
+        color: #991b1b; /* red-900 */
+        font-weight: bold; 
+    }
+    .quiz-btn.disabled { 
+        opacity: 0.7; 
+        cursor: not-allowed; 
+    }
+
+    /* Sidebar adjustments for scrolling and fixed position */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Fixed sidebar link state */
+    .section-link {
+        border-left: 4px solid transparent;
+        padding-left: 1rem; /* Base padding */
+    }
+    .section-link.active {
+        background-color: #eef2ff; /* indigo-50 */
+        color: #4f46e5; /* indigo-600 */
+        font-weight: 600;
+        border-left: 4px solid #4f46e5;
+        padding-left: calc(1rem - 4px); /* Adjust padding for border */
+    }
+
+    /* Card Hover Effect */
+    .card-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform, box-shadow;
+    }
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
+    }
+</style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+<!-- Sidebar -->
+<nav id="sidebar-nav" class="fixed left-0 top-0 h-full w-64 bg-white p-6 shadow-xl border-r border-gray-100 hidden lg:block z-20 hide-scrollbar overflow-y-auto">
+  <h1 class="text-3xl font-extrabold mb-6 bg-gradient-to-r from-ai-primary to-ai-accent text-transparent bg-clip-text">AI Nexus</h1>
+  <p class="text-sm text-gray-500 mb-8">15-Section Learning Path</p>
+  <ul class="space-y-1" id="nav-list">
+    <!-- Links will be generated by JS -->
+  </ul>
+</nav>
+
+<!-- Main content -->
+<main class="lg:ml-64 p-6 md:p-10">
+
+<!-- SECTION 1: Overview -->
+<section id="overview" data-section-id="overview" class="min-h-screen pt-20 pb-10">
+  <h2 class="text-6xl font-black mb-4 text-ai-dark reveal">The AI Learning Path</h2>
+  <p class="text-2xl text-gray-700 mb-8 reveal" style="transition-delay:0.2s;">Understand how to leverage powerful, free, and accessible AI models to build the next generation of applications.</p>
+  <div class="flex space-x-4 reveal" style="transition-delay:0.4s;">
+    <span class="px-4 py-2 bg-ai-primary/10 text-ai-primary rounded-full font-medium shadow-md">#LLMs</span>
+    <span class="px-4 py-2 bg-ai-accent/10 text-ai-accent rounded-full font-medium shadow-md">#APIs</span>
+    <span class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full font-medium shadow-md">#Multimodal</span>
+  </div>
+</section>
+
+<!-- SECTION 2: Key Concepts -->
+<section id="concepts" data-section-id="concepts" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">2. Key Concepts: What is an LLM?</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    A Large Language Model (LLM) is essentially a <span class="highlight">massive predictive text engine</span>. It is trained on petabytes of data to calculate the most statistically likely next word (or token) in a sequence.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 text-center reveal" style="transition-delay:0.3s;">
+    <div class="p-6 bg-white rounded-xl border border-gray-200 card-hover shadow-lg border-l-4 border-ai-primary">
+      <div class="text-3xl mb-2">⚙️</div>
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">1. Token-Based</h3>
+      <p class="text-sm text-gray-600">All input/output is broken down into small units called 'tokens' (words, sub-words, or punctuation).</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl border border-gray-200 card-hover shadow-lg border-l-4 border-ai-primary">
+      <div class="text-3xl mb-2">🎲</div>
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">2. Probabilistic</h3>
+      <p class="text-sm text-gray-600">Responses are based on statistical likelihood derived from patterns in the training data, not absolute truth.</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl border border-gray-200 card-hover shadow-lg border-l-4 border-ai-primary">
+      <div class="text-3xl mb-2 pulse-animation">🧠</div>
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">3. Context Window</h3>
+      <p class="text-sm text-gray-600">The maximum number of tokens a model can 'remember' during a conversation (e.g., 32k, 128k, 1M tokens).</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: Best Free Models -->
+<section id="flash_models" data-section-id="flash_models" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+    <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">3. Best Free Models: Flash vs. Pro</h2>
+    <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+        Models designated as "Flash" (like Gemini 2.5 Flash) are optimized for <span class="highlight">speed and multi-turn chat</span>, while "Pro" models are designed for complex reasoning and deep technical tasks.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-8 reveal" style="transition-delay:0.3s;">
+        <div class="p-6 bg-white rounded-xl border-l-4 border-ai-primary card-hover shadow-xl">
+            <h3 class="text-2xl font-semibold mb-2 text-ai-primary flex items-center"><span class="text-3xl mr-3">⚡️</span>Flash Models (Speed & Efficiency)</h3>
+            <ul class="list-none text-gray-700 space-y-2 ml-4">
+                <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">✓</span>Best for conversational flows, web apps, and low-latency API calls.</li>
+                <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">✓</span>Excellent for summarizing large texts quickly.</li>
+                <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">✓</span>Generally more cost-effective for high volume use cases.</li>
+            </ul>
+        </div>
+        <div class="p-6 bg-white rounded-xl border-l-4 border-ai-accent card-hover shadow-xl">
+            <h3 class="text-2xl font-semibold mb-2 text-ai-accent flex items-center"><span class="text-3xl mr-3">🚀</span>Pro Models (Power & Reasoning)</h3>
+            <ul class="list-none text-gray-700 space-y-2 ml-4">
+                <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">★</span>Superior performance on complex, logical, and mathematical tasks.</li>
+                <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">★</span>Ideal for deep code generation, technical analysis, and long-context documents.</li>
+                <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">★</span>Higher accuracy for multi-step reasoning.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 4: AI Grounding -->
+<section id="grounding" data-section-id="grounding" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+    <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">4. AI Grounding: Fighting Hallucinations</h2>
+    <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+        <span class="highlight">Grounding</span> links the LLM's output to real-time information sources (like Google Search) to provide accurate, up-to-date, and citable facts, significantly reducing <span class="highlight">hallucinations</span>.
+    </p>
+    
+    <div class="p-6 bg-indigo-50 rounded-xl shadow-inner reveal" style="transition-delay:0.3s;">
+        <h3 class="text-xl font-bold text-ai-primary mb-3 flex items-center"><span class="text-2xl mr-2">🔗</span>The Grounding Process</h3>
+        <ol class="space-y-3 text-gray-700">
+            <li class="flex items-start">
+                <span class="font-bold text-ai-primary text-2xl mr-3">1.</span>
+                <p><strong>Query Analysis:</strong> The user's prompt is checked to see if it requires current or external knowledge.</p>
+            </li>
+            <li class="flex items-start">
+                <span class="font-bold text-ai-primary text-2xl mr-3">2.</span>
+                <p><strong>Search Integration:</strong> A query is sent to a search engine tool to retrieve recent, relevant web documents. </p>
+            </li>
+            <li class="flex items-start">
+                <span class="font-bold text-ai-primary text-2xl mr-3">3.</span>
+                <p><strong>Fact Integration:</strong> The LLM synthesizes its answer *only* using the retrieved facts, outputting citations for verification.</p>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- SECTION 5: Structured Generation (Quiz 1) -->
+<section id="structured_data" data-section-id="structured_data" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">5. Structured Generation & Quiz 1</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    To build stable apps, you must use a <span class="highlight">JSON schema</span> to enforce structured output, which is crucial for predictable API responses.
+  </p>
+
+  <div class="p-6 bg-white rounded-xl shadow-2xl reveal" style="transition-delay:0.3s;">
+    <p class="text-lg font-semibold mb-4 text-ai-dark">Why is using a 'responseSchema' better than just asking for JSON in the prompt?</p>
+    <div id="quiz-options-1">
+      <!-- Options rendered by JS -->
+    </div>
+    <div class="mt-4" id="quiz-feedback-1"></div>
+    <button onclick="resetQuiz(1)" class="mt-4 px-6 py-3 bg-ai-primary text-white rounded-full font-semibold hover:bg-indigo-700 transition duration-200 shadow-lg">Try Again</button>
+  </div>
+</section>
+
+<!-- SECTION 6: Multi-modal AI -->
+<section id="multimodal" data-section-id="multimodal" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">6. Multi-modal AI: Vision and Text</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    Multi-modal models can process and understand information across different types, most commonly <span class="highlight">text and images</span>. This enables capabilities like image captioning, visual Q&A, and chart analysis.
+  </p>
+
+  <div class="p-6 bg-white rounded-xl shadow-xl card-hover reveal" style="transition-delay:0.3s;">
+    <h3 class="text-2xl font-semibold mb-3 text-ai-dark flex items-center"><span class="text-3xl mr-3">🖼️</span>How Multi-modal Works</h3>
+    <p class="text-gray-700 mb-4">The core technique involves unifying the input space. An image is processed by a Vision Encoder and converted into a sequence of tokens (vectors) that the Language Model can understand and reason over, treating it like complex text. </p>
+    <p class="text-sm text-gray-500">
+        *Example use case: Upload a picture of a recipe and ask the model to rewrite the instructions for a vegan diet.*
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 7: Text-to-Image Generation -->
+<section id="image_gen" data-section-id="image_gen" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">7. Text-to-Image Generation (Diffusion Models)</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    Models like Imagen use a process called <span class="highlight">Diffusion</span>. This process starts with pure random noise and iteratively refines it until it matches the textual prompt.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 text-center reveal" style="transition-delay:0.3s;">
+    <div class="p-5 bg-white rounded-xl border border-gray-200 card-hover shadow-md">
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">1. Noise Injection</h3>
+      <p class="text-sm text-gray-600">Start with a canvas of random pixels (pure noise).</p>
+      <div class="text-4xl mt-2">✨</div>
+    </div>
+    <div class="p-5 bg-white rounded-xl border border-gray-200 card-hover shadow-md">
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">2. Denoiser Model</h3>
+      <p class="text-sm text-gray-600">A special neural network (U-Net) removes noise based on the prompt's conditioning.</p>
+      <div class="text-4xl mt-2">🔬</div>
+    </div>
+    <div class="p-5 bg-white rounded-xl border border-gray-200 card-hover shadow-md">
+      <h3 class="text-xl font-semibold mb-2 text-ai-dark">3. Iteration</h3>
+      <p class="text-sm text-gray-600">Repeats the denoising hundreds of times until a clear image is produced. </p>
+      <div class="text-4xl mt-2">🎨</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: TTS and Audio Generation -->
+<section id="tts" data-section-id="tts" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">8. TTS & Speech Synthesis</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    Text-to-Speech (TTS) models, like those available via the Gemini API, now use deep neural networks to generate human-like speech with full control over <span class="highlight">emotion, style, and tone</span>, often with customizable voice profiles.
+  </p>
+
+  <div class="p-6 bg-white rounded-xl shadow-xl card-hover reveal" style="transition-delay:0.3s;">
+    <h3 class="text-2xl font-semibold mb-3 text-ai-dark flex items-center"><span class="text-3xl mr-3">🔊</span>Key Components of Modern TTS</h3>
+    <ul class="list-none text-gray-700 space-y-2 ml-4">
+        <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">🎶</span>**Acoustic Model:** Maps text and prosody (pitch, duration) features to spectral parameters.</li>
+        <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">🎧</span>**Vocoder:** Converts the spectral parameters back into a high-fidelity raw audio waveform.</li>
+        <li class="flex items-start"><span class="text-ai-primary mr-2 mt-1">🗣️</span>**Style/Emotion Conditioning:** An input prompt controls the delivery (e.g., "Say cheerfully:", "Use a tired, deep voice:").</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 9: The Transformer Architecture -->
+<section id="transformer" data-section-id="transformer" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">9. Core Architecture: The Transformer</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    The Transformer is the foundation of all modern LLMs. Its key innovation is the <span class="highlight pulse-animation">Self-Attention Mechanism</span>, allowing the model to weigh the importance of all other words in the sequence when processing a single word.
+  </p>
+
+  <div class="p-6 bg-white rounded-xl shadow-2xl card-hover reveal" style="transition-delay:0.3s;">
+    <h3 class="text-2xl font-semibold mb-3 text-ai-primary flex items-center"><span class="text-3xl mr-3">🔗</span>Attention Mechanism (Q, K, V)</h3>
+    <p class="text-gray-700 mb-4">The mechanism works by calculating three vectors for every token: Query (Q), Key (K), and Value (V). The dot product of Q and K determines the attention score (relevance), which is then used to weight the V vector to produce the output. [Image of the Transformer Architecture with Encoder and Decoder blocks]</p>
+    <p class="text-sm text-gray-500">
+        This massive parallelization capability is what enabled the explosion of large models since 2017.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 10: The Training Pipeline -->
+<section id="training" data-section-id="training" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">10. The Training Pipeline (RLHF)</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    LLMs go through a multi-stage process to become safe and helpful. The final, critical stage is <span class="highlight">Reinforcement Learning from Human Feedback (RLHF)</span>, which aligns the model's behavior with human values.
+  </p>
+
+  <div class="p-6 bg-white rounded-xl shadow-xl card-hover reveal" style="transition-delay:0.3s;">
+    <h3 class="text-2xl font-semibold mb-3 text-ai-dark flex items-center"><span class="text-3xl mr-3">🧪</span>Training Phases</h3>
+    <ol class="list-none text-gray-700 space-y-2 ml-4">
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">1.</span>**Pre-training:** Predicting the next token on massive, raw internet data.</li>
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">2.</span>**Supervised Fine-Tuning (SFT):** Training on high-quality, curated Q&A pairs to make the model follow instructions.</li>
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">3.</span>**RLHF:** Using a reward model (trained by human raters) to teach the model to prefer safe and helpful responses. </li>
+    </ol>
+  </div>
+</section>
+
+<!-- SECTION 11: Prompt Engineering Basics -->
+<section id="prompt_eng" data-section-id="prompt_eng" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">11. Prompt Engineering Basics</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    Prompt engineering is the art of crafting inputs to get the desired output. Two crucial techniques are the <span class="highlight">System Instruction</span> and **Few-Shot Learning**.
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-8 reveal" style="transition-delay:0.3s;">
+    <div class="p-6 bg-white rounded-xl border-l-4 border-yellow-500 card-hover shadow-md">
+        <h3 class="text-xl font-semibold mb-2 text-ai-dark flex items-center"><span class="text-3xl mr-3">🧑‍💻</span>System Instruction</h3>
+        <p class="text-sm text-gray-600">Defines the model's persona, tone, and global constraints (e.g., "Act as a historian," "Always respond in Markdown").</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl border-l-4 border-yellow-500 card-hover shadow-md">
+        <h3 class="text-xl font-semibold mb-2 text-ai-dark flex items-center"><span class="text-3xl mr-3">📚</span>Few-Shot Learning</h3>
+        <p class="text-sm text-gray-600">Providing 1-3 examples of the desired input/output format within the prompt to guide the model.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 12: Advanced Quiz 2 -->
+<section id="advanced_quiz" data-section-id="advanced_quiz" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">12. Advanced Quiz: Training & Alignment</h2>
+
+  <div class="p-6 bg-white rounded-xl shadow-2xl reveal" style="transition-delay:0.3s;">
+    <p class="text-lg font-semibold mb-4 text-ai-dark">What is the primary purpose of the RLHF stage in LLM training?</p>
+    <div id="quiz-options-2">
+      <!-- Options rendered by JS -->
+    </div>
+    <div class="mt-4" id="quiz-feedback-2"></div>
+    <button onclick="resetQuiz(2)" class="mt-4 px-6 py-3 bg-ai-primary text-white rounded-full font-semibold hover:bg-indigo-700 transition duration-200 shadow-lg">Try Again</button>
+  </div>
+</section>
+
+<!-- SECTION 13: RAG & Vector Databases -->
+<section id="rag" data-section-id="rag" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">13. RAG and Vector Databases</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    Retrieval-Augmented Generation (RAG) connects an LLM to external data (e.g., your documents) via a <span class="highlight">Vector Database</span>, overcoming the knowledge cut-off of the base model.
+  </p>
+  
+  <div class="p-6 bg-white rounded-xl shadow-xl card-hover reveal" style="transition-delay:0.3s;">
+    <h3 class="text-2xl font-semibold mb-3 text-ai-primary flex items-center"><span class="text-3xl mr-3">🗄️</span>RAG Flow</h3>
+    <ol class="list-none text-gray-700 space-y-2 ml-4">
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">1.</span>**User Query:** A user asks a question about private data.</li>
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">2.</span>**Vector Search:** The query is converted to a vector (embedding) and searched against the Vector Database.</li>
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">3.</span>**Augmentation:** The original prompt + retrieved chunks are combined and sent to the LLM.</li>
+        <li class="flex items-start"><span class="text-ai-accent mr-2 mt-1">4.</span>**Generation:** The LLM generates a grounded answer based on the provided context. </li>
+    </ol>
+  </div>
+</section>
+
+<!-- SECTION 14: AI Ethics and Safety -->
+<section id="ethics" data-section-id="ethics" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">14. AI Ethics and Safety</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    We must address inherent problems in LLMs, primarily <span class="highlight">Bias</span> (reflecting biases in the training data) and **Toxicity/Safety** (the risk of generating harmful content).
+  </p>
+
+  <div class="p-6 bg-red-50 rounded-xl shadow-inner reveal" style="transition-delay:0.3s;">
+    <h3 class="text-xl font-bold text-red-700 mb-3 flex items-center"><span class="text-2xl mr-2">🛡️</span>Mitigation Strategies</h3>
+    <ul class="list-none text-gray-700 space-y-2 ml-4">
+        <li class="flex items-start"><span class="text-red-500 mr-2 mt-1">🛑</span>**Data Curation:** Filtering sensitive or biased data during pre-training.</li>
+        <li class="flex items-start"><span class="text-red-500 mr-2 mt-1">🛑</span>**Guardrails/Filters:** Implementing strict content filters on API inputs and outputs.</li>
+        <li class="flex items-start"><span class="text-red-500 mr-2 mt-1">🛑</span>**Adversarial Testing:** Finding and fixing vulnerabilities where the model can be prompted to violate safety rules.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 15: Future of Open Source AI -->
+<section id="future" data-section-id="future" class="min-h-screen pt-20 pb-10 border-t border-gray-200">
+  <h2 class="text-5xl font-bold mb-6 text-ai-accent reveal">15. Future of Open Source AI</h2>
+  <p class="text-xl text-gray-700 mb-6 reveal" style="transition-delay:0.1s;">
+    The future is trending toward smaller, highly optimized models that can run <span class="highlight">locally on devices</span> (edge AI), democratizing access and reducing reliance on large centralized cloud providers.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 reveal" style="transition-delay:0.3s;">
+    <div class="p-6 bg-white rounded-xl border-l-4 border-green-500 card-hover shadow-xl">
+        <div class="text-3xl mb-2">📱</div>
+        <h3 class="text-xl font-semibold mb-2 text-ai-dark">Edge AI</h3>
+        <p class="text-sm text-gray-600">Running LLMs directly on phones or laptops for immediate response.</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl border-l-4 border-green-500 card-hover shadow-xl">
+        <div class="text-3xl mb-2">🤏</div>
+        <h3 class="text-xl font-semibold mb-2 text-ai-dark">Model Compression</h3>
+        <p class="text-sm text-gray-600">Techniques like quantization to reduce model file size without losing performance.</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl border-l-4 border-green-500 card-hover shadow-xl">
+        <div class="text-3xl mb-2">🎯</div>
+        <h3 class="text-xl font-semibold mb-2 text-ai-dark">Hyper-Personalization</h3>
+        <p class="text-sm text-gray-600">Using personal data for highly specific RAG and fine-tuning applications.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="py-10 text-center text-gray-400 border-t border-gray-200 mt-10">
+    <p class='text-sm'>&copy; 2025 AI Nexus Learning Path. 15 Sections Complete.</p>
+</footer>
+
+</main>
+
+<script>
+    // --- Configuration ---
+    const SECTIONS = [
+        { id: 'overview', title: '1. Overview' },
+        { id: 'concepts', title: '2. Key Concepts: LLMs' },
+        { id: 'flash_models', title: '3. Best Free Models' },
+        { id: 'grounding', title: '4. AI Grounding' },
+        { id: 'structured_data', title: '5. Structured Generation & Quiz 1' },
+        { id: 'multimodal', title: '6. Multi-modal AI' },
+        { id: 'image_gen', title: '7. Text-to-Image Generation' },
+        { id: 'tts', title: '8. TTS & Speech Synthesis' },
+        { id: 'transformer', title: '9. Core Architecture: Transformer' },
+        { id: 'training', title: '10. The Training Pipeline (RLHF)' },
+        { id: 'prompt_eng', title: '11. Prompt Engineering Basics' },
+        { id: 'advanced_quiz', title: '12. Advanced Quiz: Training' },
+        { id: 'rag', title: '13. RAG and Vector Databases' },
+        { id: 'ethics', title: '14. AI Ethics and Safety' },
+        { id: 'future', title: '15. Future of Open Source AI' },
+    ];
+    
+    const QUIZ_DATA_1 = {
+        question: "Why is using a 'responseSchema' better than just asking for JSON in the prompt?",
+        options: [
+            "It makes the API call faster and cheaper.",
+            "The prompt-based method is more flexible for custom formatting.",
+            "Schema enforces a data contract, guaranteeing valid, parsable JSON.", // Correct
+            "It automatically includes citations without needing grounding.",
+        ],
+        correctIndex: 2
+    };
+
+    const QUIZ_DATA_2 = {
+        question: "What is the primary purpose of the RLHF stage in LLM training?",
+        options: [
+            "To increase the model's token vocabulary size.",
+            "To align the model's responses with human values, safety, and helpfulness.", // Correct
+            "To enable the model to process image and video inputs.",
+            "To convert the model's weights into a smaller, more efficient format.",
+        ],
+        correctIndex: 1
+    };
+
+    let quizState = {
+        1: { selectedIndex: null },
+        2: { selectedIndex: null }
+    };
+
+    // --- DOM Manipulation Functions ---
+
+    function renderNav() {
+        const navList = document.getElementById('nav-list');
+        navList.innerHTML = SECTIONS.map(section => `
+            <li>
+                <a 
+                    href="#${section.id}" 
+                    data-section-id="${section.id}" 
+                    class="section-link block p-3 rounded-lg hover:bg-gray-100 hover:text-ai-primary transition duration-150"
+                    onclick="scrollToSection('${section.id}')"
+                >
+                    ${section.title}
+                </a>
+            </li>
+        `).join('');
+    }
+
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderQuiz(quizId, quizData) {
+        const container = document.getElementById(`quiz-options-${quizId}`);
+        const feedback = document.getElementById(`quiz-feedback-${quizId}`);
+        const state = quizState[quizId];
+        
+        if (!container) return;
+
+        container.innerHTML = quizData.options.map((option, index) => {
+            let classes = 'quiz-btn';
+            const isSelected = state.selectedIndex === index;
+            const isDisabled = state.selectedIndex !== null;
+            const isCorrect = index === quizData.correctIndex;
+
+            if (isDisabled) {
+                classes += ' disabled';
+                if (isCorrect) {
+                    classes += ' correct';
+                } else if (isSelected) {
+                    classes += ' wrong';
+                }
+            }
+            
+            const icon = isDisabled ? (isCorrect ? '✅' : (isSelected ? '❌' : '•')) : '•';
+
+            return `<button 
+                class="${classes}" 
+                data-index="${index}"
+                ${isDisabled ? 'disabled' : `onclick="selectAnswer(${quizId}, ${index})"`}
+            >
+                <span class="mr-3 text-xl">${icon}</span> ${option}
+            </button>`;
+        }).join('');
+        
+        // Render feedback
+        if (state.selectedIndex !== null) {
+            const isCorrect = state.selectedIndex === quizData.correctIndex;
+            const primaryColor = isCorrect ? 'green' : 'red';
+            const message = isCorrect 
+                ? '✅ Correct! Schema guarantees data contract reliability.' 
+                : `❌ Incorrect. The correct answer is: ${quizData.options[quizData.correctIndex]}. Schemas enforce valid JSON output.`;
+            
+            feedback.innerHTML = `<p class="text-${primaryColor}-700 font-bold mt-2 p-2 bg-${primaryColor}-50 rounded-lg border-l-4 border-${primaryColor}-500">${message}</p>`;
+        } else {
+            feedback.innerHTML = '';
+        }
+    }
+
+    function selectAnswer(quizId, index) {
+        if(quizState[quizId].selectedIndex !== null) return;
+        quizState[quizId].selectedIndex = index;
+        if (quizId === 1) renderQuiz(1, QUIZ_DATA_1);
+        if (quizId === 2) renderQuiz(2, QUIZ_DATA_2);
+    }
+    
+    function resetQuiz(quizId) {
+        quizState[quizId].selectedIndex = null;
+        if (quizId === 1) renderQuiz(1, QUIZ_DATA_1);
+        if (quizId === 2) renderQuiz(2, QUIZ_DATA_2);
+    }
+
+    // --- Scroll Logic ---
+    const reveals = document.querySelectorAll('.reveal');
+    const sections = document.querySelectorAll('section[data-section-id]');
+    
+    function setupScrollReveal() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const el = entry.target;
+                const style = el.getAttribute('style');
+                // Extract delay from inline style if present
+                const delayMatch = style ? style.match(/transition-delay:(\d?\.?\d+s)/) : null;
+                const delay = delayMatch ? parseFloat(delayMatch[1]) * 1000 : 0;
+
+                if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, delay);
+                }
+            });
+        }, { 
+            rootMargin: '0px 0px -20% 0px',
+            threshold: 0.1 
+        });
+
+        reveals.forEach(el => observer.observe(el));
+    }
+
+    function updateSidebarActiveState() {
+        const links = document.querySelectorAll('.section-link');
+        let currentActiveId = SECTIONS[0].id;
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            // Check if section is within the top 25% of the viewport (or slightly above)
+            if (rect.top <= window.innerHeight * 0.25 && rect.bottom > 0) {
+                currentActiveId = section.id;
+            }
+        });
+        
+        links.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section-id') === currentActiveId) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // --- Initialization ---
+    window.onload = function() {
+        // 1. Render Nav and Quizzes
+        renderNav();
+        renderQuiz(1, QUIZ_DATA_1);
+        renderQuiz(2, QUIZ_DATA_2);
+        
+        // 2. Setup Scroll Reveal
+        setupScrollReveal();
+
+        // 3. Setup scroll tracking
+        window.addEventListener('scroll', updateSidebarActiveState);
+        updateSidebarActiveState(); // Initial check
+    };
+</script>
+
+</body>
+<button id="backBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* moved from left to right */
+    z-index: 999999;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(45deg, #667EEA, #764BA2, #F093FB, #F5576C);
+    background-size: 400% 400%;
+    animation: gradient-x 15s ease infinite;
+    color: white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+">
+    ⬅ Back to Home
+</button>
+
+<script>
+const btn = document.getElementById("backBtn");
+
+// Add hover effects
+btn.onmouseenter = function() {
+    this.style.transform = 'translateY(-3px) scale(1.05)';
+    this.style.boxShadow = '0 15px 40px rgba(255, 0, 255, 0.3)';
+};
+
+btn.onmouseleave = function() {
+    this.style.transform = 'translateY(0) scale(1)';
+    this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
+};
+
+btn.onclick = function() {
+    this.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 150);
+};
+</script>
+
+<style>
+@keyframes gradient-x {
+    0%, 100% {
+        background-size: 400% 400%;
+        background-position: left center;
+    }
+    50% {
+        background-size: 400% 400%;
+        background-position: right center;
+    }
+}
+</style>
+
+</html>

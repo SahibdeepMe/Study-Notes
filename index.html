@@ -109,10 +109,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
         
+        /* DEFAULT SPEED (PC) */
         body {
             background: linear-gradient(-45deg, #667EEA, #764BA2, #F093FB, #F5576C);
             background-size: 400% 400%;
-            animation: gradient-x 15s ease infinite;
+            animation: gradient-x 15s ease infinite; /* SLOW for PC */
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
@@ -246,239 +247,662 @@
         .search-result {
             animation: slideIn 0.3s ease-out;
         }
+
+        /* Device Selector Styles */
+        .device-selector-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #667EEA, #764BA2, #F093FB, #F5576C);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease;
+        }
+
+        .device-selector {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2rem;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .device-selector.visible {
+            transform: scale(1);
+        }
+
+        .device-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 1.5rem;
+            padding: 1.5rem 2rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .device-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .device-option.active {
+            background: linear-gradient(45deg, #FF00FF, #00F0FF);
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        /* MOBILE/TABLET OPTIMIZATIONS - SLOW DOWN ANIMATIONS */
+        .mobile-tablet-mode body {
+            /* SLOW DOWN background gradient animation */
+            animation: gradient-x 30s ease infinite !important; /* SLOWER for mobile */
+        }
+        
+        .mobile-tablet-mode .floating-icon {
+            /* SLOW DOWN floating animations */
+            animation-duration: 8s !important;
+        }
+        
+        .mobile-tablet-mode .animate-spin-slow {
+            /* SLOW DOWN spinning animations */
+            animation-duration: 30s !important;
+        }
+        
+        .mobile-tablet-mode .animate-pulse {
+            /* SLOW DOWN pulsing animations */
+            animation-duration: 3s !important;
+        }
+        
+        .mobile-tablet-mode .animate-bounce-slow {
+            /* SLOW DOWN bouncing animations */
+            animation-duration: 4s !important;
+        }
+        
+        .mobile-tablet-mode .animate-wave {
+            /* SLOW DOWN wave animations */
+            animation-duration: 8s !important;
+        }
+        
+        .mobile-tablet-mode .animate-handshake {
+            /* SLOW DOWN handshake animations */
+            animation-duration: 3s !important;
+        }
+
+        .mobile-tablet-mode .hover-3d {
+            /* Disable 3D transforms on mobile/tablet */
+            transform: none !important;
+            transition: none !important;
+        }
+
+        .mobile-tablet-mode .glass-card {
+            /* Reduce blur for better performance */
+            backdrop-filter: blur(5px);
+        }
+
+        .mobile-tablet-mode .notes-grid {
+            /* Simplify grid for mobile/tablet */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .mobile-tablet-mode .neon-border::after {
+            /* Reduce blur effect for performance */
+            filter: blur(5px);
+        }
+
+        /* Reduce content reel speed for mobile/tablet */
+        .mobile-tablet-mode .content-reel-text {
+            transition-duration: 1s !important; /* SLOWER transitions */
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Performance optimizations */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        /* ClearCache simulation */
+        .clear-cache {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        
+        /* FIX: Make sure mobile-tablet-mode applies properly */
+        body.mobile-tablet-mode {
+            animation: gradient-x 30s ease infinite !important;
+        }
+
+        /* Device Selector Button */
+        .device-selector-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: linear-gradient(45deg, #FF00FF, #00F0FF);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .device-selector-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.7);
+        }
+
+        .device-selector-btn span {
+            font-size: 24px;
+        }
+
+        /* Search Tag Badge */
+        .search-tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-left: 6px;
+            opacity: 0.8;
+        }
+
+        /* Search Highlight */
+        .search-highlight {
+            background: linear-gradient(45deg, #FF00FF, #00F0FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="text-white relative">
     
-    <!-- Header Section -->
-    <header class="py-12 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <!-- Device Selector Overlay -->
+    <div id="deviceSelector" class="device-selector-overlay">
+        <div class="device-selector">
+            <h1 class="text-4xl font-bold mb-2 text-gradient">⚡ Study Notes Hub</h1>
+            <p class="text-xl text-white/80 mb-8">Select your device for optimal experience</p>
             
-            <!-- Contact Links -->
-            <div class="flex flex-col items-center mb-8">
-                <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight">
-                    <span class="text-gradient animate-gradient-x bg-clip-text">
-                        STUDY<span class="animate-pulse">⚡</span>NOTES
-                    </span>
-                </h1>
+            <div class="space-y-4">
+                <div class="device-option" data-device="pc">
+                    <span class="text-3xl">🖥️</span>
+                    <span>Desktop/PC (Full Experience)</span>
+                </div>
+                
+                <div class="device-option" data-device="tablet">
+                    <span class="text-3xl">📱</span>
+                    <span>Tablet (Reduced Animations)</span>
+                </div>
+                
+                <div class="device-option" data-device="mobile">
+                    <span class="text-3xl">📲</span>
+                    <span>Mobile (Minimal Animations)</span>
+                </div>
+            </div>
+            
+            <p class="text-white/60 mt-8 text-sm">
+                <span class="font-bold">Note:</span> Mobile & Tablet modes will reduce animations for better performance
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <div id="mainContent" class="hidden">
+        <!-- Device Selector Button -->
+        <button id="deviceSelectorBtn" class="device-selector-btn" title="Change Device Mode">
+            <span>⚙️</span>
+        </button>
+
+        <!-- Header Section -->
+        <header class="py-12 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 
                 <!-- Contact Links -->
-                <div class="flex flex-wrap justify-center gap-6 mt-4">
-                    <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
-                       target="_blank"
-                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yt-red to-red-600 hover:scale-105 transition-transform duration-300 shadow-lg">
-                        <span class="text-xl">▶️</span>
-                        <span class="font-bold">YouTube</span>
-                    </a>
+                <div class="flex flex-col items-center mb-8">
+                    <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight">
+                        <span class="text-gradient animate-gradient-x bg-clip-text">
+                            STUDY<span class="animate-pulse">⚡</span>NOTES
+                        </span>
+                    </h1>
                     
-                    <a href="https://t.me/SAHIBDEEP_Channel" 
-                       target="_blank"
-                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-telegram-blue to-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg">
-                        <span class="text-xl">✈️</span>
-                        <span class="font-bold">Telegram</span>
-                    </a>
-                    
-                    <!-- UPDATED: Changed to contact.html -->
-                    <a href="contact.html" 
-                    class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105 transition-transform duration-300 shadow-lg">
-                    <span class="text-xl">📧</span>
-                    <span class="font-bold">Contact</span>
-                    </a>
-                    
-                    <!-- Certificate Button -->
-                    <a href="certificate.html" 
-                       class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-vivid-purple to-neon-pink hover:scale-105 transition-transform duration-300 shadow-lg">
-                        <span class="text-xl">🏆</span>
-                        <span class="font-bold">Certificate</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Subtitle -->
-            <p class="text-2xl md:text-3xl font-bold mb-4">
-                <span class="typing-effect inline-block">Where Learning Comes Alive</span>
-            </p>
-            
-            <p class="text-xl text-white/80 max-w-3xl mx-auto mb-8 animate__animated animate__fadeInUp">
-                Explore <span class="font-bold text-cyber-yellow">animated</span> concepts, 
-                <span class="font-bold text-lime-green">interactive</span> previews, and 
-                <span class="font-bold text-electric-blue">dynamic</span> learning experiences
-            </p>
-
-            <!-- Functional Search Bar -->
-            <div class="max-w-2xl mx-auto mb-8 animate__animated animate__fadeInUp">
-                <div class="relative">
-                    <input type="text" 
-                           id="searchInput"
-                           placeholder="🔍 Search for subjects, concepts, or keywords..." 
-                           class="w-full px-6 py-4 rounded-2xl glass-card border border-white/20 focus:outline-none focus:ring-4 focus:ring-electric-blue/50 text-lg placeholder-white/50 shadow-lg search-bar">
-                    <div id="searchResults" class="absolute w-full mt-2 bg-gray-900/90 backdrop-blur-sm rounded-xl border border-white/20 shadow-2xl z-50 hidden overflow-hidden">
-                        <!-- Search results will appear here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats with animated counters -->
-            <div class="flex justify-center items-center space-x-8 mb-6">
-                <div class="text-center animate__animated animate__fadeInLeft">
-                    <div class="text-4xl font-bold text-neon-pink" id="subject-count">0</div>
-                    <div class="text-sm text-white/70">Subjects</div>
-                </div>
-                <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-                <div class="text-center animate__animated animate__fadeInUp">
-                    <div class="text-4xl font-bold text-electric-blue" id="concept-count">0</div>
-                    <div class="text-sm text-white/70">Key Concepts</div>
-                </div>
-                <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-                <div class="text-center animate__animated animate__fadeInRight">
-                    <div class="text-4xl font-bold text-lime-green" id="animation-count">0</div>
-                    <div class="text-sm text-white/70">Animations</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Floating decorative elements -->
-        <div class="absolute top-4 left-4 w-16 h-16 rounded-full bg-gradient-to-br from-neon-pink to-transparent animate-spin-slow"></div>
-        <div class="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-gradient-to-tr from-electric-blue to-transparent animate-spin-slow" style="animation-direction: reverse;"></div>
-    </header>
-
-    <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <!-- Section Title -->
-        <div class="text-center mb-16">
-            <h2 class="text-5xl font-bold mb-4 relative inline-block">
-                <span class="text-gradient">Interactive Subjects</span>
-                <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-blue to-transparent animate-pulse"></span>
-            </h2>
-            <p class="text-xl text-white/80 max-w-2xl mx-auto animate__animated animate__fadeIn">
-                Click any subject to dive into animated learning experiences
-            </p>
-        </div>
-
-        <!-- Category Filters with Climax Effect -->
-        <div class="flex flex-wrap justify-center gap-4 mb-12 animate__animated animate__fadeInUp">
-            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold active" data-category="all">
-                🎯 All Subjects
-            </button>
-            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="physics">
-                ⚡ Physics
-            </button>
-            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="biology">
-                🧬 Biology
-            </button>
-            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="security">
-                🛡️ Security
-            </button>
-            <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="chemistry">
-                🧪 Chemistry
-            </button>
-        </div>
-
-        <!-- Notes Grid -->
-        <div id="notes-grid" class="notes-grid mb-16">
-            <!-- Cards will be inserted here by JavaScript -->
-        </div>
-
-        <!-- Call to Action -->
-        <div class="text-center mb-12">
-            <div class="relative inline-block">
-                <div class="absolute inset-0 bg-gradient-to-r from-neon-pink via-vivid-purple to-electric-blue rounded-2xl blur-xl opacity-50 animate-pulse"></div>
-                <div class="relative glass-card px-12 py-8 rounded-2xl border border-white/20">
-                    <h3 class="text-3xl font-bold mb-4">Ready to Master More?</h3>
-                    <p class="text-xl mb-6 max-w-2xl">Join thousands of students using our animated study system</p>
-                    <button onclick="window.location.href='about.html'" 
-                            class="px-10 py-4 rounded-full bg-gradient-to-r from-lime-green to-cyan-500 text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shimmer-button">
-                        🚀 Get Started Now
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <!-- Footer Section -->
-    <footer class="mt-auto py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-        <div class="max-w-7xl mx-auto relative z-10">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <!-- Logo Section -->
-                <div class="text-center md:text-left">
-                    <div class="text-3xl font-bold mb-4 inline-block">
-                        <span class="text-gradient">SNH</span>
-                    </div>
-                    <p class="text-white/70 mb-4">Making learning fun, interactive, and unforgettable through animation.</p>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="text-center">
-                    <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Quick Links</h4>
-                    <div class="space-y-2">
-                        <a href="#" class="block hover:text-electric-blue transition-colors duration-200">📚 All Subjects</a>
-                        <a href="#" class="block hover:text-electric-blue transition-colors duration-200">🎨 Interactive Demos</a>
-                        <a href="about.html" class="block hover:text-electric-blue transition-colors duration-200">📜 About Project</a>
-                        <a href="contact.html" class="block hover:text-electric-blue transition-colors duration-200">📧 Contact Us</a>
-                    </div>
-                </div>
-
-                <!-- Contact Links Footer -->
-                <div class="text-center md:text-right">
-                    <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Connect With Us</h4>
-                    <div class="flex flex-col items-center md:items-end space-y-3">
+                    <!-- Contact Links -->
+                    <div class="flex flex-wrap justify-center gap-6 mt-4">
                         <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
                            target="_blank"
-                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                            <span class="text-2xl">▶️</span>
-                            <span class="font-medium">YouTube Channel</span>
+                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yt-red to-red-600 hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <span class="text-xl">▶️</span>
+                            <span class="font-bold">YouTube</span>
                         </a>
+                        
                         <a href="https://t.me/SAHIBDEEP_Channel" 
                            target="_blank"
-                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                            <span class="text-2xl">✈️</span>
-                            <span class="font-medium">Telegram Channel</span>
+                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-telegram-blue to-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <span class="text-xl">✈️</span>
+                            <span class="font-bold">Telegram</span>
                         </a>
-                        <!-- UPDATED: Changed to contact.html -->
+                        
                         <a href="contact.html" 
-                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                            <span class="text-2xl">📧</span>
-                            <span class="font-medium">Contact Form</span>
+                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <span class="text-xl">📧</span>
+                            <span class="font-bold">Contact</span>
                         </a>
-                        <!-- Certificate link in footer -->
+                        
+                        <!-- Certificate Button -->
                         <a href="certificate.html" 
-                           class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                            <span class="text-2xl">🏆</span>
-                            <span class="font-medium">Certificate</span>
+                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-vivid-purple to-neon-pink hover:scale-105 transition-transform duration-300 shadow-lg">
+                            <span class="text-xl">🏆</span>
+                            <span class="font-bold">Certificate</span>
                         </a>
+                    </div>
+                </div>
+
+                <!-- Subtitle -->
+                <p class="text-2xl md:text-3xl font-bold mb-4">
+                    <span class="typing-effect inline-block">Where Learning Comes Alive</span>
+                </p>
+                
+                <p class="text-xl text-white/80 max-w-3xl mx-auto mb-8 animate__animated animate__fadeInUp">
+                    Explore <span class="font-bold text-cyber-yellow">animated</span> concepts, 
+                    <span class="font-bold text-lime-green">interactive</span> previews, and 
+                    <span class="font-bold text-electric-blue">dynamic</span> learning experiences
+                </p>
+
+                <!-- Enhanced Search Bar -->
+                <div class="max-w-2xl mx-auto mb-8 animate__animated animate__fadeInUp">
+                    <div class="relative">
+                        <input type="text" 
+                               id="searchInput"
+                               placeholder="🔍 Search subjects, concepts, tags (e.g., physics, waves, security)..." 
+                               class="w-full px-6 py-4 rounded-2xl glass-card border border-white/20 focus:outline-none focus:ring-4 focus:ring-electric-blue/50 text-lg placeholder-white/50 shadow-lg search-bar">
+                        <div class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white/50 text-sm hidden md:block">
+                            Press Enter to search
+                        </div>
+                        <div id="searchResults" class="absolute w-full mt-2 bg-gray-900/95 backdrop-blur-sm rounded-xl border border-white/20 shadow-2xl z-50 hidden overflow-hidden max-h-80 overflow-y-auto">
+                            <!-- Search results will appear here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Search Tags Suggestion -->
+                    <div class="flex flex-wrap justify-center gap-2 mt-4">
+                        <span class="text-white/70 text-sm">Try searching:</span>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="physics">#physics</button>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="biology">#biology</button>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="security">#security</button>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="chemistry">#chemistry</button>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="ai">#ai</button>
+                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="quantum">#quantum</button>
+                    </div>
+                </div>
+
+                <!-- Stats with animated counters -->
+                <div class="flex justify-center items-center space-x-8 mb-6">
+                    <div class="text-center animate__animated animate__fadeInLeft">
+                        <div class="text-4xl font-bold text-neon-pink" id="subject-count">0</div>
+                        <div class="text-sm text-white/70">Subjects</div>
+                    </div>
+                    <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+                    <div class="text-center animate__animated animate__fadeInUp">
+                        <div class="text-4xl font-bold text-electric-blue" id="concept-count">0</div>
+                        <div class="text-sm text-white/70">Key Concepts</div>
+                    </div>
+                    <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+                    <div class="text-center animate__animated animate__fadeInRight">
+                        <div class="text-4xl font-bold text-lime-green" id="animation-count">0</div>
+                        <div class="text-sm text-white/70">Animations</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Collaboration Section -->
-            <div class="border-t border-white/20 pt-8 text-center">
-                <div class="flex flex-col items-center space-y-6">
-                    <!-- Black & White Handshake Logo with animation -->
-                    <div class="flex items-center space-x-6 animate-wave">
-                        <span class="text-3xl font-bold text-white">Sahibdeep</span>
-                        <div class="handshake-logo animate-handshake">
-                            <span class="text-5xl">🤝</span>
-                        </div>
-                        <span class="text-3xl font-bold text-white">GEMINI</span>
-                    </div>
-                    
-                    <div class="text-white/70 text-lg">
-                        AI-Powered Educational Collaboration
-                    </div>
-                    
-                    <!-- Copyright -->
-                    <div class="text-sm text-white/50 mt-4">
-                        © 2024 Study Notes Hub • All animations created with ❤️ for students worldwide
+            <!-- Floating decorative elements -->
+            <div class="absolute top-4 left-4 w-16 h-16 rounded-full bg-gradient-to-br from-neon-pink to-transparent animate-spin-slow"></div>
+            <div class="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-gradient-to-tr from-electric-blue to-transparent animate-spin-slow" style="animation-direction: reverse;"></div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+            <!-- Section Title -->
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 relative inline-block">
+                    <span class="text-gradient">Interactive Subjects</span>
+                    <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-blue to-transparent animate-pulse"></span>
+                </h2>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto animate__animated animate__fadeIn">
+                    Click any subject to dive into animated learning experiences
+                </p>
+            </div>
+
+            <!-- Category Filters with Climax Effect -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12 animate__animated animate__fadeInUp">
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold active" data-category="all">
+                    🎯 All Subjects
+                </button>
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="physics">
+                    ⚡ Physics
+                </button>
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="biology">
+                    🧬 Biology
+                </button>
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="security">
+                    🛡️ Security
+                </button>
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="chemistry">
+                    🧪 Chemistry
+                </button>
+                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="advanced-tech">
+                    🤖 Advanced Tech
+                </button>
+            </div>
+
+            <!-- Notes Grid -->
+            <div id="notes-grid" class="notes-grid mb-16">
+                <!-- Cards will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center mb-12">
+                <div class="relative inline-block">
+                    <div class="absolute inset-0 bg-gradient-to-r from-neon-pink via-vivid-purple to-electric-blue rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+                    <div class="relative glass-card px-12 py-8 rounded-2xl border border-white/20">
+                        <h3 class="text-3xl font-bold mb-4">Ready to Master More?</h3>
+                        <p class="text-xl mb-6 max-w-2xl">Join thousands of students using our animated study system</p>
+                        <button onclick="window.location.href='about.html'" 
+                                class="px-10 py-4 rounded-full bg-gradient-to-r from-lime-green to-cyan-500 text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shimmer-button">
+                            🚀 Get Started Now
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </main>
+        
+        <!-- Footer Section -->
+        <footer class="mt-auto py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                    <!-- Logo Section -->
+                    <div class="text-center md:text-left">
+                        <div class="text-3xl font-bold mb-4 inline-block">
+                            <span class="text-gradient">SNH</span>
+                        </div>
+                        <p class="text-white/70 mb-4">Making learning fun, interactive, and unforgettable through animation.</p>
+                        <!-- Current Device Display -->
+                        <div id="deviceDisplay" class="mt-4 p-3 rounded-lg bg-white/10 backdrop-blur-sm inline-flex items-center gap-2">
+                            <!-- Will be filled by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="text-center">
+                        <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Quick Links</h4>
+                        <div class="space-y-2">
+                            <a href="#" class="block hover:text-electric-blue transition-colors duration-200">📚 All Subjects</a>
+                            <a href="#" class="block hover:text-electric-blue transition-colors duration-200">🎨 Interactive Demos</a>
+                            <a href="about.html" class="block hover:text-electric-blue transition-colors duration-200">📜 About Project</a>
+                            <a href="contact.html" class="block hover:text-electric-blue transition-colors duration-200">📧 Contact Us</a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Links Footer -->
+                    <div class="text-center md:text-right">
+                        <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Connect With Us</h4>
+                        <div class="flex flex-col items-center md:items-end space-y-3">
+                            <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
+                               target="_blank"
+                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                                <span class="text-2xl">▶️</span>
+                                <span class="font-medium">YouTube Channel</span>
+                            </a>
+                            <a href="https://t.me/SAHIBDEEP_Channel" 
+                               target="_blank"
+                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                                <span class="text-2xl">✈️</span>
+                                <span class="font-medium">Telegram Channel</span>
+                            </a>
+                            <a href="contact.html" 
+                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                                <span class="text-2xl">📧</span>
+                                <span class="font-medium">Contact Form</span>
+                            </a>
+                            <!-- Certificate link in footer -->
+                            <a href="certificate.html" 
+                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+                                <span class="text-2xl">🏆</span>
+                                <span class="font-medium">Certificate</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaboration Section -->
+                <div class="border-t border-white/20 pt-8 text-center">
+                    <div class="flex flex-col items-center space-y-6">
+                        <!-- Black & White Handshake Logo with animation -->
+                        <div class="flex items-center space-x-6 animate-wave">
+                            <span class="text-3xl font-bold text-white">Sahibdeep</span>
+                            <div class="handshake-logo animate-handshake">
+                                <span class="text-5xl">🤝</span>
+                            </div>
+                            <span class="text-3xl font-bold text-white">GEMINI</span>
+                        </div>
+                        
+                        <div class="text-white/70 text-lg">
+                            AI-Powered Educational Collaboration
+                        </div>
+                        
+                        <!-- Copyright -->
+                        <div class="text-sm text-white/50 mt-4">
+                            © 2024 Study Notes Hub • All animations created with ❤️ for students worldwide
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <script>
-        // Enhanced data with categories (removed organic chemistry, human anatomy, network security)
+        // Device selection and optimization
+        let currentDevice = 'pc';
+        let isMobileOrTablet = false;
+        let isInitialized = false;
+        
+        // Auto-detect device on first load
+        function autoDetectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMobile = /mobile|android|iphone|ipad|ipod/.test(userAgent);
+            const isTablet = /tablet|ipad/.test(userAgent) && !/mobile/.test(userAgent);
+            
+            if (isTablet) return 'tablet';
+            if (isMobile) return 'mobile';
+            return 'pc';
+        }
+        
+        // Check if we should show device selector
+        function shouldShowDeviceSelector() {
+            const savedDevice = localStorage.getItem('studyHubDevice');
+            const hasVisitedBefore = localStorage.getItem('studyHubVisited');
+            
+            if (!hasVisitedBefore) {
+                localStorage.setItem('studyHubVisited', 'true');
+                return true; // Show for first-time visitors
+            }
+            
+            if (!savedDevice) {
+                return true; // Show if no device saved
+            }
+            
+            return false; // Don't show if device already selected
+        }
+
+        // Function to apply device-specific optimizations
+        function applyDeviceOptimizations(deviceType) {
+            if (isInitialized && deviceType === currentDevice) return;
+            
+            const body = document.body;
+            const mainContent = document.getElementById('mainContent');
+            const deviceSelector = document.getElementById('deviceSelector');
+            
+            // Set current device
+            currentDevice = deviceType;
+            localStorage.setItem('studyHubDevice', deviceType);
+            isMobileOrTablet = (deviceType === 'mobile' || deviceType === 'tablet');
+            
+            console.log(`🚀 Applying ${deviceType} optimizations...`);
+            
+            // Apply optimizations for mobile/tablet
+            if (isMobileOrTablet) {
+                body.classList.add('mobile-tablet-mode');
+                
+                // Adjust viewport meta tag dynamically
+                const viewportMeta = document.querySelector('meta[name="viewport"]');
+                if (viewportMeta) {
+                    if (deviceType === 'mobile') {
+                        viewportMeta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
+                    } else if (deviceType === 'tablet') {
+                        viewportMeta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.5";
+                    }
+                }
+            } else {
+                body.classList.remove('mobile-tablet-mode');
+                
+                // Set PC viewport
+                const viewportMeta = document.querySelector('meta[name="viewport"]');
+                if (viewportMeta) {
+                    viewportMeta.content = "width=device-width, initial-scale=1.0";
+                }
+            }
+            
+            // Update device display
+            updateDeviceDisplay();
+            
+            // Hide device selector and show main content
+            if (deviceSelector) {
+                deviceSelector.style.opacity = '0';
+                setTimeout(() => {
+                    deviceSelector.style.display = 'none';
+                }, 300);
+            }
+            
+            if (mainContent) {
+                mainContent.classList.remove('hidden');
+                mainContent.style.opacity = '0';
+                
+                // Fade in main content
+                setTimeout(() => {
+                    mainContent.style.transition = 'opacity 0.5s ease';
+                    mainContent.style.opacity = '1';
+                }, 100);
+            }
+            
+            // Initialize notes hub only once
+            if (!isInitialized) {
+                setTimeout(initializeNotesHub, 500);
+                isInitialized = true;
+            }
+        }
+
+        // Update device display in footer
+        function updateDeviceDisplay() {
+            const deviceDisplay = document.getElementById('deviceDisplay');
+            if (deviceDisplay) {
+                const icon = currentDevice === 'pc' ? '🖥️' : currentDevice === 'tablet' ? '📱' : '📲';
+                const modeText = isMobileOrTablet ? 'Optimized' : 'Full Experience';
+                
+                deviceDisplay.innerHTML = `
+                    <span class="text-xl">${icon}</span>
+                    <span class="text-sm font-medium">
+                        ${currentDevice.toUpperCase()} MODE
+                        <span class="search-tag">${modeText}</span>
+                    </span>
+                `;
+            }
+        }
+
+        // Show device selector
+        function showDeviceSelector() {
+            const deviceSelector = document.getElementById('deviceSelector');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (deviceSelector) {
+                deviceSelector.style.display = 'flex';
+                deviceSelector.style.opacity = '1';
+                mainContent.style.opacity = '0.3';
+                
+                // Highlight current device
+                document.querySelectorAll('.device-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.device === currentDevice) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        // Hide device selector
+        function hideDeviceSelector() {
+            const deviceSelector = document.getElementById('deviceSelector');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (deviceSelector) {
+                deviceSelector.style.opacity = '0';
+                mainContent.style.opacity = '1';
+                
+                setTimeout(() => {
+                    deviceSelector.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Device selector event listeners
+        document.querySelectorAll('.device-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const deviceType = this.dataset.device;
+                applyDeviceOptimizations(deviceType);
+            });
+        });
+
+        // Device selector button on main page
+        document.getElementById('deviceSelectorBtn').addEventListener('click', showDeviceSelector);
+
+        // Close device selector when clicking outside
+        document.getElementById('deviceSelector').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideDeviceSelector();
+            }
+        });
+
+        // Enhanced data with categories and more tags
         const chapters = [
             {
                 title: "Light & Optics",
@@ -493,7 +917,7 @@
                     "👁️ Human eye = natural camera",
                     "✨ Total internal reflection in fibers"
                 ],
-                tags: ["Physics", "Optics", "Waves"],
+                tags: ["Physics", "Optics", "Waves", "Light", "Refraction", "Reflection"],
                 animation: "pulse-glow"
             },
             {
@@ -509,7 +933,7 @@
                     "🤝 Action meets reaction",
                     "🌎 Gravity pulls us down"
                 ],
-                tags: ["Physics", "Motion", "Forces"],
+                tags: ["Physics", "Motion", "Forces", "Gravity", "Newton", "Inertia"],
                 animation: "float"
             },
             {
@@ -525,7 +949,7 @@
                     "🎸 Strings vibrate at frequencies",
                     "🌊 Sound travels in waves"
                 ],
-                tags: ["Physics", "Audio", "Waves"],
+                tags: ["Physics", "Audio", "Waves", "Sound", "Vibration", "Frequency"],
                 animation: "bounce-slow"
             },
             {
@@ -541,7 +965,7 @@
                     "🌀 Transformers change voltage",
                     "🔌 Conductors vs insulators"
                 ],
-                tags: ["Physics", "Energy", "Circuits"],
+                tags: ["Physics", "Energy", "Circuits", "Electricity", "Voltage", "Current"],
                 animation: "pulse-glow"
             },
             {
@@ -557,7 +981,39 @@
                     "👻 Malware hides in files",
                     "🔍 Digital forensics investigation"
                 ],
-                tags: ["Tech", "Security", "Digital"],
+                tags: ["Tech", "Security", "Digital", "Cybersecurity", "Encryption", "Privacy"],
+                animation: "pulse"
+            },
+            {
+                title: "Artificial Intelligence",
+                subtitle: "AI: Intelligence, Amplified.",
+                file: "AI.html",
+                icon: "🤖",
+                color: "from-orange-400 to-red-700",
+                category: "security",
+                reelContent: [
+                    "⚡ Tomorrow's Solutions, Today's Advantage.",
+                    "🚀 Beyond Limits: The Future of Insight.",
+                    "🛡️ AI: Where Data Meets Discovery.",
+                    "🔍 Smart Tech, Smarter World."
+                ],
+                tags: ["AI", "Artificial Intelligence", "Machine Learning", "Tech", "Security", "Data"],
+                animation: "pulse"
+            },
+            {
+                title: "Quantum Computing",
+                subtitle: "Quantum: Powering the Next Era of Computation.",
+                file: "Quantum Computing.html",
+                icon: "🖥️",
+                color: "from-purple-600 to-indigo-700",
+                category: "advanced-tech",
+                reelContent: [
+                    "⚛️ Beyond Classical Limits: The Quantum Leap.",
+                    "🚀 Computing at the Speed of Possibility.",
+                    "🔮 Quantum Logic, Infinite Potential.",
+                    "🌐 The Future Runs on Quantum Sparks."
+                ],
+                tags: ["Quantum", "Qubit", "Superposition", "Entanglement", "Computing", "Advanced Tech"],
                 animation: "pulse"
             },
             {
@@ -573,7 +1029,7 @@
                     "🛡️ Immune cells defend",
                     "🧠 Neurons communicate"
                 ],
-                tags: ["Biology", "Cells", "Science"],
+                tags: ["Biology", "Cells", "Science", "DNA", "Mitochondria", "Genetics"],
                 animation: "spin-slow"
             },
             {
@@ -589,12 +1045,12 @@
                     "💎 Diamond's strong structure",
                     "🔗 Hydrogen bonds in water"
                 ],
-                tags: ["Chemistry", "Atoms", "Bonds"],
+                tags: ["Chemistry", "Atoms", "Bonds", "Molecules", "Reactions", "Electrons"],
                 animation: "float"
             }
         ];
 
-        // Search functionality
+        // Enhanced search functionality with tag support
         function performSearch(searchTerm) {
             const searchResults = document.getElementById('searchResults');
             searchResults.innerHTML = '';
@@ -605,46 +1061,121 @@
             }
             
             const term = searchTerm.toLowerCase();
-            const results = chapters.filter(chapter => 
-                chapter.title.toLowerCase().includes(term) ||
-                chapter.subtitle.toLowerCase().includes(term) ||
-                chapter.tags.some(tag => tag.toLowerCase().includes(term)) ||
-                chapter.reelContent.some(content => content.toLowerCase().includes(term))
-            );
+            const results = [];
+            
+            // Search through all chapters
+            chapters.forEach(chapter => {
+                let relevanceScore = 0;
+                
+                // Check title
+                if (chapter.title.toLowerCase().includes(term)) relevanceScore += 5;
+                
+                // Check subtitle
+                if (chapter.subtitle.toLowerCase().includes(term)) relevanceScore += 3;
+                
+                // Check tags (higher priority for exact tag matches)
+                const tagMatches = chapter.tags.filter(tag => 
+                    tag.toLowerCase().includes(term) || term.includes(tag.toLowerCase())
+                );
+                relevanceScore += tagMatches.length * 4;
+                
+                // Check reel content
+                const contentMatches = chapter.reelContent.filter(content => 
+                    content.toLowerCase().includes(term)
+                );
+                relevanceScore += contentMatches.length * 2;
+                
+                // Check category
+                if (chapter.category.toLowerCase().includes(term)) relevanceScore += 3;
+                
+                if (relevanceScore > 0) {
+                    results.push({
+                        chapter,
+                        relevanceScore,
+                        tagMatches,
+                        contentMatches
+                    });
+                }
+            });
+            
+            // Sort by relevance
+            results.sort((a, b) => b.relevanceScore - a.relevanceScore);
             
             if (results.length === 0) {
                 searchResults.innerHTML = `
                     <div class="p-4 text-center text-white/70">
-                        No results found for "${searchTerm}"
+                        <div class="text-lg mb-2">🔍 No results found for "${searchTerm}"</div>
+                        <div class="text-sm">Try searching for: 
+                            <span class="text-electric-blue">physics</span>, 
+                            <span class="text-electric-blue">biology</span>, 
+                            <span class="text-electric-blue">security</span>, 
+                            <span class="text-electric-blue">chemistry</span>
+                        </div>
                     </div>
                 `;
                 searchResults.classList.remove('hidden');
                 return;
             }
             
-            results.forEach(chapter => {
+            // Display results with highlighted matches
+            results.forEach(({ chapter, tagMatches }) => {
                 const resultItem = document.createElement('a');
                 resultItem.href = chapter.file;
                 resultItem.className = 'block p-4 hover:bg-white/10 transition-colors duration-200 border-b border-white/10 last:border-b-0 search-result';
+                
+                // Highlight search term in title
+                let highlightedTitle = chapter.title;
+                if (term.length > 2) {
+                    highlightedTitle = chapter.title.replace(
+                        new RegExp(term, 'gi'),
+                        match => `<span class="search-highlight">${match}</span>`
+                    );
+                }
+                
                 resultItem.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="text-2xl">${chapter.icon}</div>
-                        <div>
-                            <div class="font-bold">${chapter.title}</div>
-                            <div class="text-sm text-white/70">${chapter.subtitle}</div>
-                            <div class="flex gap-1 mt-1">
+                    <div class="flex items-start gap-3">
+                        <div class="text-3xl">${chapter.icon}</div>
+                        <div class="flex-1">
+                            <div class="font-bold text-lg mb-1">${highlightedTitle}</div>
+                            <div class="text-sm text-white/70 mb-2">${chapter.subtitle}</div>
+                            <div class="flex flex-wrap gap-1">
                                 ${chapter.tags.map(tag => `
-                                    <span class="text-xs px-2 py-1 rounded-full bg-white/10">${tag}</span>
+                                    <span class="text-xs px-2 py-1 rounded-full 
+                                        ${tagMatches.includes(tag) ? 'bg-gradient-to-r from-neon-pink to-electric-blue text-white' : 'bg-white/10'}
+                                    ">
+                                        ${tag}
+                                        ${tagMatches.includes(tag) ? ' 🔍' : ''}
+                                    </span>
                                 `).join('')}
                             </div>
+                            <div class="mt-2 text-xs text-white/50">
+                                Category: <span class="font-medium">${chapter.category.toUpperCase()}</span>
+                                <span class="search-tag">${tagMatches.length} tag matches</span>
+                            </div>
                         </div>
+                        <div class="text-2xl opacity-50">→</div>
                     </div>
                 `;
                 searchResults.appendChild(resultItem);
             });
             
+            // Add search summary
+            const summary = document.createElement('div');
+            summary.className = 'p-3 bg-black/50 text-center text-sm text-white/70 border-t border-white/10';
+            summary.innerHTML = `Found ${results.length} result${results.length !== 1 ? 's' : ''} for "${searchTerm}"`;
+            searchResults.appendChild(summary);
+            
             searchResults.classList.remove('hidden');
         }
+
+        // Search tag buttons
+        document.querySelectorAll('.search-tag-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tag = this.dataset.tag;
+                document.getElementById('searchInput').value = tag;
+                performSearch(tag);
+            });
+        });
 
         // Animated counter
         function animateCounter(id, target, duration = 2000) {
@@ -664,9 +1195,13 @@
         }
 
         function createChapterCard(chapter, index) {
+            // Adjust for mobile/tablet
+            const hoverClass = isMobileOrTablet ? '' : 'hover-3d';
+            const hoverTransform = isMobileOrTablet ? '' : 'group-hover:scale-105';
+            
             return `
                 <div class="animate__animated animate__fadeInUp stagger-delay-${(index % 7) + 1} chapter-card" data-category="${chapter.category}">
-                    <a href="${chapter.file}" class="block h-full group hover-3d">
+                    <a href="${chapter.file}" class="block h-full group ${hoverClass}">
                         <div class="neon-border h-full rounded-2xl overflow-hidden relative">
                             <div class="absolute inset-0 bg-gradient-to-br ${chapter.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
                             
@@ -708,7 +1243,7 @@
                                 </div>
                                 
                                 <!-- Action Button -->
-                                <button class="w-full py-4 rounded-xl bg-gradient-to-r ${chapter.color} text-white font-bold text-lg group-hover:scale-105 transition-transform duration-300 shadow-lg relative overflow-hidden">
+                                <button class="w-full py-4 rounded-xl bg-gradient-to-r ${chapter.color} text-white font-bold text-lg ${hoverTransform} transition-transform duration-300 shadow-lg relative overflow-hidden">
                                     <span class="relative z-10 flex items-center justify-center">
                                         Explore Now 
                                         <span class="ml-2 transform group-hover:translate-x-2 transition-transform duration-300">→</span>
@@ -717,9 +1252,11 @@
                             </div>
                             
                             <!-- Glow effect on hover -->
+                            ${!isMobileOrTablet ? `
                             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                 <div class="absolute -inset-1 bg-gradient-to-r ${chapter.color} rounded-2xl blur-xl"></div>
                             </div>
+                            ` : ''}
                         </div>
                     </a>
                 </div>
@@ -731,6 +1268,9 @@
             if (!reelElement) return;
 
             let currentIndex = 0;
+            
+            // Adjust speed based on device
+            const reelSpeed = isMobileOrTablet ? 5000 : 3000; // SLOWER for mobile/tablet
 
             const updateReel = () => {
                 reelElement.style.opacity = '0';
@@ -743,7 +1283,7 @@
             };
 
             reelElement.textContent = chapter.reelContent[0];
-            setInterval(updateReel, 3000);
+            setInterval(updateReel, reelSpeed);
         }
 
         // Category filtering function
@@ -790,6 +1330,8 @@
         }
 
         function initializeNotesHub() {
+            console.log('📚 Initializing Study Notes Hub...');
+            
             // Animate counters
             setTimeout(() => {
                 animateCounter('subject-count', chapters.length);
@@ -799,11 +1341,12 @@
             
             // Render cards
             const gridContainer = document.getElementById('notes-grid');
+            gridContainer.innerHTML = ''; // Clear any existing content
             chapters.forEach((chapter, index) => {
                 gridContainer.innerHTML += createChapterCard(chapter, index);
             });
 
-            // Start animations
+            // Start animations with device-specific speeds
             chapters.forEach(chapter => {
                 startContentReel(chapter);
             });
@@ -812,11 +1355,6 @@
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const category = this.dataset.category;
-                    // Add climax effect - scale and glow
-                    this.style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1.05)';
-                    }, 200);
                     
                     // Filter chapters
                     filterChapters(category);
@@ -827,13 +1365,26 @@
                 });
             });
 
-            // Search functionality
+            // Enhanced search functionality
             const searchInput = document.getElementById('searchInput');
             const searchResults = document.getElementById('searchResults');
             
+            let searchTimeout;
             searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
                 const searchTerm = this.value;
-                performSearch(searchTerm);
+                
+                // Debounce search for better performance
+                searchTimeout = setTimeout(() => {
+                    performSearch(searchTerm);
+                }, 300);
+            });
+            
+            // Search on Enter key
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(this.value);
+                }
             });
             
             // Hide search results when clicking outside
@@ -843,7 +1394,7 @@
                 }
             });
             
-            // Keyboard navigation for search
+            // Keyboard navigation for search results
             searchInput.addEventListener('keydown', function(event) {
                 const results = searchResults.querySelectorAll('a');
                 const activeResult = searchResults.querySelector('a.bg-white/20');
@@ -877,18 +1428,54 @@
                 }
             });
 
-            // Add hover effect to cards
-            document.querySelectorAll('.group').forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'perspective(1000px) rotateY(5deg) rotateX(3deg) translateZ(20px)';
+            // Add hover effect to cards (only for non-mobile devices)
+            if (!isMobileOrTablet) {
+                document.querySelectorAll('.group').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'perspective(1000px) rotateY(5deg) rotateX(3deg) translateZ(20px)';
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+                    });
                 });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+            }
+            
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 });
             });
+            
+            console.log(`✅ Study Notes Hub initialized in ${currentDevice} mode`);
         }
 
-        window.onload = initializeNotesHub;
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page loaded, checking device...');
+            
+            const savedDevice = localStorage.getItem('studyHubDevice');
+            const shouldShowSelector = shouldShowDeviceSelector();
+            
+            if (shouldShowSelector || !savedDevice) {
+                // Show device selector
+                document.getElementById('deviceSelector').style.display = 'flex';
+                document.getElementById('mainContent').classList.add('hidden');
+            } else {
+                // Apply saved device settings
+                applyDeviceOptimizations(savedDevice);
+            }
+        });
     </script>
 </body>
 </html>
