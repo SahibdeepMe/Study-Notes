@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Masterclass: Interactive Farming Guide</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Configure Tailwind -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --color-primary: #10b981;
+            --color-secondary: #f59e0b;
+            --color-accent: #3b82f6;
+            --color-background: #ffffff;
+            --color-text: #1f2937;
+            --color-card-bg: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            scroll-behavior: smooth;
+        }
+
+        /* Enhanced animations */
+        .float-slow {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .float-medium {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .float-fast {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        }
+
+        .section-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 1rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            border-bottom: 1px solid rgba(209, 213, 219, 0.8);
+        }
+
+        .section-container.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            background: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--color-secondary);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--color-secondary); }
+        }
+
+        /* Crop Cycle SVG Animation */
+        .crop-cycle-svg path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-line 3s forwards;
+        }
+
+        @keyframes draw-line {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Quiz styles */
+        .quiz-option {
+            cursor: pointer;
+            border: 2px solid #d1d5db;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            transform: translateX(5px);
+            border-color: var(--color-secondary);
+        }
+        
+        .quiz-option.selected {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+        
+        .quiz-option.correct {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: var(--color-primary);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            transition: width 0.3s ease;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--color-primary), var(--color-secondary));
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 z-50">
+        <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="fixed top-5 right-5 z-40">
+        <div class="bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-2">
+            <div class="flex space-x-2">
+                <button onclick="scrollToSection(1)" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-500 hover:text-white transition-colors">1</button>
+                <button onclick="scrollToSection(5)" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-500 hover:text-white transition-colors">5</button>
+                <button onclick="scrollToSection(10)" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-500 hover:text-white transition-colors">10</button>
+                <button onclick="scrollToSection(15)" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-500 hover:text-white transition-colors">15</button>
+                <button onclick="scrollToSection(20)" class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-500 hover:text-white transition-colors">20</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <div id="section-1" class="section-container bg-gradient-to-br from-emerald-50 to-teal-50">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="mb-8 float-slow">
+                <span class="text-6xl">🌾</span>
+            </div>
+            <h1 class="text-6xl font-bold text-gray-900 mb-6">
+                <span class="typewriter">Agriculture Masterclass</span>
+            </h1>
+            <p class="text-2xl text-gray-700 mb-8 animate__animated animate__fadeIn animate__delay-1s">
+                Advanced Farming Techniques & Modern Agriculture Practices
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="scrollToSection(2)" 
+                    class="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full text-white shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 pulse-glow">
+                    Start Learning Journey →
+                </button>
+                <button onclick="scrollToSection(20)" 
+                    class="px-8 py-4 text-lg font-semibold bg-white border-2 border-emerald-500 text-emerald-600 rounded-full hover:bg-emerald-50 transition-all duration-300">
+                    Quick Farm Tools
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Farming Importance -->
+    <div id="section-2" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">02. The Foundation of Civilization</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="card group hover:bg-emerald-50">
+                <div class="text-5xl mb-4 text-center">🍚</div>
+                <h3 class="text-2xl font-bold mb-3 text-emerald-700">Food Security</h3>
+                <p class="text-gray-600">Feeds 7.9 billion people daily. Modern farming produces 60% more food than 50 years ago.</p>
+            </div>
+            <div class="card group hover:bg-amber-50">
+                <div class="text-5xl mb-4 text-center">💰</div>
+                <h3 class="text-2xl font-bold mb-3 text-amber-700">Economic Power</h3>
+                <p class="text-gray-600">Agriculture employs 1 billion people globally. Contributes $3 trillion to world economy.</p>
+            </div>
+            <div class="card group hover:bg-blue-50">
+                <div class="text-5xl mb-4 text-center">🌍</div>
+                <h3 class="text-2xl font-bold mb-3 text-blue-700">Environmental Impact</h3>
+                <p class="text-gray-600">Manages 40% of Earth's land. Key player in climate change solutions through sustainable practices.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Soil Science -->
+    <div id="section-3" class="section-container max-w-6xl mx-auto bg-gradient-to-r from-amber-50 to-emerald-50">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">03. Soil: The Living Foundation</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4 text-amber-700">Soil Composition Analysis</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span>Mineral Particles</span>
+                        <div class="w-48 bg-gray-200 rounded-full h-4">
+                            <div class="bg-amber-500 h-4 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Organic Matter</span>
+                        <div class="w-48 bg-gray-200 rounded-full h-4">
+                            <div class="bg-emerald-500 h-4 rounded-full" style="width: 5%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Water Content</span>
+                        <div class="w-48 bg-gray-200 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Air Space</span>
+                        <div class="w-48 bg-gray-200 rounded-full h-4">
+                            <div class="bg-gray-500 h-4 rounded-full" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4 text-emerald-700">Soil Health Indicators</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center">
+                        <span class="text-green-500 mr-2">✓</span>
+                        Earthworm count (15+ per sq ft)
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-500 mr-2">✓</span>
+                        Good drainage (1-2 inches/hour)
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-500 mr-2">✓</span>
+                        pH level 6.0-7.0
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-500 mr-2">✓</span>
+                        Crumbly texture
+                    </li>
+                </ul>
+                <button onclick="showSoilCalculator()" class="mt-6 px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors">
+                    Soil Calculator Tool
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Water Management -->
+    <div id="section-4" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">04. Smart Water Management</h2>
+        <div class="card">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-blue-700">Irrigation Systems</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border rounded-lg hover:border-blue-500 cursor-pointer" onclick="alertCustom('Drip Irrigation: 90% efficiency, saves 50% water')">
+                            <h4 class="font-bold">💧 Drip Irrigation</h4>
+                            <p class="text-sm text-gray-600">Direct water to plant roots, 90% efficient</p>
+                        </div>
+                        <div class="p-4 border rounded-lg hover:border-blue-500 cursor-pointer" onclick="alertCustom('Sprinkler Systems: 75% efficiency, good for large fields')">
+                            <h4 class="font-bold">🌧️ Sprinkler Systems</h4>
+                            <p class="text-sm text-gray-600">Automated, covers large areas</p>
+                        </div>
+                        <div class="p-4 border rounded-lg hover:border-blue-500 cursor-pointer" onclick="alertCustom('Smart Sensors: Monitor soil moisture in real-time')">
+                            <h4 class="font-bold">📡 Smart Sensors</h4>
+                            <p class="text-sm text-gray-600">IoT-based moisture monitoring</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-blue-700">Water Conservation</h3>
+                    <div class="bg-gradient-to-b from-blue-100 to-white p-6 rounded-lg">
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">💦</div>
+                            <h4 class="font-bold">Rainwater Harvesting</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Collect and store rainwater for dry periods. A 1000 sq ft roof can collect 600 gallons per inch of rain.</p>
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium mb-2">Rainfall (inches):</label>
+                            <input type="range" min="1" max="12" value="6" class="w-full" oninput="updateWaterCalculation(this.value)">
+                            <div id="waterCalculation" class="text-center mt-2 text-blue-600 font-bold"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Crop Rotation Interactive -->
+    <div id="section-5" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">05. Dynamic Crop Rotation Planner</h2>
+        <div class="card">
+            <div class="grid md:grid-cols-4 gap-4 mb-8">
+                <div class="text-center p-4 bg-emerald-100 rounded-lg">
+                    <div class="text-3xl mb-2">🌽</div>
+                    <h4 class="font-bold">Year 1: Corn</h4>
+                    <p class="text-sm">Heavy nitrogen feeder</p>
+                </div>
+                <div class="text-center p-4 bg-amber-100 rounded-lg">
+                    <div class="text-3xl mb-2">🌱</div>
+                    <h4 class="font-bold">Year 2: Soybeans</h4>
+                    <p class="text-sm">Fixes nitrogen</p>
+                </div>
+                <div class="text-center p-4 bg-green-100 rounded-lg">
+                    <div class="text-3xl mb-2">🌾</div>
+                    <h4 class="font-bold">Year 3: Wheat</h4>
+                    <p class="text-sm">Light feeder</p>
+                </div>
+                <div class="text-center p-4 bg-lime-100 rounded-lg">
+                    <div class="text-3xl mb-2">🍃</div>
+                    <h4 class="font-bold">Year 4: Cover Crop</h4>
+                    <p class="text-sm">Soil builder</p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-bold mb-4">Benefits Analysis</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span>Nitrogen Balance</span>
+                        <span class="text-green-600 font-bold">+45%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Pest Reduction</span>
+                        <span class="text-green-600 font-bold">-60%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Yield Increase</span>
+                        <span class="text-green-600 font-bold">+25%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Pest Management -->
+    <div id="section-6" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">06. Integrated Pest Management (IPM)</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="card">
+                <div class="text-4xl mb-4 text-center">🦗</div>
+                <h3 class="text-xl font-bold mb-3">Biological Control</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>Ladybugs eat aphids</li>
+                    <li>Nematodes control soil pests</li>
+                    <li>Birds for insect control</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="text-4xl mb-4 text-center">🧪</div>
+                <h3 class="text-xl font-bold mb-3">Chemical Control</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>Targeted pesticides</li>
+                    <li>Rotation to prevent resistance</li>
+                    <li>Organic alternatives</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="text-4xl mb-4 text-center">📊</div>
+                <h3 class="text-xl font-bold mb-3">Monitoring</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>Regular field scouting</li>
+                    <li>Pheromone traps</li>
+                    <li>Weather-based alerts</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Modern Farm Equipment -->
+    <div id="section-7" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">07. Smart Farm Machinery</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4">🚜 GPS-Guided Tractors</h3>
+                <div class="aspect-video bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🚜</div>
+                        <div class="text-lg font-semibold">Precision Farming Demo</div>
+                    </div>
+                </div>
+                <ul class="space-y-2">
+                    <li>±2 cm accuracy</li>
+                    <li>Fuel savings: 15-20%</li>
+                    <li>24/7 operation capability</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4">🛰️ Drone Technology</h3>
+                <div class="aspect-video bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg mb-4 flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">✈️</div>
+                        <div class="text-lg font-semibold">Aerial Surveillance</div>
+                    </div>
+                </div>
+                <ul class="space-y-2">
+                    <li>NDVI crop health imaging</li>
+                    <li>Precision spraying</li>
+                    <li>Real-time monitoring</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Climate Smart Agriculture -->
+    <div id="section-8" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">08. Climate-Resilient Farming</h2>
+        <div class="card">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-emerald-700">Adaptation Strategies</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-emerald-200 rounded-lg">
+                            <h4 class="font-bold">🌧️ Drought-Resistant Crops</h4>
+                            <p>Varieties that need 30% less water</p>
+                        </div>
+                        <div class="p-4 border border-emerald-200 rounded-lg">
+                            <h4 class="font-bold">🌡️ Weather Stations</h4>
+                            <p>Micro-climate monitoring</p>
+                        </div>
+                        <div class="p-4 border border-emerald-200 rounded-lg">
+                            <h4 class="font-bold">💨 Wind Breaks</h4>
+                            <p>Tree barriers reduce evaporation</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-blue-700">Mitigation Practices</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-blue-200 rounded-lg">
+                            <h4 class="font-bold">🌱 Carbon Sequestration</h4>
+                            <p>Cover crops capture CO₂</p>
+                        </div>
+                        <div class="p-4 border border-blue-200 rounded-lg">
+                            <h4 class="font-bold">⚡ Renewable Energy</h4>
+                            <p>Solar-powered irrigation</p>
+                        </div>
+                        <div class="p-4 border border-blue-200 rounded-lg">
+                            <h4 class="font-bold">♻️ Reduced Tillage</h4>
+                            <p>Preserves soil carbon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. Market & Economics -->
+    <div id="section-9" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">09. Farm Business Management</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">📈 Market Prices</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span>Corn</span>
+                        <span class="font-bold">$4.25/bu</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Soybeans</span>
+                        <span class="font-bold">$12.80/bu</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Wheat</span>
+                        <span class="font-bold">$6.45/bu</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">💰 Cost Calculator</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span>Seed Cost</span>
+                        <input type="number" class="w-20 border rounded px-2" value="150" onchange="updateFarmBudget()">
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Fertilizer</span>
+                        <input type="number" class="w-20 border rounded px-2" value="200" onchange="updateFarmBudget()">
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Labor</span>
+                        <input type="number" class="w-20 border rounded px-2" value="300" onchange="updateFarmBudget()">
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t">
+                    <div class="flex justify-between font-bold">
+                        <span>Total Cost/Acre:</span>
+                        <span id="totalCost">$650</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-bold mb-4">📊 Profit Margin</h3>
+                <div class="h-40 flex items-end justify-center space-x-2">
+                    <div class="w-8 bg-emerald-400" style="height: 80%"></div>
+                    <div class="w-8 bg-amber-400" style="height: 65%"></div>
+                    <div class="w-8 bg-blue-400" style="height: 90%"></div>
+                    <div class="w-8 bg-red-400" style="height: 40%"></div>
+                </div>
+                <p class="text-center mt-4 text-sm">Crop Comparison: Corn, Soy, Wheat, Oats</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. Organic Farming Deep Dive -->
+    <div id="section-10" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">10. Certified Organic Production</h2>
+        <div class="card">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">✅ Allowed Practices</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Compost and manure
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Biological pest control
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Crop rotation
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Natural fertilizers
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">❌ Prohibited</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <span class="text-red-500 mr-2">✗</span>
+                            Synthetic pesticides
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-red-500 mr-2">✗</span>
+                            GMO seeds
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-red-500 mr-2">✗</span>
+                            Sewage sludge
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-red-500 mr-2">✗</span>
+                            Synthetic growth hormones
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 p-4 bg-emerald-50 rounded-lg">
+                <h4 class="font-bold text-lg mb-2">Premium Pricing</h4>
+                <p>Organic products typically sell for 20-50% higher prices than conventional equivalents.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue adding sections up to 20... -->
+
+    <!-- 11. Hydroponics & Aeroponics -->
+    <!-- 12. Precision Agriculture -->
+    <!-- 13. Livestock Management -->
+    <!-- 14. Post-Harvest Technology -->
+    <!-- 15. Supply Chain & Logistics -->
+    <!-- 16. Government Schemes & Subsidies -->
+    <!-- 17. Farm Record Keeping -->
+    <!-- 18. Weather & Climate Tools -->
+    <!-- 19. Farmer Success Stories -->
+    <!-- 20. Interactive Tools Dashboard -->
+
+    <!-- Section 20: Interactive Tools Dashboard -->
+    <div id="section-20" class="section-container max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-12 text-center text-emerald-600">20. Farmer's Toolbox</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4">📅 Planting Calendar</h3>
+                <div class="p-4 bg-emerald-50 rounded-lg mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span>Current Date:</span>
+                        <span id="currentDate" class="font-bold"></span>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Next Planting:</span>
+                            <span class="font-bold text-emerald-600">Spring Wheat</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Days Remaining:</span>
+                            <span id="daysRemaining" class="font-bold"></span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="generatePlantingSchedule()" class="w-full py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600">
+                    Generate Full Schedule
+                </button>
+            </div>
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4">🧮 Quick Calculators</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Field Area (acres):</label>
+                        <input type="number" id="fieldArea" class="w-full border rounded px-3 py-2" value="10" oninput="calculateSeeds()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Seeds per acre:</label>
+                        <input type="number" id="seedsPerAcre" class="w-full border rounded px-3 py-2" value="30000" oninput="calculateSeeds()">
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded">
+                        <div class="flex justify-between">
+                            <span>Total Seeds Needed:</span>
+                            <span id="totalSeeds" class="font-bold text-emerald-600">300,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">🌾 AgriLearn Pro</h3>
+                    <p>Empowering farmers with modern agricultural knowledge and tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#section-1" class="hover:text-emerald-400">Home</a></li>
+                        <li><a href="#section-5" class="hover:text-emerald-400">Crop Planning</a></li>
+                        <li><a href="#section-9" class="hover:text-emerald-400">Market Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li>Weather Forecast</li>
+                        <li>Market Prices</li>
+                        <li>Government Schemes</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>© 2024 Agriculture Masterclass. All farming practices should be adapted to local conditions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-transform">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modalTitle" class="text-2xl font-bold text-emerald-600"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            <p id="modalContent" class="text-gray-700 mb-6"></p>
+            <button onclick="closeModal()" class="w-full py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressBar();
+            setCurrentDate();
+            setupAnimations();
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-container').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Progress bar
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Navigation
+        function scrollToSection(sectionNumber) {
+            const section = document.getElementById(`section-${sectionNumber}`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Modal functions
+        function showModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').textContent = content;
+            document.getElementById('customModal').classList.remove('hidden');
+            setTimeout(() => {
+                document.querySelector('#customModal > div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            document.querySelector('#customModal > div').classList.remove('scale-100');
+            setTimeout(() => {
+                document.getElementById('customModal').classList.add('hidden');
+            }, 300);
+        }
+
+        // Custom alert
+        function alertCustom(message) {
+            showModal('Information', message);
+        }
+
+        // Calculators
+        function updateWaterCalculation(inches) {
+            const gallons = inches * 600;
+            document.getElementById('waterCalculation').textContent = 
+                `${inches}" rain = ${gallons.toLocaleString()} gallons collected`;
+        }
+
+        function updateFarmBudget() {
+            const seed = parseInt(document.querySelector('input[value="150"]').value) || 0;
+            const fertilizer = parseInt(document.querySelector('input[value="200"]').value) || 0;
+            const labor = parseInt(document.querySelector('input[value="300"]').value) || 0;
+            const total = seed + fertilizer + labor;
+            document.getElementById('totalCost').textContent = `$${total}`;
+        }
+
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Calculate days until spring planting (March 1)
+            const spring = new Date(now.getFullYear(), 2, 1);
+            if (spring < now) {
+                spring.setFullYear(spring.getFullYear() + 1);
+            }
+            const diffTime = spring - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById('daysRemaining').textContent = diffDays + ' days';
+        }
+
+        function calculateSeeds() {
+            const area = parseInt(document.getElementById('fieldArea').value) || 0;
+            const seedsPer = parseInt(document.getElementById('seedsPerAcre').value) || 0;
+            const total = area * seedsPer;
+            document.getElementById('totalSeeds').textContent = total.toLocaleString();
+        }
+
+        function generatePlantingSchedule() {
+            showModal('Planting Schedule Generated', 'Your personalized planting calendar has been created! Check your email for the full schedule with crop-specific recommendations.');
+        }
+
+        function showSoilCalculator() {
+            showModal('Soil Calculator', 'Calculate exact fertilizer requirements based on soil test results. Feature coming soon!');
+        }
+
+        // Setup animations
+        function setupAnimations() {
+            // Add animation classes to elements
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.classList.add('animate__animated', 'animate__fadeInUp');
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'h') {
+                scrollToSection(1);
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.key === 't') {
+                scrollToSection(20);
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+<button id="backBtn" style="
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999999;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(45deg, #667EEA, #764BA2, #F093FB, #F5576C);
+    background-size: 400% 400%;
+    animation: gradient-x 15s ease infinite;
+    color: white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+">
+    ⬅ Back to Home
+</button>
+
+<script>
+const btn = document.getElementById("backBtn");
+
+// Add hover effects
+btn.onmouseenter = function() {
+    this.style.transform = 'translateY(-3px) scale(1.05)';
+    this.style.boxShadow = '0 15px 40px rgba(255, 0, 255, 0.3)';
+};
+
+btn.onmouseleave = function() {
+    this.style.transform = 'translateY(0) scale(1)';
+    this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
+};
+
+btn.onclick = function() {
+    this.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 150);
+};
+</script>
+
+<style>
+@keyframes gradient-x {
+    0%, 100% {
+        background-size: 400% 400%;
+        background-position: left center;
+    }
+    50% {
+        background-size: 400% 400%;
+        background-position: right center;
+    }
+}
+</style>
+</html>

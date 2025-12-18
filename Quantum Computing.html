@@ -8,9 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font family -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <!-- MathJax for equations -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         /* Light Theme Base Styles */
         body {
@@ -94,93 +91,6 @@
             background: conic-gradient(from 0deg, #4f46e5 0%, #4f46e5 50%, #a855f7 50%, #a855f7 100%);
         }
 
-        /* Custom animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                opacity: 1;
-                filter: drop-shadow(0 0 10px currentColor);
-            }
-            50% { 
-                opacity: 0.8;
-                filter: drop-shadow(0 0 20px currentColor);
-            }
-        }
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        /* Image containers */
-        .image-container {
-            width: 100%;
-            height: 300px;
-            border-radius: 1rem;
-            overflow: hidden;
-            position: relative;
-            margin: 1rem 0;
-        }
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .image-container:hover img {
-            transform: scale(1.05);
-        }
-
-        .gif-container {
-            width: 100%;
-            max-height: 300px;
-            border-radius: 1rem;
-            overflow: hidden;
-            margin: 1rem 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(45deg, #667EEA, #764BA2);
-        }
-
-        /* Quantum circuit visualization */
-        .circuit-line {
-            height: 4px;
-            background: linear-gradient(90deg, #4f46e5, #a855f7);
-            margin: 20px 0;
-            position: relative;
-        }
-        .gate-node {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: white;
-            border: 3px solid #4f46e5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        /* Back button */
-        @keyframes gradient-x {
-            0%, 100% {
-                background-size: 400% 400%;
-                background-position: left center;
-            }
-            50% {
-                background-size: 400% 400%;
-                background-position: right center;
-            }
-        }
     </style>
 </head>
 <body class="scroll-snap-y">
@@ -189,37 +99,18 @@
     <!-- SECTION 01: Title & Hero -->
     <!-- ---------------------------------------------------- -->
     <section id="s1" class="reveal-element bg-gray-50">
-        <div class="space-y-6 max-w-5xl p-8 text-center">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                <div class="w-full md:w-1/2">
-                    <h1 class="text-6xl md:text-7xl font-extrabold tracking-tight hero-title mb-4">
-                        ⚛️ Quantum Computing
-                    </h1>
-                    <p class="text-2xl md:text-3xl font-light text-gray-700 mb-6">
-                        The Interactive Masterclass
-                    </p>
-                    <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-                        Explore 20 interactive pages with animations, GIFs, and hands-on simulations to master quantum concepts.
-                    </p>
-                    <div class="mt-8">
-                        <button onclick="document.getElementById('s2').scrollIntoView({behavior: 'smooth'})" 
-                                class="btn-primary bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition-all duration-300 transform hover:scale-105">
-                            Start Learning →
-                        </button>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2 gif-container">
-                    <img src="https://media.giphy.com/media/l46Cy1rHbQ92uuLXa/giphy.gif" 
-                         alt="Quantum Computing Animation"
-                         class="rounded-xl shadow-2xl float-animation"
-                         style="max-height: 300px;">
-                </div>
-            </div>
+        <div class="space-y-6 max-w-4xl p-8 text-center">
+            <h1 class="text-7xl font-extrabold tracking-tight hero-title">
+                ⚛️ Quantum Computing
+            </h1>
+            <p class="text-3xl font-light text-gray-700">
+                The Interactive Masterclass: Understanding the Qubit.
+            </p>
+            <p class="text-lg text-gray-500 mt-4">
+                Scroll to explore 20 pages of animated and clickable concepts.
+            </p>
             <div class="mt-10">
-                <svg class="mx-auto w-10 h-10 text-indigo-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-                <p class="text-sm text-gray-500 mt-2">Scroll to explore quantum concepts</p>
+                <svg class="mx-auto w-10 h-10 text-indigo-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
         </div>
     </section>
@@ -228,165 +119,50 @@
     <!-- SECTION 02: Overview: Classical vs. Quantum -->
     <!-- ---------------------------------------------------- -->
     <section id="s2" class="reveal-element bg-white">
-        <div class="max-w-5xl w-full space-y-8 content-card p-8 rounded-2xl">
-            <h2 class="text-3xl font-bold text-indigo-600 flex items-center gap-3">
-                <span>02. Classical vs Quantum Computing</span>
-                <span class="text-2xl">⚖️</span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Classical Bit -->
-                <div class="text-center p-6 bg-gray-100 rounded-xl cursor-pointer transition duration-300 hover:shadow-lg border-2 border-gray-300" onclick="toggleClassicalBit()">
-                    <div class="image-container mb-4">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                             alt="Classical Computer Circuit"
-                             class="rounded-lg">
-                    </div>
+        <div class="max-w-4xl w-full space-y-8 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">02. Overview: The Core Difference</h2>
+            <div class="flex justify-around items-center space-x-8">
+                <!-- Classical Bit Simulation -->
+                <div class="text-center p-6 bg-gray-100 rounded-xl w-1/2 cursor-pointer transition duration-300 hover:shadow-lg" onclick="toggleClassicalBit()">
                     <p class="text-xl font-semibold mb-4">Classical Bit (0 or 1)</p>
-                    <div id="classical-bit" class="w-24 h-24 mx-auto rounded-full flex items-center justify-center text-4xl font-mono text-white transition-all duration-500 shadow-lg" style="background-color: #2c3e50;">
+                    <div id="classical-bit" class="w-24 h-24 mx-auto rounded-full flex items-center justify-center text-4xl font-mono text-white transition-all duration-500" style="background-color: #2c3e50;">
                         0
                     </div>
                     <p id="classical-state-text" class="mt-4 text-sm text-gray-600">State: OFF (0)</p>
-                    <p class="mt-3 text-gray-700 text-sm">Click to toggle between 0 and 1</p>
                 </div>
 
-                <!-- Quantum Qubit -->
-                <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl cursor-pointer transition duration-300 hover:shadow-lg border-2 border-indigo-200" onclick="startSuperposition()">
-                    <div class="image-container mb-4">
-                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                             alt="Quantum Computer"
-                             class="rounded-lg">
-                    </div>
+                <!-- Quantum Qubit Simulation -->
+                <div class="text-center p-6 bg-gray-100 rounded-xl w-1/2 cursor-pointer transition duration-300 hover:shadow-lg" onclick="startSuperposition()">
                     <p class="text-xl font-semibold mb-4">Quantum Qubit (Superposition)</p>
-                    <div id="quantum-qubit" class="qubit-state mx-auto text-gray-900 border-indigo-400 shadow-lg pulse-glow">
+                    <div id="quantum-qubit" class="qubit-state mx-auto text-gray-900 border-indigo-400">
                         ?
                     </div>
                     <p id="quantum-state-text" class="mt-4 text-sm text-gray-600">State: Click to Enter Superposition</p>
-                    <p class="mt-3 text-gray-700 text-sm">Click to see quantum magic!</p>
                 </div>
             </div>
-            
-            <div id="difference-info" class="hidden mt-6 p-4 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl border-l-4 border-indigo-500">
-                <p class="text-center text-indigo-800 font-medium">
-                    <span class="text-xl">⚡</span> The classical bit processes sequentially (one state at a time). 
-                    The qubit processes <strong>all states simultaneously</strong> - that's the quantum advantage!
-                </p>
-            </div>
-            
-            <!-- Key Differences Table -->
-            <div class="mt-8 grid md:grid-cols-2 gap-4">
-                <div class="p-4 bg-red-50 rounded-lg">
-                    <h4 class="font-bold text-red-700 mb-2">Classical Computing</h4>
-                    <ul class="text-sm text-red-600 space-y-1">
-                        <li>• Bits: 0 OR 1</li>
-                        <li>• Sequential processing</li>
-                        <li>• Deterministic outcomes</li>
-                        <li>• No superposition</li>
-                        <li>• Easy to scale</li>
-                    </ul>
-                </div>
-                <div class="p-4 bg-blue-50 rounded-lg">
-                    <h4 class="font-bold text-blue-700 mb-2">Quantum Computing</h4>
-                    <ul class="text-sm text-blue-600 space-y-1">
-                        <li>• Qubits: 0 AND 1 simultaneously</li>
-                        <li>• Parallel processing</li>
-                        <li>• Probabilistic outcomes</li>
-                        <li>• Superposition & Entanglement</li>
-                        <li>• Requires extreme cooling</li>
-                    </ul>
-                </div>
-            </div>
+            <p id="difference-info" class="text-center text-red-600 font-medium hidden">
+                The classical bit is sequential (one state at a time). The qubit processes both states simultaneously!
+            </p>
         </div>
     </section>
 
     <!-- ---------------------------------------------------- -->
     <!-- SECTION 03: The Qubit: Superposition (Visualization) -->
     <!-- ---------------------------------------------------- -->
-    <section id="s3" class="reveal-element bg-gradient-to-br from-gray-50 to-blue-50">
-        <div class="max-w-5xl w-full space-y-8 content-card p-8 rounded-2xl">
-            <h2 class="text-3xl font-bold text-indigo-600 flex items-center gap-3">
-                <span>03. Superposition: The Quantum Magic</span>
-                <span class="text-2xl">🌀</span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <p class="text-gray-700 text-lg leading-relaxed">
-                        A qubit's state \(|\psi\rangle\) is a linear combination of its basis states:
-                        \[
-                        |\psi\rangle = \alpha|0\rangle + \beta|1\rangle
-                        \]
-                        where \(|\alpha|^2 + |\beta|^2 = 1\). This means it can be in multiple states at once!
-                    </p>
-                    
-                    <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
-                        <p class="font-semibold text-blue-800 mb-2">Key Insight:</p>
-                        <p class="text-blue-700">
-                            While a classical computer with 3 bits can be in ONE of 8 states (000, 001, 010...),
-                            <span class="font-bold">3 qubits can be in ALL 8 states simultaneously!</span>
-                        </p>
-                        <button onclick="showAlert('This exponential growth (2ᴺ states) is why quantum computers can solve certain problems exponentially faster than classical computers!')" 
-                                class="mt-3 text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105">
-                            Why is this important? 🤔
-                        </button>
-                    </div>
-                </div>
+    <section id="s3" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">03. Key Concept: Superposition</h2>
+            <p class="text-gray-700">
+                A qubit's state $|\psi\rangle$ is a linear combination of its basis states, $|0\rangle$ and $|1\rangle$.
+                <button onclick="showAlert('Superposition allows exponential speedup by computing all possibilities at once.')" class="text-sm text-blue-600 underline ml-2">Why is this important?</button>
+            </p>
+            <div class="flex justify-center mt-6">
+                <!-- Image of Bloch sphere diagram -->
                 
-                <div class="space-y-4">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                             alt="Bloch Sphere Visualization"
-                             class="rounded-lg">
-                        <div class="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm">
-                            Bloch Sphere Representation
-                        </div>
-                    </div>
-                    
-                    <!-- Interactive Bloch Sphere Demo -->
-                    <div class="p-4 bg-white rounded-xl border border-indigo-200">
-                        <p class="text-center font-medium text-indigo-700 mb-3">Interactive Bloch Sphere</p>
-                        <div class="flex justify-center items-center space-x-4">
-                            <div class="relative w-32 h-32 rounded-full border-4 border-indigo-300 bg-gradient-to-br from-blue-100 to-purple-100">
-                                <div id="bloch-point" class="absolute w-6 h-6 bg-red-500 rounded-full border-2 border-white shadow-lg"
-                                     style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
-                            </div>
-                            <div class="space-y-2">
-                                <button onclick="moveBlochPoint('north')" class="block w-24 py-2 bg-indigo-100 hover:bg-indigo-200 rounded-lg text-sm transition duration-200">North Pole |0⟩</button>
-                                <button onclick="moveBlochPoint('south')" class="block w-24 py-2 bg-indigo-100 hover:bg-indigo-200 rounded-lg text-sm transition duration-200">South Pole |1⟩</button>
-                                <button onclick="moveBlochPoint('equator')" class="block w-24 py-2 bg-indigo-100 hover:bg-indigo-200 rounded-lg text-sm transition duration-200">Equator (50/50)</button>
-                            </div>
-                        </div>
-                        <p class="text-center text-sm text-gray-600 mt-3">
-                            Click to move the quantum state on the Bloch Sphere
-                        </p>
-                    </div>
-                </div>
             </div>
-            
-            <!-- Superposition Visualization -->
-            <div class="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
-                <h4 class="font-bold text-purple-800 mb-3 flex items-center gap-2">
-                    <span>🎯 Visualizing Superposition</span>
-                </h4>
-                <div class="flex items-center justify-center space-x-6">
-                    <div class="text-center">
-                        <div class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center text-white font-bold">0</div>
-                        <p class="text-xs mt-2">State |0⟩</p>
-                    </div>
-                    <span class="text-2xl">+</span>
-                    <div class="text-center">
-                        <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">1</div>
-                        <p class="text-xs mt-2">State |1⟩</p>
-                    </div>
-                    <span class="text-2xl">=</span>
-                    <div class="text-center">
-                        <div id="superposition-demo" class="w-24 h-24 rounded-full bg-gradient-to-r from-red-400 via-purple-400 to-blue-400 flex items-center justify-center text-white font-bold text-xl pulse-glow">
-                            Both
-                        </div>
-                        <p class="text-xs mt-2">Superposition</p>
-                    </div>
-                </div>
-            </div>
+            <p class="text-center text-sm text-gray-500 mt-2">
+                The qubit state is represented by a point on the Bloch Sphere. Click the sphere to see potential locations.
+            </p>
         </div>
     </section>
 
@@ -394,103 +170,25 @@
     <!-- SECTION 04: Interactive Measurement & Collapse -->
     <!-- ---------------------------------------------------- -->
     <section id="s4" class="reveal-element bg-white">
-        <div class="max-w-5xl w-full space-y-8 content-card p-8 rounded-2xl">
-            <h2 class="text-3xl font-bold text-indigo-600 flex items-center gap-3">
-                <span>04. Measurement & Wavefunction Collapse</span>
-                <span class="text-2xl">📏</span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <p class="text-gray-700 text-lg leading-relaxed">
-                        The quantum world's biggest mystery: A qubit only reveals a definite state (0 or 1) when measured. 
-                        This act of observation <strong>collapses the wavefunction</strong>, destroying the superposition.
-                    </p>
-                    
-                    <div class="mt-6 p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-xl border-l-4 border-red-500">
-                        <p class="font-semibold text-red-800 mb-2">Quantum Mystery:</p>
-                        <p class="text-red-700">
-                            "Does the measurement create reality, or does it reveal what was already there?" 
-                            This is the heart of quantum mechanics debates.
-                        </p>
-                    </div>
-                    
-                    <!-- Probability Slider -->
-                    <div class="mt-6">
-                        <p class="font-medium text-gray-700 mb-2">Adjust probability of measuring |1⟩:</p>
-                        <input type="range" min="0" max="100" value="50" 
-                               class="w-full h-3 bg-gradient-to-r from-green-400 to-red-400 rounded-lg appearance-none cursor-pointer" 
-                               id="probability-slider"
-                               oninput="updateProbability(this.value)">
-                        <div class="flex justify-between text-sm text-gray-600 mt-1">
-                            <span>Always 0</span>
-                            <span id="probability-value">50% |1⟩</span>
-                            <span>Always 1</span>
-                        </div>
-                    </div>
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">04. Interactive: Measurement & Collapse</h2>
+            <p class="text-gray-700">A qubit only reveals a definite state (0 or 1) when measured. This action destroys the superposition.</p>
+
+            <div class="flex items-center justify-center space-x-8">
+                <div id="collapse-qubit" class="qubit-state is-superposition text-gray-900 border-red-500">
+                    50% |0⟩ <br> 50% |1⟩
                 </div>
-                
-                <div class="space-y-6">
-                    <!-- GIF showing quantum measurement -->
-                    <div class="gif-container">
-                        <img src="https://media.giphy.com/media/l0HlRybJ5LbB1QK6A/giphy.gif" 
-                             alt="Quantum Measurement Animation"
-                             class="rounded-lg">
-                    </div>
-                    
-                    <!-- Measurement Interactive -->
-                    <div class="text-center p-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl">
-                        <div id="collapse-qubit" class="qubit-state mx-auto is-superposition text-gray-900 border-red-500 shadow-lg mb-4">
-                            50% |0⟩ <br> 50% |1⟩
-                        </div>
-                        
-                        <button id="measure-btn" onclick="measureAndCollapse()" 
-                                class="btn-primary bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-lg shadow-lg transform hover:scale-105 w-full">
-                            🔬 Apply Measurement (Collapse Now!)
-                        </button>
-                        
-                        <p id="measurement-info" class="mt-3 text-sm text-gray-600">
-                            Click to perform quantum measurement on the superposition
-                        </p>
-                    </div>
+                <div class="text-center">
+                    <button id="measure-btn" onclick="measureAndCollapse(0.5)" class="btn-primary bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                        Apply Measurement (Collapse!)
+                    </button>
+                    <p id="measurement-info" class="mt-4 text-sm text-gray-500">Click to perform measurement on the superposition.</p>
                 </div>
             </div>
-            
-            <!-- Results Area -->
-            <div id="collapse-result" class="mt-6 text-center text-2xl font-bold text-gray-900 hidden"></div>
-            
-            <div id="collapse-explanation" class="hidden mt-6 p-6 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border-l-4 border-red-400">
-                <h4 class="font-bold text-red-800 mb-3 flex items-center gap-2">
-                    <span>⚡ Why did it collapse?</span>
-                </h4>
-                <p class="text-red-700">
-                    The measurement forces the quantum system to "choose" a single outcome according to probability, 
-                    turning it into a classical bit. This is called <strong>wavefunction collapse</strong> - one of the 
-                    most debated phenomena in physics!
-                </p>
-                <div class="mt-4 flex items-center gap-3">
-                    <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <span class="text-sm text-red-600">The superposition is destroyed forever</span>
-                </div>
-            </div>
-            
-            <!-- Measurement Types -->
-            <div class="mt-8 grid md:grid-cols-3 gap-4">
-                <div class="p-4 bg-blue-50 rounded-lg text-center">
-                    <div class="text-3xl mb-2">🔍</div>
-                    <h4 class="font-bold text-blue-700">Projective</h4>
-                    <p class="text-sm text-blue-600">Standard measurement</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg text-center">
-                    <div class="text-3xl mb-2">⚖️</div>
-                    <h4 class="font-bold text-green-700">Weak</h4>
-                    <p class="text-sm text-green-600">Partial collapse</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg text-center">
-                    <div class="text-3xl mb-2">🔄</div>
-                    <h4 class="font-bold text-purple-700">Delayed Choice</h4>
-                    <p class="text-sm text-purple-600">Future affects past</p>
-                </div>
+
+            <div id="collapse-result" class="mt-6 text-center text-xl font-bold text-gray-900"></div>
+            <div id="collapse-explanation" class="hidden mt-4 p-3 bg-red-50 border-l-4 border-red-400 text-red-700">
+                <p><strong>Why did it collapse?</strong> The measurement forces the quantum system to choose a single outcome according to probability, turning it into a classical bit.</p>
             </div>
         </div>
     </section>
@@ -498,125 +196,29 @@
     <!-- ---------------------------------------------------- -->
     <!-- SECTION 05: Key Concept: Entanglement -->
     <!-- ---------------------------------------------------- -->
-    <section id="s5" class="reveal-element bg-gradient-to-br from-gray-50 to-blue-50">
-        <div class="max-w-5xl w-full space-y-8 content-card p-8 rounded-2xl">
-            <h2 class="text-3xl font-bold text-indigo-600 flex items-center gap-3">
-                <span>05. Quantum Entanglement: Spooky Action</span>
-                <span class="text-2xl">🔗</span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <p class="text-gray-700 text-lg leading-relaxed">
-                        Two entangled qubits share the same fate instantly, no matter the distance. 
-                        Einstein called this "spooky action at a distance" - measuring one instantly determines the other!
-                    </p>
-                    
-                    <!-- Famous Bell States -->
-                    <div class="mt-6 space-y-3">
-                        <div class="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
-                            <p class="font-mono text-blue-800">
-                                \(|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}\)
-                            </p>
-                            <p class="text-sm text-blue-600 mt-1">Bell State (Maximally entangled)</p>
-                        </div>
-                        <div class="p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                            <p class="font-mono text-purple-800">
-                                \(|\Psi^+\rangle = \frac{|01\rangle + |10\rangle}{\sqrt{2}}\)
-                            </p>
-                            <p class="text-sm text-purple-600 mt-1">Another Bell State</p>
-                        </div>
-                    </div>
-                    
-                    <button onclick="showAlert('Entanglement enables quantum teleportation, superdense coding, and is the backbone of quantum cryptography and quantum internet!')" 
-                            class="mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
-                        What are the applications? 🚀
-                    </button>
+    <section id="s5" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">05. Key Concept: Entanglement</h2>
+            <p class="text-gray-700">
+                Two entangled qubits share the same fate. Measuring one instantly determines the state of the other, no matter the distance.
+                <button onclick="showAlert('Entanglement is the key resource for quantum teleportation and highly efficient quantum algorithms.')" class="text-sm text-blue-600 underline ml-2">What is the application?</button>
+            </p>
+            <div class="flex justify-center space-x-12 mt-6">
+                <!-- Qubit A -->
+                <div id="entangle-qubit-a" class="qubit-state bg-blue-100 border-blue-600 text-blue-800" onclick="measureEntangledPair('A')">A: ?</div>
+                <!-- Line -->
+                <div class="flex flex-col justify-center items-center">
+                    <svg class="w-16 h-16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path id="entanglement-path" d="M 10 50 C 30 20, 70 20, 90 50" stroke="#f97316" stroke-width="4" fill="none" class="transition-all duration-1000"/>
+                        <circle cx="50" cy="50" r="8" fill="#f97316" class="animate-pulse"/>
+                    </svg>
+                    <p class="text-sm text-orange-600 font-semibold">Entangled Link</p>
                 </div>
-                
-                <div>
-                    <!-- Entanglement GIF -->
-                    <div class="gif-container mb-6">
-                        <img src="https://media.giphy.com/media/3o7TKsQ8gTp3WqXqjq/giphy.gif" 
-                             alt="Quantum Entanglement Animation"
-                             class="rounded-lg">
-                    </div>
-                    
-                    <!-- Interactive Entanglement Demo -->
-                    <div class="text-center p-6 bg-white rounded-xl shadow-lg">
-                        <p class="font-bold text-gray-800 mb-4">Interactive Entanglement Demo</p>
-                        <div class="flex items-center justify-center space-x-8">
-                            <!-- Qubit A -->
-                            <div id="entangle-qubit-a" 
-                                 class="qubit-state bg-gradient-to-br from-blue-100 to-blue-200 border-blue-600 text-blue-800 cursor-pointer transform hover:scale-110 transition duration-300"
-                                 onclick="measureEntangledPair('A')">
-                                A: ?
-                            </div>
-                            
-                            <!-- Entanglement Visualization -->
-                            <div class="flex flex-col items-center">
-                                <div class="relative">
-                                    <div class="w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full"></div>
-                                    <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
-                                        <div class="w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-purple-600 font-semibold mt-2">Entangled Link</p>
-                            </div>
-                            
-                            <!-- Qubit B -->
-                            <div id="entangle-qubit-b" 
-                                 class="qubit-state bg-gradient-to-br from-blue-100 to-blue-200 border-blue-600 text-blue-800 cursor-pointer transform hover:scale-110 transition duration-300"
-                                 onclick="measureEntangledPair('B')">
-                                B: ?
-                            </div>
-                        </div>
-                        
-                        <div id="entanglement-feedback" class="mt-6 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
-                            <p class="text-gray-800">Click on Qubit A or B to measure the entangled pair!</p>
-                        </div>
-                        
-                        <button onclick="resetEntanglement()" 
-                                class="mt-4 text-sm bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                            Reset Entanglement
-                        </button>
-                    </div>
-                </div>
+                <!-- Qubit B -->
+                <div id="entangle-qubit-b" class="qubit-state bg-blue-100 border-blue-600 text-blue-800" onclick="measureEntangledPair('B')">B: ?</div>
             </div>
-            
-            <!-- Entanglement Properties -->
-            <div class="mt-8 grid md:grid-cols-4 gap-4">
-                <div class="p-4 bg-red-50 rounded-lg text-center">
-                    <div class="text-2xl mb-2">⚡</div>
-                    <h4 class="font-bold text-red-700">Instantaneous</h4>
-                    <p class="text-sm text-red-600">Faster than light</p>
-                </div>
-                <div class="p-4 bg-blue-50 rounded-lg text-center">
-                    <div class="text-2xl mb-2">🔒</div>
-                    <h4 class="font-bold text-blue-700">Correlated</h4>
-                    <p class="text-sm text-blue-600">Perfect correlation</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg text-center">
-                    <div class="text-2xl mb-2">🛡️</div>
-                    <h4 class="font-bold text-green-700">Secure</h4>
-                    <p class="text-sm text-green-600">Quantum cryptography</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg text-center">
-                    <div class="text-2xl mb-2">🚀</div>
-                    <h4 class="font-bold text-purple-700">Powerful</h4>
-                    <p class="text-sm text-purple-600">Quantum advantage</p>
-                </div>
-            </div>
-            
-            <!-- Entanglement Image -->
-            <div class="mt-8 image-container">
-                <img src="https://images.unsplash.com/photo-1629654291660-3c98113a0438?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
-                     alt="Quantum Entanglement Visualization"
-                     class="rounded-lg">
-                <div class="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm">
-                    Quantum Entanglement in Action
-                </div>
-            </div>
+            <div id="entanglement-feedback" class="mt-6 text-center text-gray-900 font-bold">Click on Qubit A or B to measure the pair!</div>
+            [Image of quantum entanglement visualization]
         </div>
     </section>
 
@@ -624,194 +226,252 @@
     <!-- SECTION 06: Deep Explanation: Quantum Gates (H-Gate) -->
     <!-- ---------------------------------------------------- -->
     <section id="s6" class="reveal-element bg-white">
-        <div class="max-w-5xl w-full space-y-8 content-card p-8 rounded-2xl">
-            <h2 class="text-3xl font-bold text-indigo-600 flex items-center gap-3">
-                <span>06. Quantum Gate 1: Hadamard (H-Gate)</span>
-                <span class="text-2xl">🎭</span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <p class="text-gray-700 text-lg leading-relaxed">
-                        The Hadamard gate is the most fundamental quantum gate: it takes a definite state (|0⟩ or |1⟩) 
-                        and creates a perfect superposition of both states.
-                    </p>
-                    
-                    <div class="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
-                        <p class="font-bold text-green-800 mb-2">Mathematical Definition:</p>
-                        <p class="font-mono text-green-700">
-                            H|0⟩ = (|0⟩ + |1⟩)/√2<br>
-                            H|1⟩ = (|0⟩ - |1⟩)/√2
-                        </p>
-                    </div>
-                    
-                    <div class="mt-6">
-                        <p class="font-medium text-gray-700 mb-3">Select input state:</p>
-                        <div class="flex gap-4">
-                            <button onclick="setHGateInput(0)" 
-                                    class="flex-1 py-3 bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium rounded-lg transition duration-300">
-                                |0⟩ State
-                            </button>
-                            <button onclick="setHGateInput(1)" 
-                                    class="flex-1 py-3 bg-red-100 hover:bg-red-200 text-red-800 font-medium rounded-lg transition duration-300">
-                                |1⟩ State
-                            </button>
-                        </div>
-                    </div>
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">06. Quantum Gate 1: Hadamard (H-Gate)</h2>
+            <p class="text-gray-700">The H-Gate is the most fundamental tool: it takes a definite state (|0⟩ or |1⟩) and creates a perfect superposition.</p>
+
+            <div class="flex items-center justify-center space-x-8">
+                <div id="h-gate-input" class="qubit-state bg-green-100 border-green-600 text-green-800" data-state="0">|0⟩</div>
+                <div class="text-3xl text-gray-500">→</div>
+                <button id="h-gate-btn" onclick="applyHGate()" class="btn-primary bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                    Apply H-Gate
+                </button>
+                <div class="text-3xl text-gray-500">→</div>
+                <div id="h-gate-output" class="qubit-state text-gray-900 border-gray-400">?</div>
+            </div>
+            <div id="h-gate-feedback" class="mt-4 text-center text-sm text-gray-600">Click the button to see the result.</div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- SECTION 07: Deep Explanation: Quantum Gates (CNOT) -->
+    <!-- ---------------------------------------------------- -->
+    <section id="s7" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">07. Quantum Gate 2: CNOT (Controlled-NOT)</h2>
+            <p class="text-gray-700">The CNOT gate flips the state of the Target qubit **IF** the Control qubit is |1⟩. It's the primary gate for creating entanglement.</p>
+
+            <div class="text-center">
+                <p class="text-lg font-semibold mb-2">Build the Bell State: $|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$</p>
+                <button onclick="runBellStateCircuit()" class="btn-primary bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                    Run Bell State Circuit (H + CNOT)
+                </button>
+            </div>
+
+            <div class="flex justify-center space-x-12 mt-4">
+                <div id="cnot-q1" class="text-lg font-mono p-3 bg-gray-200 rounded-lg">Q1 (Control): |0⟩</div>
+                <div id="cnot-q2" class="text-lg font-mono p-3 bg-gray-200 rounded-lg">Q2 (Target): |0⟩</div>
+            </div>
+            <div id="bell-state-result" class="mt-6 text-center text-xl font-bold text-gray-900">Initial State: |00⟩</div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- SECTION 08 - 20: Remaining Sections (Placeholder for interaction) -->
+    <!-- ---------------------------------------------------- -->
+
+    <section id="s8" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">08. The Full Circuit: Stepping Through</h2>
+            <p class="text-gray-700">Click the steps to see the state evolution in a simple quantum circuit (creating Bell State):</p>
+            <ol id="circuit-steps" class="space-y-3">
+                <li class="p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50 transition duration-200" data-step="1" onclick="stepCircuit(1)">1. Initial State: $|00\rangle$</li>
+                <li class="p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50 transition duration-200" data-step="2" onclick="stepCircuit(2)">2. Apply H-Gate to Q1: Superposition created.</li>
+                <li class="p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-indigo-50 transition duration-200" data-step="3" onclick="stepCircuit(3)">3. Apply CNOT (Q1 Control, Q2 Target): Entanglement created.</li>
+            </ol>
+            <div id="circuit-state-display" class="mt-4 text-center text-2xl font-mono text-green-700">State: |00⟩</div>
+        </div>
+    </section>
+
+    <section id="s9" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">09. Challenge: Decoherence (Noise)</h2>
+            <p class="text-gray-700">Use the slider to introduce environmental noise and observe the qubit's loss of quantum properties.</p>
+            <input type="range" min="0" max="100" value="0" class="w-full h-2 bg-red-100 rounded-lg appearance-none cursor-pointer range-xl" id="noise-slider" oninput="applyNoise(this.value)">
+            <div class="flex justify-between text-sm text-gray-500"><span>Low Noise (Perfect Qubit)</span><span>High Noise (Classical Bit)</span></div>
+            <div id="noise-display" class="mt-4 text-center text-2xl font-bold text-green-700">Qubit Integrity: 100% (Perfect Superposition)</div>
+            [Image of quantum error correction diagram]
+        </div>
+    </section>
+
+    <section id="s10" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">10. Application 1: Shor's Algorithm</h2>
+            <p class="text-gray-700">Shor's algorithm can factor large numbers exponentially faster than classical computers, threatening current encryption.</p>
+            <div class="flex items-center space-x-4">
+                <input type="number" id="factor-input" placeholder="Enter Large Number N (e.g., 21)" class="p-3 border rounded-lg w-1/2 focus:ring-indigo-500">
+                <button onclick="runShorSimulation()" class="btn-primary bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                    Factor (Quantum Speed)
+                </button>
+            </div>
+            <div id="factor-result" class="mt-4 text-lg font-mono text-gray-800"></div>
+        </div>
+    </section>
+
+    <section id="s11" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">11. Application 2: Grover's Algorithm</h2>
+            <p class="text-gray-700">Grover's algorithm provides a quadratic speedup ($\sqrt{N}$) for searching unstructured databases.</p>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="p-4 bg-yellow-100 rounded-lg">N = 1,000,000</div>
+                <div class="p-4 bg-red-100 rounded-lg">Classical Search: 1,000,000 steps</div>
+                <div class="p-4 bg-green-100 rounded-lg">Quantum Search: 1,000 steps (Click to verify)</div>
+            </div>
+            <button onclick="showAlert('Grover\'s provides a quadratic speedup. $\sqrt{1,000,000} = 1,000$. Still a huge improvement!')" class="text-sm text-blue-600 underline mt-2 block mx-auto">Verify Speedup</button>
+        </div>
+    </section>
+
+    <section id="s12" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">12. Real-Life Application: Molecular Simulation</h2>
+            <p class="text-gray-700">Quantum computers are uniquely capable of simulating the complex behavior of electrons in molecules.</p>
+            <div class="flex justify-center space-x-8">
+                <div class="text-center">
+                    <div id="molecule-sim" class="w-24 h-24 bg-red-200 rounded-full mx-auto flex items-center justify-center text-3xl cursor-pointer hover:scale-110 transition duration-300" onclick="showAlert('The simulation of complex bonds (like Nitrogen fixation) is intractable for classical supercomputers.')">N₂</div>
+                    <p class="mt-2 text-sm text-gray-500">Click to reveal complexity</p>
                 </div>
-                
-                <div class="space-y-6">
-                    <!-- H-Gate Visualization -->
-                    <div class="gif-container">
-                        <img src="https://media.giphy.com/media/l0ExgMZ79Z1y51w2A/giphy.gif" 
-                             alt="Hadamard Gate Animation"
-                             class="rounded-lg">
-                    </div>
-                    
-                    <!-- Interactive H-Gate Demo -->
-                    <div class="text-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl">
-                        <div class="flex items-center justify-center space-x-6 mb-6">
-                            <div id="h-gate-input" 
-                                 class="qubit-state bg-gradient-to-br from-green-100 to-green-200 border-green-600 text-green-800"
-                                 data-state="0">
-                                |0⟩
-                            </div>
-                            <div class="text-4xl text-gray-400">→</div>
-                            <div class="text-center">
-                                <div class="p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg">
-                                    H
-                                </div>
-                                <p class="text-xs text-gray-600 mt-1">Hadamard Gate</p>
-                            </div>
-                            <div class="text-4xl text-gray-400">→</div>
-                            <div id="h-gate-output" 
-                                 class="qubit-state text-gray-900 border-gray-400">
-                                ?
-                            </div>
-                        </div>
-                        
-                        <button id="h-gate-btn" onclick="applyHGate()" 
-                                class="btn-primary bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 w-full">
-                            🔄 Apply H-Gate
-                        </button>
-                        
-                        <div id="h-gate-feedback" class="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
-                            <p class="text-gray-700">Click the button to see the quantum transformation!</p>
-                        </div>
-                    </div>
+                <div class="p-4 bg-gray-100 rounded-lg self-center max-w-xs">
+                    <p class="text-sm">Enables discovery of new drugs, superconductors, and efficient fertilizers.</p>
                 </div>
             </div>
             
-            <!-- H-Gate Applications -->
-            <div class="mt-8">
-                <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <span>🌟 H-Gate Applications:</span>
-                </h4>
-                <div class="grid md:grid-cols-3 gap-4">
-                    <div class="p-4 bg-blue-50 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span class="font-medium text-blue-700">Superposition Creation</span>
-                        </div>
-                        <p class="text-sm text-blue-600">Creates equal superposition from any basis state</p>
-                    </div>
-                    <div class="p-4 bg-green-50 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span class="font-medium text-green-700">Quantum Fourier Transform</span>
-                        </div>
-                        <p class="text-sm text-green-600">Fundamental for many quantum algorithms</p>
-                    </div>
-                    <div class="p-4 bg-purple-50 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                            <span class="font-medium text-purple-700">Quantum Walks</span>
-                        </div>
-                        <p class="text-sm text-purple-600">Enables quantum random walks</p>
-                    </div>
+        </div>
+    </section>
+
+    <section id="s13" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">13. Visual Diagram: Qubit Hardware Types</h2>
+            <p class="text-gray-700">There are multiple ways to build a physical qubit. Click on each type to learn more.</p>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="p-4 bg-blue-100 rounded-lg cursor-pointer hover:bg-blue-200 transition duration-200" onclick="showAlert('Superconducting Qubits (IBM/Google): Tiny, fragile circuits cooled to near absolute zero. High connectivity, but prone to decoherence.')">
+                    <p class="font-bold text-blue-800">Superconducting Qubits</p>
+                    <p class="text-sm text-blue-600">Needs extreme cold.</p>
                 </div>
-            </div>
-            
-            <!-- Circuit Diagram -->
-            <div class="mt-8 p-6 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl">
-                <p class="font-bold text-gray-800 mb-4 text-center">H-Gate in Quantum Circuit Notation</p>
-                <div class="flex justify-center">
-                    <div class="relative">
-                        <!-- Wire -->
-                        <div class="w-64 h-1 bg-gray-800"></div>
-                        <!-- H Gate Box -->
-                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-2 border-purple-500 rounded flex items-center justify-center">
-                            <span class="font-bold text-purple-600">H</span>
-                        </div>
-                        <!-- Labels -->
-                        <div class="absolute -top-12 left-4 text-sm text-gray-600">Input</div>
-                        <div class="absolute -top-12 right-4 text-sm text-gray-600">Output</div>
-                    </div>
+                <div class="p-4 bg-green-100 rounded-lg cursor-pointer hover:bg-green-200 transition duration-200" onclick="showAlert('Trapped Ion Qubits (IonQ): Individual atoms held by electric fields and zapped with lasers. Slower, but offer higher fidelity and stability.')">
+                    <p class="font-bold text-green-800">Trapped Ion Qubits</p>
+                    <p class="text-sm text-green-600">Uses lasers and fields.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Continue with remaining sections (7-20) with similar enhancements -->
-    <!-- Note: Due to character limit, I'll show the pattern and you can apply to all sections -->
+    <section id="s14" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">14. Quantum Machine Learning (QML)</h2>
+            <p class="text-gray-700">QML uses quantum processors to enhance machine learning tasks, especially in feature space mapping.</p>
+            <button onclick="showAlert('QML focuses on VQAs (Variational Quantum Algorithms) that blend classical optimization with quantum processing.')" class="btn-primary bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg">
+                Explore QML Concept
+            </button>
+            
+        </div>
+    </section>
 
-    <!-- BACK BUTTON -->
-    <button id="backBtn" style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 999999;
-        padding: 14px 28px;
-        border-radius: 12px;
-        font-family: 'Inter', 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        background: linear-gradient(45deg, #667EEA, #764BA2, #F093FB, #F5576C);
-        background-size: 400% 400%;
-        animation: gradient-x 15s ease infinite;
-        color: white;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    ">
-        <span>⬅</span>
-        <span>Back to Home</span>
-    </button>
+    <section id="s15" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">15. Optimization: Finding the Global Minimum</h2>
+            <p class="text-gray-700">Quantum Annealing and QAOA help solve optimization problems by 'tunneling' through energy landscapes to find the best solution.</p>
+            <div class="flex justify-center mt-4">
+                <button onclick="showAlert('Classical algorithms can get stuck in a local minimum. Quantum Annealing can "tunnel" out to find the true global minimum faster.')" class="btn-primary bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                    Simulate Quantum Tunneling
+                </button>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- QUIZ SECTIONS (16-18) -->
+    <!-- ---------------------------------------------------- -->
+    <section id="s16" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">16. Practice Question 1: Exponential Growth</h2>
+            <p class="text-xl font-semibold text-gray-800">Q1: How many simultaneous states can 5 qubits hold?</p>
+            <div class="space-y-3" id="q1-options">
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="10" data-why="The growth is 2^N, not 2 x N.">A) 10</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="32" data-why="Correct! $2^5 = 32$.">B) 32</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="25" data-why="This would be 5^2, but the base for binary systems is 2.">C) 25</button>
+            </div>
+            <div id="q1-feedback" class="mt-4 text-sm font-semibold"></div>
+        </div>
+    </section>
+
+    <section id="s17" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">17. Practice Question 2: Gate Function</h2>
+            <p class="text-xl font-semibold text-gray-800">Q2: Which quantum gate is primarily used to create superposition?</p>
+            <div class="space-y-3" id="q2-options">
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="CNOT" data-why="The CNOT gate is for entanglement (linking two qubits).">A) CNOT Gate</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="Hadamard" data-why="Correct! The Hadamard (H) gate moves a qubit from a definite state to superposition.">B) Hadamard (H) Gate</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="X-Gate" data-why="The X-Gate is the NOT operation, flipping |0⟩ to |1⟩.">C) X-Gate</button>
+            </div>
+            <div id="q2-feedback" class="mt-4 text-sm font-semibold"></div>
+        </div>
+    </section>
+
+    <section id="s18" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">18. Practice Question 3: Measurement Effect</h2>
+            <p class="text-xl font-semibold text-gray-800">Q3: What process destroys a qubit's superposition, turning it into a classical bit?</p>
+            <div class="space-y-3" id="q3-options">
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="Decoherence" data-why="Decoherence is caused by noise. The destruction of superposition by *observation* is Measurement.">A) Decoherence</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="Measurement" data-why="Correct! The act of observation (Measurement) forces the collapse of the quantum state.">B) Measurement</button>
+                <button class="q-btn w-full text-left p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200" data-answer="Optimization" data-why="Optimization is a problem quantum computers can solve, not a quantum effect itself.">C) Optimization</button>
+            </div>
+            <div id="q3-feedback" class="mt-4 text-sm font-semibold"></div>
+        </div>
+    </section>
+
+    <section id="s19" class="reveal-element bg-gray-50">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-indigo-600">19. Summary: Core Concepts Review</h2>
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg cursor-pointer hover:bg-blue-100" onclick="showAlert('Qubits use both |0⟩ and |1⟩ at the same time, giving them exponential power.')">
+                    <span class="text-2xl text-blue-600">✔️</span>
+                    <p class="font-semibold">Qubits & Superposition</p>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg cursor-pointer hover:bg-purple-100" onclick="showAlert('Entanglement creates linked pairs, key for communication and complex calculations.')">
+                    <span class="text-2xl text-purple-600">✔️</span>
+                    <p class="font-semibold">Entanglement (Linked States)</p>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100" onclick="showAlert('Decoherence is noise destroying the fragile quantum state. QEC is used to fight it.')">
+                    <span class="text-2xl text-red-600">✔️</span>
+                    <p class="font-semibold">Decoherence (The Enemy)</p>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100" onclick="showAlert('Shor\'s (Factoring) and Grover\'s (Search) are the most famous quantum algorithms.')">
+                    <span class="text-2xl text-green-600">✔️</span>
+                    <p class="font-semibold">Shor's & Grover's Algorithms</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s20" class="reveal-element bg-white">
+        <div class="max-w-4xl w-full space-y-6 content-card p-8 rounded-2xl text-center">
+            <h2 class="text-3xl font-bold text-indigo-600">20. Final Notes & Next Frontier</h2>
+            <p class="text-xl text-gray-700">Congratulations! You've mastered the fundamentals of Quantum Computing.</p>
+            <button onclick="showAlert('Check out Qiskit or Cirq to start coding real quantum circuits today!')" class="btn-primary bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
+                Start Coding Qubits
+            </button>
+            <p class="text-sm text-gray-500 mt-6">This field is still emerging. The quantum revolution is just beginning.</p>
+        </div>
+    </section>
 
     <!-- ---------------------------------------------------- -->
     <!-- JAVASCRIPT FOR EXTREME INTERACTIVITY & ANIMATIONS -->
     <!-- ---------------------------------------------------- -->
     <script>
-        // --- Enhanced Utility Functions ---
-        
+        // --- Utility Functions ---
+
         /** Global function to safely handle custom alerts/messages */
         function showAlert(message) {
-            // Remove existing alert if present
-            const existingAlert = document.querySelector('.custom-alert-overlay');
-            if (existingAlert) existingAlert.remove();
-            
             const resultDiv = document.createElement('div');
-            resultDiv.className = 'custom-alert-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4';
+            resultDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
             resultDiv.innerHTML = `
-                <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border-t-4 border-indigo-500 space-y-6 transform scale-95 animate-[scaleUp_0.3s_ease_forwards]">
-                    <div class="flex justify-center">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
-                            <span class="text-2xl text-white">💡</span>
-                        </div>
-                    </div>
-                    <p class="text-lg font-semibold text-gray-900 text-center leading-relaxed">${message}</p>
-                    <div class="flex justify-center">
-                        <button onclick="this.parentNode.parentNode.remove()" 
-                                class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
-                            Got it!
-                        </button>
-                    </div>
+                <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm text-center border-t-4 border-indigo-500 space-y-4">
+                    <p class="text-xl font-semibold text-gray-900">${message}</p>
+                    <button onclick="this.parentNode.parentNode.remove()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg btn-primary">
+                        Got it!
+                    </button>
                 </div>
             `;
             document.body.appendChild(resultDiv);
@@ -822,95 +482,24 @@
         function toggleClassicalBit() {
             const bitDiv = document.getElementById('classical-bit');
             const textDiv = document.getElementById('classical-state-text');
-            const infoDiv = document.getElementById('difference-info');
-            
             classicalState = 1 - classicalState; // Flip 0 to 1, or 1 to 0
-            
-            // Animate the flip
-            bitDiv.style.transform = 'rotateY(90deg)';
-            setTimeout(() => {
-                bitDiv.textContent = classicalState;
-                bitDiv.style.backgroundColor = classicalState === 1 ? '#e67e22' : '#2c3e50';
-                bitDiv.style.transform = 'rotateY(0deg)';
-                textDiv.textContent = `State: ${classicalState === 1 ? 'ON (1)' : 'OFF (0)'}`;
-                textDiv.className = `mt-4 text-sm ${classicalState === 1 ? 'text-orange-600' : 'text-gray-600'}`;
-                
-                if (!infoDiv.classList.contains('hidden')) {
-                    infoDiv.classList.add('animate-pulse');
-                    setTimeout(() => infoDiv.classList.remove('animate-pulse'), 1000);
-                }
-            }, 150);
-            
-            infoDiv.classList.remove('hidden');
+            bitDiv.textContent = classicalState;
+            bitDiv.style.backgroundColor = classicalState === 1 ? '#e67e22' : '#2c3e50';
+            textDiv.textContent = `State: ${classicalState === 1 ? 'ON (1)' : 'OFF (0)'}`;
+            document.getElementById('difference-info').classList.remove('hidden');
         }
 
         function startSuperposition() {
             const qubitDiv = document.getElementById('quantum-qubit');
             const textDiv = document.getElementById('quantum-state-text');
-            const infoDiv = document.getElementById('difference-info');
-            
-            // Animation sequence
-            qubitDiv.style.transform = 'scale(1.2)';
-            qubitDiv.classList.add('is-superposition', 'pulse-glow');
-            
-            setTimeout(() => {
-                qubitDiv.innerHTML = '|\u03A8\u3009'; // Unicode for |Psi>
-                qubitDiv.style.transform = 'scale(1)';
-                textDiv.textContent = 'State: Perfect Superposition (50% |0⟩, 50% |1⟩)';
-                textDiv.className = 'mt-4 text-sm text-purple-600 font-medium';
-                
-                infoDiv.classList.remove('hidden');
-                infoDiv.classList.add('animate-pulse');
-                setTimeout(() => infoDiv.classList.remove('animate-pulse'), 1000);
-            }, 300);
+            qubitDiv.classList.add('is-superposition');
+            qubitDiv.innerHTML = '|\u03A8\u3009'; // Unicode for |Psi>
+            textDiv.textContent = 'State: Perfect Superposition (Click S4 to measure)';
+            document.getElementById('difference-info').classList.remove('hidden');
         }
 
-        // --- SECTION 03: Bloch Sphere ---
-        function moveBlochPoint(position) {
-            const point = document.getElementById('bloch-point');
-            const demo = document.getElementById('superposition-demo');
-            
-            point.style.transition = 'all 0.8s ease-out';
-            
-            switch(position) {
-                case 'north':
-                    point.style.top = '20%';
-                    point.style.left = '50%';
-                    demo.textContent = '|0⟩';
-                    demo.style.background = 'linear-gradient(to bottom, #ef4444, #ef4444)';
-                    break;
-                case 'south':
-                    point.style.top = '80%';
-                    point.style.left = '50%';
-                    demo.textContent = '|1⟩';
-                    demo.style.background = 'linear-gradient(to bottom, #3b82f6, #3b82f6)';
-                    break;
-                case 'equator':
-                    point.style.top = '50%';
-                    point.style.left = '80%';
-                    demo.textContent = 'Both';
-                    demo.style.background = 'linear-gradient(to right, #ef4444, #3b82f6)';
-                    break;
-            }
-        }
-
-        // --- SECTION 04: Measurement ---
-        let measurementProbability = 0.5;
-        
-        function updateProbability(value) {
-            measurementProbability = value / 100;
-            document.getElementById('probability-value').textContent = `${value}% |1⟩`;
-            
-            const qubit = document.getElementById('collapse-qubit');
-            const angle = measurementProbability * 180;
-            qubit.style.background = `conic-gradient(from 0deg, #4f46e5 0%, #4f46e5 ${angle}deg, #a855f7 ${angle}deg, #a855f7 100%)`;
-            
-            const zeroPercent = Math.round((1 - measurementProbability) * 100);
-            const onePercent = Math.round(measurementProbability * 100);
-            qubit.innerHTML = `${zeroPercent}% |0⟩ <br> ${onePercent}% |1⟩`;
-        }
-
-        function measureAndCollapse() {
+        // --- SECTION 04: Measurement & Collapse ---
+        function measureAndCollapse(probabilityOfOne) {
             const qubitDiv = document.getElementById('collapse-qubit');
             const resultDiv = document.getElementById('collapse-result');
             const infoDiv = document.getElementById('collapse-explanation');
@@ -918,225 +507,149 @@
 
             if (!measureBtn.disabled) {
                 measureBtn.disabled = true;
-                measureBtn.textContent = 'Measuring...';
-                qubitDiv.classList.remove('is-superposition', 'pulse-glow');
+                qubitDiv.classList.remove('is-superposition');
                 qubitDiv.innerHTML = '...';
-                qubitDiv.style.background = 'linear-gradient(45deg, #666, #999)';
-                resultDiv.textContent = '';
-                resultDiv.classList.remove('hidden');
-
-                // Quantum measurement animation
-                const dots = ['.', '..', '...'];
-                let dotCount = 0;
-                const dotInterval = setInterval(() => {
-                    resultDiv.textContent = 'Quantum Measurement' + dots[dotCount % 3];
-                    dotCount++;
-                }, 300);
+                resultDiv.textContent = 'Measuring...';
 
                 setTimeout(() => {
-                    clearInterval(dotInterval);
-                    
-                    // Quantum random measurement
-                    const result = Math.random() < measurementProbability ? 1 : 0;
+                    const result = Math.random() < probabilityOfOne ? 1 : 0;
                     const state = '|' + result + '\u3009';
-                    
-                    // Visual effects
                     qubitDiv.innerHTML = state;
-                    if (result === 1) {
-                        qubitDiv.style.background = 'linear-gradient(45deg, #10b981, #34d399)';
-                        qubitDiv.style.border = '4px solid #10b981';
-                    } else {
-                        qubitDiv.style.background = 'linear-gradient(45deg, #ef4444, #f87171)';
-                        qubitDiv.style.border = '4px solid #ef4444';
-                    }
-                    
-                    // Show result with animation
-                    resultDiv.innerHTML = `
-                        <div class="flex items-center justify-center gap-3">
-                            <span class="text-4xl">${result === 1 ? '🎯' : '🎯'}</span>
-                            <span>Collapsed Result: ${state}</span>
-                        </div>
-                    `;
-                    resultDiv.className = 'mt-6 text-center text-2xl font-bold text-gray-900';
-                    
-                    // Show explanation
+                    qubitDiv.style.backgroundColor = result === 1 ? '#d1e7dd' : '#f8d7da';
+                    qubitDiv.style.border = result === 1 ? '4px solid #198754' : '4px solid #dc3545';
+                    resultDiv.textContent = `Collapsed Result: ${state}`;
                     infoDiv.classList.remove('hidden');
-                    infoDiv.style.opacity = '0';
-                    infoDiv.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        infoDiv.style.transition = 'all 0.5s ease';
-                        infoDiv.style.opacity = '1';
-                        infoDiv.style.transform = 'translateY(0)';
-                    }, 100);
-                    
-                    // Reset button
                     measureBtn.disabled = false;
-                    measureBtn.textContent = '🔬 Apply Measurement (Collapse Now!)';
-                }, 2000);
-            }
-        }
-
-        // --- SECTION 05: Entanglement ---
-        let entanglementResult = null;
-        let entanglementMeasured = false;
-        
-        function measureEntangledPair(measuredQubit) {
-            const aDiv = document.getElementById('entangle-qubit-a');
-            const bDiv = document.getElementById('entangle-qubit-b');
-            const feedbackDiv = document.getElementById('entanglement-feedback');
-            
-            if (!entanglementMeasured) {
-                // First measurement - collapse the pair
-                entanglementResult = Math.random() < 0.5 ? 0 : 1;
-                entanglementMeasured = true;
-                
-                const state = '|' + entanglementResult + '\u3009';
-                aDiv.textContent = measuredQubit === 'A' ? `A: ${state}` : 'A: ???';
-                bDiv.textContent = measuredQubit === 'B' ? `B: ${state}` : 'B: ???';
-                
-                // Animate the measured qubit
-                const measuredDiv = measuredQubit === 'A' ? aDiv : bDiv;
-                measuredDiv.style.transform = 'scale(1.1)';
-                measuredDiv.style.boxShadow = '0 0 20px rgba(79, 70, 229, 0.5)';
-                
-                setTimeout(() => {
-                    measuredDiv.style.transform = 'scale(1)';
-                    measuredDiv.style.boxShadow = 'none';
-                }, 300);
-                
-                feedbackDiv.innerHTML = `
-                    <p class="text-gray-800 mb-2">Measuring Qubit ${measuredQubit}...</p>
-                    <div class="flex items-center justify-center gap-2">
-                        <div class="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                        <span class="text-sm text-purple-600">Spooky action transmitting...</span>
-                    </div>
-                `;
-                
-                // After delay, show the other qubit
-                setTimeout(() => {
-                    aDiv.textContent = `A: ${state}`;
-                    bDiv.textContent = `B: ${state}`;
-                    
-                    // Both qubits flash
-                    [aDiv, bDiv].forEach(div => {
-                        div.style.animation = 'pulse-glow 1s ease-in-out 3';
-                        div.style.background = 'linear-gradient(45deg, #818cf8, #c084fc)';
-                    });
-                    
-                    feedbackDiv.innerHTML = `
-                        <div class="space-y-2">
-                            <p class="font-bold text-purple-700">⚡ Spooky Action Confirmed!</p>
-                            <p class="text-sm text-purple-600">
-                                Qubit ${measuredQubit === 'A' ? 'B' : 'A'} instantly matched Qubit ${measuredQubit}: ${state}
-                            </p>
-                            <p class="text-xs text-gray-500">No information traveled faster than light, but correlation is instant!</p>
-                        </div>
-                    `;
-                }, 1000);
-            } else {
-                // Already measured
-                feedbackDiv.innerHTML = `
-                    <p class="text-gray-800">Entanglement already broken by measurement!</p>
-                    <p class="text-sm text-gray-600">Click reset to create new entanglement.</p>
-                `;
-            }
-        }
-
-        function resetEntanglement() {
-            const aDiv = document.getElementById('entangle-qubit-a');
-            const bDiv = document.getElementById('entangle-qubit-b');
-            const feedbackDiv = document.getElementById('entanglement-feedback');
-            
-            entanglementResult = null;
-            entanglementMeasured = false;
-            
-            aDiv.textContent = 'A: ?';
-            bDiv.textContent = 'B: ?';
-            aDiv.style.animation = '';
-            bDiv.style.animation = '';
-            aDiv.style.background = 'linear-gradient(to bottom right, #dbeafe, #bfdbfe)';
-            bDiv.style.background = 'linear-gradient(to bottom right, #dbeafe, #bfdbfe)';
-            
-            feedbackDiv.innerHTML = `
-                <p class="text-gray-800">New entanglement created! Click on Qubit A or B to measure.</p>
-            `;
-        }
-
-        // --- SECTION 06: H-Gate ---
-        let hGateInputState = 0;
-        
-        function setHGateInput(state) {
-            hGateInputState = state;
-            const inputDiv = document.getElementById('h-gate-input');
-            const outputDiv = document.getElementById('h-gate-output');
-            const feedbackDiv = document.getElementById('h-gate-feedback');
-            
-            // Update input display
-            inputDiv.innerHTML = `|${state}⟩`;
-            inputDiv.setAttribute('data-state', state);
-            inputDiv.style.background = state === 0 
-                ? 'linear-gradient(to bottom right, #d1fae5, #a7f3d0)' 
-                : 'linear-gradient(to bottom right, #fee2e2, #fecaca)';
-            inputDiv.style.border = state === 0 ? '4px solid #10b981' : '4px solid #ef4444';
-            
-            // Reset output
-            outputDiv.innerHTML = '?';
-            outputDiv.style.background = 'white';
-            outputDiv.style.border = '4px solid #d1d5db';
-            
-            feedbackDiv.innerHTML = `
-                <p class="text-gray-700">Input set to |${state}⟩. Click "Apply H-Gate" to transform!</p>
-            `;
-        }
-
-        function applyHGate() {
-            const inputDiv = document.getElementById('h-gate-input');
-            const outputDiv = document.getElementById('h-gate-output');
-            const feedbackDiv = document.getElementById('h-gate-feedback');
-            const button = document.getElementById('h-gate-btn');
-            
-            if (!button.disabled) {
-                button.disabled = true;
-                button.textContent = 'Applying H-Gate...';
-                
-                // Animate the gate
-                const gateDiv = button.previousElementSibling.previousElementSibling;
-                gateDiv.style.transform = 'scale(1.1)';
-                gateDiv.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.5)';
-                
-                outputDiv.innerHTML = '...';
-                outputDiv.style.background = 'linear-gradient(45deg, #ddd, #bbb)';
-                
-                setTimeout(() => {
-                    gateDiv.style.transform = 'scale(1)';
-                    gateDiv.style.boxShadow = 'none';
-                    
-                    // Apply H-Gate transformation
-                    outputDiv.classList.add('is-superposition', 'pulse-glow');
-                    outputDiv.style.border = '4px solid #8b5cf6';
-                    outputDiv.innerHTML = '|\u03A8\u3009';
-                    outputDiv.style.background = 'linear-gradient(45deg, #8b5cf6, #ec4899)';
-                    
-                    feedbackDiv.innerHTML = `
-                        <div class="space-y-2">
-                            <p class="font-bold text-purple-700">✅ H-Gate Applied Successfully!</p>
-                            <p class="text-purple-600">
-                                H|${hGateInputState}⟩ = (|0⟩ ${hGateInputState === 0 ? '+' : '-'} |1⟩)/√2
-                            </p>
-                            <p class="text-sm text-gray-600">
-                                The qubit is now in perfect superposition!
-                            </p>
-                        </div>
-                    `;
-                    
-                    button.disabled = false;
-                    button.textContent = '🔄 Apply H-Gate';
                 }, 1500);
             }
         }
 
-        // --- Setup Functions ---
+        // --- SECTION 05: Entanglement ---
+        let entanglementResult = 0;
+        function measureEntangledPair(measuredQubit) {
+            const aDiv = document.getElementById('entangle-qubit-a');
+            const bDiv = document.getElementById('entangle-qubit-b');
+            const feedbackDiv = document.getElementById('entanglement-feedback');
+
+            // Resetting (if not already measured)
+            if (aDiv.textContent.includes('?')) {
+                entanglementResult = Math.random() < 0.5 ? 0 : 1;
+            }
+
+            const state = '|' + entanglementResult + '\u3009';
+            const otherQubit = measuredQubit === 'A' ? 'B' : 'A';
+
+            aDiv.textContent = 'A: ' + (measuredQubit === 'A' ? state : '??');
+            bDiv.textContent = 'B: ' + (measuredQubit === 'B' ? state : '??');
+
+            // Animate reveal of the second qubit
+            if (aDiv.textContent.includes('??') || bDiv.textContent.includes('??')) {
+                setTimeout(() => {
+                    aDiv.textContent = 'A: ' + state;
+                    bDiv.textContent = 'B: ' + state;
+                    feedbackDiv.innerHTML = `<strong>Spooky Action!</strong> Qubit ${otherQubit} instantly matched Qubit ${measuredQubit}: ${state}`;
+                    aDiv.classList.add('animate-pulse');
+                    bDiv.classList.add('animate-pulse');
+                }, 500);
+            } else {
+                feedbackDiv.innerHTML = 'The pair is already measured. Click again to reset and remeasure.';
+                aDiv.textContent = 'A: ?';
+                bDiv.textContent = 'B: ?';
+            }
+        }
+
+        // --- SECTION 06: H-Gate ---
+        function applyHGate() {
+            const inputDiv = document.getElementById('h-gate-input');
+            const outputDiv = document.getElementById('h-gate-output');
+            const feedbackDiv = document.getElementById('h-gate-feedback');
+            const currentState = inputDiv.getAttribute('data-state');
+
+            outputDiv.innerHTML = '...Applying...';
+
+            setTimeout(() => {
+                outputDiv.classList.add('is-superposition');
+                outputDiv.style.border = '4px solid #4f46e5';
+                outputDiv.innerHTML = '|\u03A8\u3009';
+                feedbackDiv.textContent = `Result: The H-Gate put the qubit into an equal superposition of |0⟩ and |1⟩.`;
+            }, 800);
+        }
+
+        // --- SECTION 07: CNOT Gate ---
+        function runBellStateCircuit() {
+            const q1Div = document.getElementById('cnot-q1');
+            const q2Div = document.getElementById('cnot-q2');
+            const resultDiv = document.getElementById('bell-state-result');
+
+            q1Div.textContent = 'Q1 (Control): |\u03A8\u3009 (Superposition)';
+            q2Div.textContent = 'Q2 (Target): |\u03A8\u3009 (Superposition)';
+            q1Div.classList.add('bg-indigo-100');
+            q2Div.classList.add('bg-indigo-100');
+
+            setTimeout(() => {
+                resultDiv.innerHTML = 'Final State: $|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$';
+                resultDiv.classList.add('text-purple-700');
+                showAlert('The CNOT gate, when preceded by H, creates the maximally entangled Bell State!');
+            }, 1000);
+        }
+
+        // --- SECTION 08: Circuit Stepper ---
+        let circuitState = '|00\u3009';
+        function stepCircuit(step) {
+            const stateDisplay = document.getElementById('circuit-state-display');
+            document.querySelectorAll('#circuit-steps li').forEach(li => li.classList.remove('bg-indigo-200'));
+
+            switch (step) {
+                case 1:
+                    circuitState = '|00\u3009';
+                    document.querySelector('[data-step="1"]').classList.add('bg-indigo-200');
+                    break;
+                case 2:
+                    circuitState = '$\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |0\rangle$ (Q1 is Superposition)';
+                    document.querySelector('[data-step="2"]').classList.add('bg-indigo-200');
+                    break;
+                case 3:
+                    circuitState = '$|\Phi^+\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$ (Entangled)';
+                    document.querySelector('[data-step="3"]').classList.add('bg-indigo-200');
+                    break;
+            }
+            stateDisplay.innerHTML = `State: ${circuitState}`;
+        }
+
+        // --- SECTION 09: Decoherence ---
+        function applyNoise(value) {
+            const integrity = 100 - parseInt(value);
+            const display = document.getElementById('noise-display');
+            const noiseSlider = document.getElementById('noise-slider');
+            const color = integrity > 70 ? 'green-700' : integrity > 30 ? 'yellow-700' : 'red-700';
+            
+            display.textContent = `Qubit Integrity: ${integrity}% (${integrity > 80 ? 'Mostly Quantum' : integrity < 20 ? 'Mostly Classical' : 'Degrading'})`;
+            display.className = `mt-4 text-center text-2xl font-bold text-${color}`;
+            
+            noiseSlider.style.backgroundColor = integrity > 70 ? '#d1e7dd' : integrity > 30 ? '#fff3cd' : '#f8d7da';
+        }
+
+        // --- SECTION 10: Shor's ---
+        function runShorSimulation() {
+            const input = document.getElementById('factor-input').value;
+            const resultDiv = document.getElementById('factor-result');
+            resultDiv.classList.remove('text-red-600');
+            resultDiv.textContent = 'Running quantum algorithm...';
+
+            if (input == 21) {
+                setTimeout(() => {
+                    resultDiv.textContent = `Result: Factors of 21 are 3 and 7. (Classical computers struggle with large N.)`;
+                    resultDiv.classList.add('text-green-600');
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    resultDiv.textContent = `Error: Quantum resource limits prevent factoring of ${input} in this simulation.`;
+                    resultDiv.classList.add('text-red-600');
+                }, 2000);
+            }
+        }
+
+        // --- SECTION 16-18: Quiz Logic ---
         function setupQuiz() {
             const quizzes = ['q1', 'q2', 'q3'];
             quizzes.forEach(id => {
@@ -1173,6 +686,7 @@
             });
         }
 
+
         // --- Scroll Animation Setup ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.2 };
         const observer = new IntersectionObserver((entries, observer) => {
@@ -1190,81 +704,8 @@
             observer.observe(el);
         });
 
-        // --- Back Button Animation ---
-        const backBtn = document.getElementById('backBtn');
-        if (backBtn) {
-            backBtn.onmouseenter = function() {
-                this.style.transform = 'translateY(-5px) scale(1.05)';
-                this.style.boxShadow = '0 15px 40px rgba(255, 0, 255, 0.4)';
-            };
-
-            backBtn.onmouseleave = function() {
-                this.style.transform = 'translateY(0) scale(1)';
-                this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
-            };
-
-            backBtn.onclick = function() {
-                this.style.transform = 'scale(0.95)';
-                this.style.opacity = '0.8';
-                setTimeout(() => {
-                    window.location.href = "index.html";
-                }, 150);
-            };
-        }
-
-        // Initialize on load
-        window.onload = function() {
-            setupQuiz();
-            updateProbability(50); // Set initial probability
-            
-            // Initialize MathJax
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
-        };
-
-        // Add CSS for scale animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes scaleUp {
-                from { transform: scale(0.95); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
-            }
-            @keyframes gradient-x {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
-        `;
-        document.head.appendChild(style);
+        window.onload = setupQuiz;
 
     </script>
-
-    <style>
-        /* Additional styles for the enhanced page */
-        @keyframes scaleUp {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes gradient-x {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #4f46e5, #a855f7);
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #4338ca, #9333ea);
-        }
-    </style>
 </body>
 </html>
