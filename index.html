@@ -1,19 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ StudyNotes — Premium Visual Learning Architecture</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Dynamic Study Notes Hub | ICSE & Interactive Sciences</title>
+    <meta name="description" content="Production-grade interactive study companion and dynamic animated notes hub for physics, chemistry, biology, computer science, and modern technology.">
+    <meta name="keywords" content="Study Notes, ICSE Class 10, Physics, Chemistry, Biology, AI, Cybersecurity, Quantum Computing, Interactive Notes">
+    <meta name="author" content="Sahibdeep Singh">
+    <meta name="theme-color" content="#080a10">
 
-    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Dynamic Study Notes Hub">
+    <meta property="og:description" content="Visual, animated, and interactive syllabus guides for accelerated academic mastery.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./1.png">
+
+    <!-- Google AdSense Verification & Runtime Engine -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5002842080061324"
+         crossorigin="anonymous"></script>
+
+    <!-- Typography & Tailwind Framework -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Configure Custom Tailwind Palette & Styles -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -24,46 +35,42 @@
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        obsidian: {
-                            950: '#05070B',
-                            900: '#090D16',
-                            850: '#0D1322',
-                            800: '#131A2E',
-                            700: '#1D2742',
+                        obsidian: '#080a10',
+                        deepCanvas: '#05070c',
+                        surface: '#0d111e',
+                        surfaceElevated: '#13192b',
+                        surfaceBorder: 'rgba(255, 255, 255, 0.08)',
+                        surfaceBorderHover: 'rgba(255, 255, 255, 0.2)',
+                        brandCyan: '#00e5ff',
+                        brandViolet: '#8b5cf6',
+                        brandIndigo: '#6366f1',
+                        brandEmerald: '#10b981',
+                        brandAmber: '#f59e0b',
+                    },
+                    boxShadow: {
+                        'glow-cyan': '0 0 25px -5px rgba(0, 229, 255, 0.3)',
+                        'glow-violet': '0 0 25px -5px rgba(139, 92, 246, 0.3)',
+                        'glow-indigo': '0 0 25px -5px rgba(99, 102, 241, 0.3)',
+                        'inner-glass': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
                         },
-                        brand: {
-                            cyan: '#38BDF8',
-                            indigo: '#6366F1',
-                            violet: '#8B5CF6',
-                            emerald: '#10B981',
-                            rose: '#F43F5E',
-                            amber: '#F59E0B',
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.8' },
                         }
                     },
                     animation: {
-                        'aurora': 'aurora 20s ease-in-out infinite alternate',
-                        'float': 'float 7s ease-in-out infinite',
-                        'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
-                        'shimmer-beam': 'shimmerBeam 3s linear infinite',
-                    },
-                    keyframes: {
-                        aurora: {
-                            '0%': { transform: 'scale(1) translate(0px, 0px) rotate(0deg)' },
-                            '50%': { transform: 'scale(1.15) translate(40px, -20px) rotate(8deg)' },
-                            '100%': { transform: 'scale(0.95) translate(-30px, 20px) rotate(-8deg)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' }
-                        },
-                        pulseSubtle: {
-                            '0%, 100%': { opacity: '0.4' },
-                            '50%': { opacity: '0.75' }
-                        },
-                        shimmerBeam: {
-                            '0%': { backgroundPosition: '-200% 0' },
-                            '100%': { backgroundPosition: '200% 0' }
-                        }
+                        'float-slow': 'float 5s ease-in-out infinite',
+                        'shimmer': 'shimmer 2.5s infinite linear',
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
                     }
                 }
             }
@@ -71,1337 +78,1052 @@
     </script>
 
     <style>
-        /* Smooth Custom Scrollbar */
+        :root {
+            --brand-cyan: #00e5ff;
+            --brand-violet: #8b5cf6;
+            --brand-indigo: #6366f1;
+            --bg-base: #080a10;
+        }
+
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: #f1f5f9;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Custom Scrollbars */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #090D16;
+            background: rgba(8, 10, 16, 0.9);
         }
         ::-webkit-scrollbar-thumb {
-            background: #1D2742;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 9999px;
-            border: 2px solid #090D16;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #2D3A5D;
+            background: rgba(0, 229, 255, 0.4);
         }
 
-        /* Glassmorphism Styles */
-        .glass-panel {
-            background: rgba(13, 19, 34, 0.72);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+        /* Ambient Lighting Canvas */
+        .ambient-mesh {
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 90% 25%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 75%, rgba(139, 92, 246, 0.08) 0%, transparent 55%),
+                radial-gradient(circle at 80% 90%, rgba(16, 185, 129, 0.06) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Glass Surface Effects */
+        .glass-surface {
+            background: rgba(13, 17, 30, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.55);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
         }
 
-        .glass-panel-subtle {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .glass-surface:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px -10px rgba(0, 229, 255, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.15);
         }
 
         .glass-pill {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .glass-pill:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Ambient Glow Grid */
-        .bg-mesh-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        /* Advanced Typography Gradients */
+        .text-gradient-white {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Card Spotlight Mouse Track */
-        .spotlight-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1.25rem;
-            background: rgba(13, 19, 34, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.35s ease, 
-                        box-shadow 0.35s ease;
+        .text-gradient-brand {
+            background: linear-gradient(135deg, #00e5ff 0%, #6366f1 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .spotlight-card::before {
-            content: '';
-            position: absolute;
-            top: var(--mouse-y, -200px);
-            left: var(--mouse-x, -200px);
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: radial-gradient(circle closest-side, rgba(99, 102, 241, 0.14), transparent);
-            transform: translate(-50%, -50%);
+        .text-gradient-emerald {
+            background: linear-gradient(135deg, #10b981 0%, #00e5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Shimmer Banner Highlights */
+        .shimmer-badge {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.03) 100%);
+            background-size: 200% 100%;
+        }
+
+        /* Noise Texture Overlay */
+        .noise-underlay::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
             pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
             z-index: 1;
         }
 
-        .spotlight-card:hover::before {
+        /* Custom Interactive Card Radial Hover Spotlights */
+        .interactive-card {
+            position: relative;
+            isolation: isolate;
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .interactive-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(0, 229, 255, 0.12), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .interactive-card:hover::before {
             opacity: 1;
         }
 
-        .spotlight-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(99, 102, 241, 0.35);
-            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 
-                        0 0 25px -5px rgba(99, 102, 241, 0.2);
-        }
-
-        /* Text Gradients */
-        .headline-gradient {
-            background: linear-gradient(135deg, #FFFFFF 20%, #CBD5E1 55%, #94A3B8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .accent-gradient {
-            background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Performance Mode Styles (Mobile / Lite) */
-        .lite-mode canvas {
-            display: none !important;
-        }
-        .lite-mode .spotlight-card {
-            backdrop-filter: none !important;
-            background: #0D1322 !important;
-            transform: none !important;
-        }
-        .lite-mode .spotlight-card:hover {
-            transform: translateY(-2px) !important;
-        }
-        .lite-mode .spotlight-card::before {
-            display: none !important;
+        /* Search Hotkey Highlighting */
+        .search-term-highlight {
+            color: #00e5ff;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
     </style>
 </head>
-<body class="bg-obsidian-950 text-slate-100 min-h-screen antialiased selection:bg-brand-indigo/30 selection:text-brand-cyan relative overflow-x-hidden font-sans">
+<body class="ambient-mesh noise-underlay min-h-screen relative flex flex-col justify-between selection:bg-brandCyan/25 selection:text-brandCyan font-sans text-slate-200">
 
-    <!-- Interactive Ambient Canvas Background -->
+    <!-- Background Particle Simulation Layer -->
     <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Deep Ambient Glow Blobs -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-brand-indigo/15 rounded-full blur-[130px] animate-aurora"></div>
-        <div class="absolute top-1/3 -right-40 w-[550px] h-[550px] bg-brand-violet/10 rounded-full blur-[150px] animate-aurora" style="animation-delay: -5s;"></div>
-        <div class="absolute -bottom-32 left-1/3 w-[650px] h-[650px] bg-brand-cyan/10 rounded-full blur-[140px] animate-aurora" style="animation-delay: -10s;"></div>
-        <div class="absolute inset-0 bg-mesh-grid opacity-30"></div>
+    <!-- Top Status Bar & Emergency Notice Container -->
+    <div class="relative z-50 bg-surface/80 border-b border-surfaceBorder backdrop-blur-md px-4 py-2">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="font-mono text-slate-300">HUB v2.6.0 LIVE</span>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <span class="hidden md:inline text-slate-400">Class 10 ICSE Physics, Chemistry, Biology & High-Tech Reference Series</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] font-mono">
+                <span id="activeNodesCounter" class="text-brandCyan">10 SUBJECTS LOADED</span>
+                <span class="text-slate-600">•</span>
+                <button id="toggleEngineSpeed" class="hover:text-white transition flex items-center gap-1.5 focus:outline-none">
+                    <span>ENGINE:</span>
+                    <span id="engineBadge" class="text-emerald-400 font-semibold">ULTRA 60FPS</span>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- MAIN WRAPPER -->
-    <div class="relative z-10 flex flex-col min-h-screen">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 border-b border-surfaceBorder bg-obsidian/85 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <a href="./index.html" class="flex items-center gap-3.5 group cursor-pointer focus:outline-none">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brandIndigo via-brandViolet to-brandCyan p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-glow-cyan/20">
+                    <div class="w-full h-full bg-obsidian rounded-[14px] flex items-center justify-center text-brandCyan text-xl font-bold font-mono">
+                        ⚡
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-xl tracking-tight text-white font-sans">STUDY<span class="text-brandCyan">NOTES</span></span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-brandCyan/10 text-brandCyan border border-brandCyan/30">PRO</span>
+                    </div>
+                    <span class="text-[11px] font-mono tracking-widest uppercase text-slate-400 -mt-0.5">Dynamic Hub • Sahibdeep</span>
+                </div>
+            </a>
 
-        <!-- Top Navigation Bar -->
-        <nav class="sticky top-0 z-40 border-b border-white/5 bg-obsidian-950/80 backdrop-blur-xl">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-                
-                <!-- Brand / Logo -->
-                <a href="#" class="flex items-center gap-3.5 group">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-indigo to-brand-cyan p-[1px] shadow-lg shadow-brand-indigo/20 group-hover:shadow-brand-cyan/30 transition-shadow">
-                        <div class="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center">
-                            <span class="text-xl">⚡</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg font-bold tracking-tight text-white font-sans">Study<span class="text-brand-cyan">Notes</span></span>
-                            <span class="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full bg-brand-indigo/20 text-brand-cyan border border-brand-indigo/30 font-semibold">Hub v2.6</span>
-                        </div>
-                        <p class="text-xs text-slate-400">Interactive Visual Curriculum</p>
-                    </div>
+            <!-- Desktop Primary Navigation -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a href="#curriculumGrid" class="hover:text-brandCyan transition flex items-center gap-1.5">
+                    <span>Syllabus</span>
+                </a>
+                <a href="./about.html" class="hover:text-brandCyan transition">About Project</a>
+                <a href="./certificate.html" class="hover:text-brandCyan transition flex items-center gap-1.5">
+                    <span>Honors & Certificates</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brandViolet"></span>
+                </a>
+                <a href="./contact.html" class="hover:text-brandCyan transition">Contact</a>
+            </nav>
+
+            <!-- Action Area / External Connectors -->
+            <div class="flex items-center gap-2.5">
+                <!-- Search Keyboard Launcher Trigger Button -->
+                <button id="quickSearchTrigger" class="hidden sm:flex items-center gap-3 px-3.5 py-2 rounded-xl glass-pill text-xs text-slate-400 hover:text-white transition">
+                    <span class="text-brandCyan">🔍</span>
+                    <span>Quick Filter</span>
+                    <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-mono text-[10px] text-slate-300 border border-white/10">⌘K</kbd>
+                </button>
+
+                <!-- YouTube Channel Shortcut -->
+                <a href="https://youtube.com/@sahibdeep_yt" target="_blank" rel="noopener noreferrer" 
+                   class="px-3.5 py-2 rounded-xl glass-pill hover:border-red-500/40 hover:bg-red-500/10 transition flex items-center gap-2 text-xs font-semibold text-slate-200 group">
+                    <span class="text-red-500 text-sm group-hover:scale-110 transition-transform">▶</span>
+                    <span class="hidden md:inline">@sahibdeep_yt</span>
                 </a>
 
-                <!-- Center Quick Search Trigger (Desktop) -->
-                <div class="hidden md:flex flex-1 max-w-md mx-6">
-                    <button id="quickSearchBtn" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 text-sm hover:border-brand-indigo/40 hover:bg-white/[0.07] transition-all group">
-                        <span class="flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-slate-400 group-hover:text-brand-cyan transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <span>Search modules, theories, tags...</span>
-                        </span>
-                        <kbd class="hidden lg:inline-flex items-center gap-1 font-mono text-[11px] bg-obsidian-900 border border-white/10 px-2 py-0.5 rounded text-slate-400">⌘K</kbd>
-                    </button>
-                </div>
+                <!-- Telegram Direct Broadcast Portal -->
+                <a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener noreferrer" 
+                   class="px-3.5 py-2 rounded-xl glass-pill hover:border-sky-500/40 hover:bg-sky-500/10 transition flex items-center gap-2 text-xs font-semibold text-slate-200 group">
+                    <span class="text-sky-400 text-sm group-hover:scale-110 transition-transform">✈</span>
+                    <span class="hidden md:inline">TeleStorage</span>
+                </a>
+            </div>
+        </div>
+    </header>
 
-                <!-- Right Action Links & Engine Mode Switch -->
-                <div class="flex items-center gap-2.5 sm:gap-3">
-                    <!-- YouTube Channel -->
-                    <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" target="_blank" rel="noopener" title="Sahibdeep's YouTube"
-                       class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/40 hover:bg-red-500/10 text-slate-300 hover:text-white transition-all text-xs font-medium">
-                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                        <span class="hidden sm:inline">YouTube</span>
-                    </a>
+    <!-- Main Application Canvas -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-24 w-full">
 
-                    <!-- Telegram Community -->
-                    <a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener" title="Telegram Community"
-                       class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-sky-500/40 hover:bg-sky-500/10 text-slate-300 hover:text-white transition-all text-xs font-medium">
-                        <svg class="w-3.5 h-3.5 text-sky-400" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+        <!-- Hero Section -->
+        <section class="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+            <!-- Dynamic Notification Pill -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-brandCyan/30 bg-brandCyan/5 text-brandCyan text-xs font-mono mb-8 backdrop-blur-md shadow-glow-cyan/10">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brandCyan opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brandCyan"></span>
+                </span>
+                <span>ICSE SECONDARY ACADEMICS & NEXT-GEN TECH COMPANION</span>
+            </div>
+
+            <!-- Hero Headline -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.15] text-white">
+                Learn Concepts with <br class="hidden sm:block">
+                <span class="text-gradient-brand">Interactive Precision</span>
+            </h1>
+
+            <!-- Hero Subtitle -->
+            <p class="text-slate-400 text-base sm:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
+                No wall of dry text. Explore animated physics wave equations, chemical valence bonds, biological organelle blueprints, and advanced computation systems.
+            </p>
+
+            <!-- Search Console Input Area -->
+            <div class="relative max-w-2xl mx-auto mb-8">
+                <div class="relative flex items-center">
+                    <div class="absolute left-4 pointer-events-none flex items-center justify-center text-slate-400">
+                        <svg class="w-5 h-5 text-brandCyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        <span class="hidden sm:inline">Telegram</span>
-                    </a>
+                    </div>
+                    <input type="text" id="searchInput" 
+                           placeholder="Type a topic, formula, or tag (e.g., 'light', 'snell', 'inertia', 'dna', 'qubit')..." 
+                           autocomplete="off"
+                           class="w-full bg-surface/90 border border-surfaceBorder rounded-2xl pl-12 pr-28 py-4 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-2 focus:ring-brandCyan/20 transition-all shadow-2xl backdrop-blur-md">
+                    
+                    <div class="absolute right-4 flex items-center gap-1.5">
+                        <button id="clearSearchBtn" class="hidden text-xs font-mono text-slate-400 hover:text-white px-2 py-1 rounded bg-white/5 border border-white/10 transition">
+                            ESC
+                        </button>
+                    </div>
+                </div>
 
-                    <!-- Experience Toggle Menu Trigger -->
-                    <button id="engineSettingsBtn" class="flex items-center gap-2 p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-brand-indigo/15 border border-brand-indigo/30 hover:border-brand-indigo/50 text-brand-cyan transition-all text-xs font-semibold">
-                        <span id="currentEngineIcon">🖥️</span>
-                        <span id="currentEngineLabel" class="hidden sm:inline font-mono">ULTRA</span>
-                    </button>
+                <!-- Instant Dynamic Tag Chips -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs font-mono text-slate-400">
+                    <span class="text-slate-500">Quick Filters:</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Physics">#optics</button>
+                    <span class="text-slate-700">•</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Forces">#newton</button>
+                    <span class="text-slate-700">•</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Circuits">#electricity</button>
+                    <span class="text-slate-700">•</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Genetics">#dna</button>
+                    <span class="text-slate-700">•</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Crypto">#cybersecurity</button>
+                    <span class="text-slate-700">•</span>
+                    <button class="quick-chip hover:text-brandCyan transition" data-tag="Quantum">#qubit</button>
                 </div>
             </div>
-        </nav>
 
-        <!-- HERO SECTION -->
-        <header class="relative pt-12 pb-16 md:pt-20 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-            <div class="max-w-5xl mx-auto text-center relative z-10">
-                
-                <!-- Status Pill -->
-                <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span class="text-xs font-medium text-slate-300">Curated Animated STEM & Cybersecurity Courseware</span>
-                    <span class="text-xs text-slate-500">•</span>
-                    <span class="text-xs font-mono text-brand-cyan">2026 Release</span>
+            <!-- Global Academic Metrics Dashboard -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 border-t border-surfaceBorder">
+                <div class="glass-surface p-4 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="statChapters">10</div>
+                    <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mt-1">Core Modules</div>
                 </div>
-
-                <!-- Main Headline -->
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-                    <span class="headline-gradient">Intuitive Learning,</span><br/>
-                    <span class="accent-gradient">Powered by Motion.</span>
-                </h1>
-
-                <!-- Subtitle -->
-                <p class="text-base sm:text-lg lg:text-xl text-slate-400 max-w-3xl mx-auto mb-10 font-normal leading-relaxed">
-                    Discard dry textbooks. Explore interactive physics simulators, molecular mechanics, cyber defenses, and quantum computing through synchronized, interactive animations.
-                </p>
-
-                <!-- Search Input Bar (High Impact) -->
-                <div class="max-w-2xl mx-auto relative mb-6">
-                    <div class="relative flex items-center">
-                        <div class="absolute left-4.5 pointer-events-none text-slate-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <input type="text" id="mainSearchInput" 
-                               placeholder="Search anything: 'optics', 'quantum', 'encryption', 'DNA'..." 
-                               class="w-full pl-12 pr-28 py-4 rounded-2xl bg-obsidian-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-brand-indigo focus:ring-4 focus:ring-brand-indigo/15 text-base shadow-2xl transition-all"
-                               autocomplete="off">
-                        
-                        <!-- Clear Search / Status -->
-                        <div class="absolute right-3.5 flex items-center gap-2">
-                            <button id="clearSearchBtn" class="hidden text-xs text-slate-400 hover:text-white px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">Clear</button>
-                            <span class="text-[11px] font-mono text-slate-500 bg-white/5 px-2 py-1 rounded border border-white/5 hidden sm:inline-block">ESC</span>
-                        </div>
-                    </div>
-
-                    <!-- Search Autocomplete Dropdown -->
-                    <div id="searchDropdown" class="hidden absolute top-full left-0 right-0 mt-2 bg-obsidian-900/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-2xl z-50 text-left max-h-96 overflow-y-auto">
-                        <!-- Populated by JS -->
-                    </div>
+                <div class="glass-surface p-4 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brandCyan font-mono">40+</div>
+                    <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mt-1">Interactive Formulas</div>
                 </div>
-
-                <!-- Suggested Quick Filter Chips -->
-                <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
-                    <span class="text-slate-500">Popular:</span>
-                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Optics">#Optics</button>
-                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Gravity">#Gravity</button>
-                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Encryption">#Encryption</button>
-                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Superposition">#Quantum</button>
-                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="DNA">#DNA</button>
+                <div class="glass-surface p-4 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brandViolet font-mono">100%</div>
+                    <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mt-1">Syllabus Grounded</div>
                 </div>
-
-                <!-- Metric Counters Row -->
-                <div class="grid grid-cols-3 max-w-xl mx-auto mt-14 pt-8 border-t border-white/5 text-center">
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="statSubjects">9</div>
-                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Core Tracks</div>
-                    </div>
-                    <div class="border-x border-white/5">
-                        <div class="text-2xl sm:text-3xl font-extrabold text-brand-cyan font-mono" id="statConcepts">36+</div>
-                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Interactive Key Concepts</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet font-mono" id="statAnimations">90+</div>
-                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Vector Simulations</div>
-                    </div>
+                <div class="glass-surface p-4 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">0ms</div>
+                    <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mt-1">Server Latency</div>
                 </div>
             </div>
-        </header>
+        </section>
 
-        <!-- MAIN CURRICULUM SECTION -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 flex-1 w-full">
-
-            <!-- Category Filter Ribbon -->
-            <div class="flex items-center justify-between flex-wrap gap-4 mb-10 pb-4 border-b border-white/5">
+        <!-- Category Selector Pills -->
+        <section id="curriculumGrid" class="mb-10">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-                        <span>Modules Portfolio</span>
-                        <span id="resultsCountBadge" class="text-xs font-mono px-2 py-0.5 rounded-full bg-white/5 text-slate-400 border border-white/5">9 Active</span>
+                    <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
+                        <span>Modules Directory</span>
+                        <span id="activeResultCount" class="text-xs font-mono px-2 py-0.5 rounded-full bg-white/10 text-brandCyan">10 AVAILABLE</span>
                     </h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Select a category or launch an interactive lesson module.</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Select a branch or launch into individual interactive modules below.</p>
                 </div>
 
-                <!-- Category Pills Bar -->
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 max-w-full" id="categoryTabs">
-                    <button class="cat-pill active px-4 py-2 rounded-xl text-xs font-semibold bg-white/10 text-white border border-white/15 transition-all whitespace-nowrap" data-cat="all">
+                <!-- Category Filtering Pill Navigation Bar -->
+                <div class="flex flex-wrap items-center gap-2" id="categoryPills">
+                    <button class="category-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 bg-brandCyan/15 border-brandCyan/40 text-brandCyan shadow-glow-cyan/10" data-cat="all">
                         All Disciplines
                     </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="physics">
-                        ⚡ Physics
+                    <button class="category-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 border-surfaceBorder bg-surface/50 text-slate-400 hover:text-white hover:border-slate-600" data-cat="physics">
+                        Physics
                     </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="security">
-                        🛡️ Cyber & AI
+                    <button class="category-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 border-surfaceBorder bg-surface/50 text-slate-400 hover:text-white hover:border-slate-600" data-cat="biology">
+                        Biology
                     </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="advanced-tech">
-                        ⚛️ Quantum
+                    <button class="category-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 border-surfaceBorder bg-surface/50 text-slate-400 hover:text-white hover:border-slate-600" data-cat="chemistry">
+                        Chemistry
                     </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="biology">
-                        🧬 Biology
+                    <button class="category-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 border-surfaceBorder bg-surface/50 text-slate-400 hover:text-white hover:border-slate-600" data-cat="environment">
+                        Agriculture
                     </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="chemistry">
-                        🧪 Chemistry
-                    </button>
-                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="environment">
-                        🌾 Agriscience
+                    <button class="category-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 border-surfaceBorder bg-surface/50 text-slate-400 hover:text-white hover:border-slate-600" data-cat="tech">
+                        Security & Computing
                     </button>
                 </div>
             </div>
 
-            <!-- Notes Modules Grid -->
-            <div id="chaptersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamically populated by JS with high aesthetic spotlight cards -->
+            <!-- Notes Modules Grid Layout -->
+            <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Javascript will dynamically populate cards here -->
             </div>
 
-            <!-- No Results State (Hidden by default) -->
-            <div id="noResultsBlock" class="hidden text-center py-20">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl">
-                    🔍
-                </div>
-                <h3 class="text-lg font-bold text-white mb-1">No matching modules found</h3>
-                <p class="text-sm text-slate-400 max-w-sm mx-auto mb-6">We couldn't find anything matching your search query. Try searching for a different keyword or category.</p>
-                <button id="resetSearchBtn" class="px-5 py-2.5 rounded-xl bg-brand-indigo text-white text-xs font-semibold hover:bg-brand-indigo/80 transition-colors">
-                    Reset Filters
+            <!-- No Results Found State -->
+            <div id="noResultsState" class="hidden text-center py-20 glass-surface rounded-3xl mt-6 border border-dashed border-white/10">
+                <div class="text-4xl mb-4">🔍</div>
+                <h3 class="text-lg font-bold text-white mb-2">No Matching Module Found</h3>
+                <p class="text-slate-400 text-sm max-w-md mx-auto mb-6">We could not find any notes matching your search keywords. Try searching for broader terms like "Waves", "Current", or "Forces".</p>
+                <button id="resetSearchQuery" class="px-5 py-2.5 rounded-xl bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs font-semibold hover:bg-brandCyan/20 transition">
+                    Clear Search Filter
                 </button>
             </div>
+        </section>
 
-            <!-- Collaboration & Institutional Callout -->
-            <div class="mt-20 rounded-3xl glass-panel p-8 sm:p-12 relative overflow-hidden border border-white/10">
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-indigo/15 rounded-full blur-3xl pointer-events-none"></div>
-                
-                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div class="max-w-2xl text-center md:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-indigo/15 border border-brand-indigo/30 text-brand-cyan text-xs font-semibold mb-4">
-                            <span>🤝 Master Educational Framework</span>
+        <!-- Direct Exam Preparation Toolset Section -->
+        <section class="mt-20 mb-20">
+            <div class="glass-surface rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-white/10">
+                <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-brandIndigo/10 blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-brandCyan/10 blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300 mb-4">
+                            <span>🚀 ACCELERATED STUDY WORKFLOW</span>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
-                            Engineered by Sahibdeep × Gemini
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Combining human pedagocic insights with machine intelligence to build high-contrast, distraction-free visual animations for high school and university students globally.
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 tracking-tight leading-snug">
+                            Built for ICSE Revision & Technical Insight
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+                            Every module in this repository is built as an autonomous, self-contained interactive web environment. You can run experiments directly inside your browser without heavy setups or dependencies.
                         </p>
-                    </div>
 
-                    <div class="flex flex-wrap items-center justify-center gap-4">
-                        <a href="contact.html" class="px-6 py-3 rounded-xl bg-white text-obsidian-950 font-bold text-xs hover:bg-slate-200 transition-all shadow-xl shadow-white/5">
-                            Get In Touch
-                        </a>
-                        <a href="certificate.html" class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-xs hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-2">
-                            <span>🏆</span>
-                            <span>Verify Certificates</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="border-t border-white/5 bg-obsidian-950/90 text-slate-400 text-xs py-12 relative z-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                    
-                    <div class="md:col-span-2">
-                        <div class="flex items-center gap-2 text-white font-bold text-base mb-3">
-                            <span class="text-brand-cyan">⚡</span>
-                            <span>StudyNotes Hub</span>
-                        </div>
-                        <p class="text-slate-400 max-w-sm mb-4 leading-relaxed text-xs">
-                            A curated suite of modern animated scientific, technological, and computational modules engineered for maximum conceptual retention.
-                        </p>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
-                            <span class="font-mono text-[11px] text-slate-400">Systems Operational • 2026 Engine</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-semibold text-white uppercase tracking-wider text-[11px] mb-4">Learning Tracks</h4>
-                        <ul class="space-y-2.5">
-                            <li><a href="Light.html" class="hover:text-brand-cyan transition-colors">Optics & Waveforms</a></li>
-                            <li><a href="Cybersecurity.html" class="hover:text-brand-cyan transition-colors">Cyber Threat Defense</a></li>
-                            <li><a href="Quantum Computing.html" class="hover:text-brand-cyan transition-colors">Quantum Superposition</a></li>
-                            <li><a href="AI.html" class="hover:text-brand-cyan transition-colors">Neural Architectures</a></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 class="font-semibold text-white uppercase tracking-wider text-[11px] mb-4">Project & Legal</h4>
-                        <ul class="space-y-2.5">
-                            <li><a href="about.html" class="hover:text-brand-cyan transition-colors">Methodology & About</a></li>
-                            <li><a href="certificate.html" class="hover:text-brand-cyan transition-colors">Accreditation</a></li>
-                            <li><a href="contact.html" class="hover:text-brand-cyan transition-colors">Direct Inquiries</a></li>
-                            <li><a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener" class="hover:text-brand-cyan transition-colors">Join Community</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
-                    <div>
-                        © 2026 StudyNotes Hub. Handcrafted with precision by <span class="text-white font-semibold">Sahibdeep</span> &amp; Gemini.
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <button id="engineFooterTrigger" class="hover:text-white transition-colors flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
-                            <span>Graphics: <strong class="text-white font-mono" id="footerModeText">ULTRA</strong></span>
-                        </button>
-                        <span>•</span>
-                        <span>Zero Telemetry</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- QUICK PREVIEW MODAL / DRAWER -->
-    <div id="previewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-950/80 backdrop-blur-md">
-        <div class="relative w-full max-w-2xl bg-obsidian-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden glass-panel">
-            
-            <div class="p-6 sm:p-8">
-                <!-- Header -->
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="flex items-center gap-4">
-                        <div id="modalIcon" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl">
-                            💡
-                        </div>
-                        <div>
-                            <span id="modalCategory" class="text-[11px] font-mono uppercase tracking-wider text-brand-cyan">PHYSICS</span>
-                            <h3 id="modalTitle" class="text-2xl font-bold text-white tracking-tight">Module Title</h3>
-                            <p id="modalSubtitle" class="text-xs text-slate-400">Key Focus Areas</p>
-                        </div>
-                    </div>
-                    <button id="modalCloseBtn" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
-                        ✕
-                    </button>
-                </div>
-
-                <!-- Animated Carousel Reel -->
-                <div class="mb-6 p-4 rounded-2xl bg-obsidian-950/60 border border-white/5">
-                    <div class="text-[10px] font-mono uppercase text-slate-500 mb-2 flex items-center justify-between">
-                        <span>Interactive Concept Focus</span>
-                        <span class="flex items-center gap-1 text-emerald-400">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            LIVE FEED
-                        </span>
-                    </div>
-                    <div id="modalReelText" class="text-sm font-medium text-slate-200 min-h-[44px] flex items-center">
-                        Loading concept preview...
-                    </div>
-                </div>
-
-                <!-- Tags -->
-                <div class="mb-8">
-                    <div class="text-[10px] font-mono uppercase text-slate-500 mb-2">Syllabus Tags</div>
-                    <div id="modalTags" class="flex flex-wrap gap-1.5">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
-                    <button id="modalDismissBtn" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">
-                        Dismiss
-                    </button>
-                    <a id="modalLaunchBtn" href="#" class="px-6 py-2.5 rounded-xl bg-brand-indigo hover:bg-brand-indigo/90 text-white text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-indigo/25">
-                        <span>Launch Full Module</span>
-                        <span>→</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ENGINE / DEVICE SELECTOR DIALOG -->
-    <div id="engineModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-950/80 backdrop-blur-md">
-        <div class="relative w-full max-w-md bg-obsidian-900 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl glass-panel">
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 rounded-2xl bg-brand-indigo/20 text-brand-cyan border border-brand-indigo/30 flex items-center justify-center text-xl mx-auto mb-3">
-                    ⚙️
-                </div>
-                <h3 class="text-xl font-bold text-white tracking-tight">Performance Engine</h3>
-                <p class="text-xs text-slate-400 mt-1">Tailor visuals to your current device and GPU preferences</p>
-            </div>
-
-            <div class="space-y-3 mb-6">
-                <!-- Option 1: ULTRA (Desktop) -->
-                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="ultra">
-                    <div class="flex items-center gap-3.5">
-                        <span class="text-2xl">🖥️</span>
-                        <div>
-                            <div class="text-sm font-bold text-white flex items-center gap-2">
-                                Ultra Engine
-                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan font-mono">Recommended</span>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-md bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center text-brandCyan text-xs mt-0.5">✓</div>
+                                <div class="text-xs sm:text-sm text-slate-300"><strong class="text-white">Offline Capability:</strong> Run locally on dual-boot Linux/Windows setups without active Wi-Fi.</div>
                             </div>
-                            <div class="text-xs text-slate-400">Full 3D tilt, canvas particles &amp; spotlight shaders</div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-md bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center text-brandCyan text-xs mt-0.5">✓</div>
+                                <div class="text-xs sm:text-sm text-slate-300"><strong class="text-white">Visual Feedback:</strong> Dynamic sliders and simulated physics loops directly demonstrate mathematical formulas.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-md bg-brandCyan/10 border border-brandCyan/30 flex items-center justify-center text-brandCyan text-xs mt-0.5">✓</div>
+                                <div class="text-xs sm:text-sm text-slate-300"><strong class="text-white">Clean Edge Deploy:</strong> Hosted across global Vercel serverless edge nodes for near-instant rendering.</div>
+                            </div>
                         </div>
-                    </div>
-                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
-                </button>
 
-                <!-- Option 2: BALANCED (Tablet) -->
-                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="balanced">
-                    <div class="flex items-center gap-3.5">
-                        <span class="text-2xl">📱</span>
-                        <div>
-                            <div class="text-sm font-bold text-white">Balanced Engine</div>
-                            <div class="text-xs text-slate-400">Smooth animations with reduced blur effects</div>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <a href="./about.html" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brandIndigo to-brandCyan text-slate-950 font-bold text-xs sm:text-sm hover:opacity-90 transition shadow-glow-cyan/20">
+                                Read Architecture Overview
+                            </a>
+                            <a href="./certificate.html" class="px-6 py-3 rounded-xl glass-pill text-white text-xs sm:text-sm font-semibold hover:bg-white/10 transition">
+                                View Awards & Competitions
+                            </a>
                         </div>
                     </div>
-                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
-                </button>
 
-                <!-- Option 3: LITE (Mobile / Battery Saver) -->
-                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="lite">
-                    <div class="flex items-center gap-3.5">
-                        <span class="text-2xl">⚡</span>
-                        <div>
-                            <div class="text-sm font-bold text-white">Lite Performance</div>
-                            <div class="text-xs text-slate-400">Zero particle canvas, static cards for max battery</div>
+                    <!-- Interactive Code / System Preview Terminal -->
+                    <div class="glass-surface rounded-2xl border border-white/10 p-5 font-mono text-xs overflow-hidden shadow-2xl bg-deepCanvas/90">
+                        <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-slate-500">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                                <span class="ml-2 text-slate-400 text-[11px]">study-notes-runtime.json</span>
+                            </div>
+                            <span class="text-[10px] text-brandCyan font-semibold">EDGE DEPLOYED</span>
                         </div>
+                        <pre class="text-slate-300 leading-relaxed overflow-x-auto"><code>{
+  <span class="text-brandViolet">"repository"</span>: <span class="text-emerald-400">"SahibdeepMe/Study-Notes"</span>,
+  <span class="text-brandViolet">"curriculum"</span>: <span class="text-emerald-400">"Class 10 ICSE & Modern Tech"</span>,
+  <span class="text-brandViolet">"runtime"</span>: <span class="text-brandCyan">"Vanilla ES6 + Canvas Physics"</span>,
+  <span class="text-brandViolet">"author"</span>: {
+    <span class="text-brandViolet">"name"</span>: <span class="text-emerald-400">"Sahibdeep Singh"</span>,
+    <span class="text-brandViolet">"role"</span>: <span class="text-emerald-400">"Developer & Student"</span>,
+    <span class="text-brandViolet">"location"</span>: <span class="text-emerald-400">"Haryana, India"</span>
+  },
+  <span class="text-brandViolet">"activeModules"</span>: [
+    <span class="text-amber-300">"Light & Optics"</span>,
+    <span class="text-amber-300">"Newton's Laws"</span>,
+    <span class="text-amber-300">"Cell Biology"</span>,
+    <span class="text-amber-300">"Quantum Computing"</span>
+  ],
+  <span class="text-brandViolet">"performanceStatus"</span>: <span class="text-emerald-400">"60 FPS Stable"</span>
+}</code></pre>
                     </div>
-                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
-                </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Google AdSense Dedicated Production In-Feed Display Container -->
+        <section class="my-14 text-center">
+            <div class="glass-surface p-6 rounded-2xl border border-dashed border-white/10 max-w-4xl mx-auto">
+                <div class="text-[10px] font-mono tracking-widest uppercase text-slate-500 mb-2">SPONSORED RESOURCES & PARTNERS</div>
+                
+                <!-- Google AdSense Dynamic Auto/Unit Slot -->
+                <div class="min-h-[100px] flex items-center justify-center text-xs font-mono text-slate-600 bg-black/20 rounded-xl">
+                    <!-- Standard Responsive Ad Directive -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5002842080061324"
+                         data-ad-slot="default"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Module Quick-Look Drawer Modal -->
+    <div id="moduleModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-surface bg-surface/95 border border-white/15 rounded-3xl max-w-xl w-full p-6 sm:p-8 transform scale-95 transition-all duration-300 shadow-2xl relative" id="modalCardContainer">
+            <button id="closeModalBtn" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-full bg-white/5 hover:bg-white/10 transition">
+                ✕
+            </button>
+            <div class="flex items-center gap-4 mb-4">
+                <span class="text-4xl p-3 rounded-2xl bg-white/5 border border-white/10" id="modalIcon">💡</span>
+                <div>
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-brandCyan block" id="modalCategory">Physics</span>
+                    <h3 class="text-2xl font-bold text-white" id="modalTitle">Light & Optics</h3>
+                </div>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6" id="modalSubtitle">Detailed breakdown of key ICSE curriculum chapters with interactive simulations.</p>
+            
+            <div class="mb-6">
+                <div class="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2.5">Key Core Formulas & Milestones:</div>
+                <div class="space-y-2" id="modalHighlights">
+                    <!-- Dynamically populated -->
+                </div>
             </div>
 
-            <button id="closeEngineModalBtn" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors">
-                Apply &amp; Return
-            </button>
+            <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                <div class="flex items-center gap-1.5 flex-wrap" id="modalTags">
+                    <!-- Dynamically populated tags -->
+                </div>
+                <a href="#" id="modalLaunchBtn" class="px-5 py-2.5 rounded-xl bg-brandCyan hover:bg-cyan-400 text-slate-950 font-bold text-xs transition shadow-glow-cyan/20 flex items-center gap-2">
+                    <span>Open Module</span>
+                    <span>→</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- CORE JAVASCRIPT APPLICATION LOGIC -->
+    <!-- Footer System Area -->
+    <footer class="border-t border-surfaceBorder bg-deepCanvas relative z-20 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <!-- Col 1: About Platform -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brandIndigo to-brandCyan p-[1px] flex items-center justify-center">
+                            <span class="text-brandCyan text-sm font-mono font-bold">⚡</span>
+                        </div>
+                        <span class="font-bold text-lg text-white font-sans">Study Notes Hub</span>
+                    </div>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md mb-6">
+                        An autonomous, interactive educational platform designed by Sahibdeep Singh. Optimized for Class 10 ICSE students and technology learners seeking high-speed visual explanations.
+                    </p>
+                    <div class="flex items-center gap-3 text-xs font-mono text-slate-500">
+                        <span>EST. 2024-2026</span>
+                        <span>•</span>
+                        <span>OPEN-SOURCE GITHUB REPO</span>
+                        <span>•</span>
+                        <span>VERCEL EDGE</span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Fast Navigation -->
+                <div>
+                    <h4 class="text-xs font-mono uppercase tracking-wider text-slate-200 mb-4 font-semibold">Repository Syllabus</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="./Light.html" class="hover:text-brandCyan transition">Light & Refraction</a></li>
+                        <li><a href="./newtonian-physics.html" class="hover:text-brandCyan transition">Newton's Laws & Force</a></li>
+                        <li><a href="./sound.html" class="hover:text-brandCyan transition">Sound Wave Acoustics</a></li>
+                        <li><a href="./electricity.html" class="hover:text-brandCyan transition">Current & Ohm's Law</a></li>
+                        <li><a href="./biology-cells.html" class="hover:text-brandCyan transition">Cell Biology & DNA</a></li>
+                        <li><a href="./chemistry-bonds.html" class="hover:text-brandCyan transition">Chemical Molecular Bonds</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Network & External Connections -->
+                <div>
+                    <h4 class="text-xs font-mono uppercase tracking-wider text-slate-200 mb-4 font-semibold">Platforms & Links</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="https://youtube.com/@sahibdeep_yt" target="_blank" rel="noopener noreferrer" class="hover:text-red-400 transition flex items-center gap-2"><span>▶</span> YouTube Channel</a></li>
+                        <li><a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition flex items-center gap-2"><span>✈</span> Telegram Storage</a></li>
+                        <li><a href="https://github.com/SahibdeepMe/Study-Notes" target="_blank" rel="noopener noreferrer" class="hover:text-white transition flex items-center gap-2"><span>⌥</span> GitHub Source Tree</a></li>
+                        <li><a href="./certificate.html" class="hover:text-brandViolet transition flex items-center gap-2"><span>🏆</span> School Awards & Honors</a></li>
+                        <li><a href="./about.html" class="hover:text-brandCyan transition flex items-center gap-2"><span>ℹ</span> Project Documentation</a></li>
+                        <li><a href="./contact.html" class="hover:text-brandCyan transition flex items-center gap-2"><span>📧</span> Contact Developer</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright & Academic Attribution -->
+            <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-mono">
+                <div>
+                    © 2026 Sahibdeep Singh • Dynamic Study Notes Hub
+                </div>
+                <div class="flex items-center gap-4">
+                    <span>Ratia, Haryana, India</span>
+                    <span>•</span>
+                    <a href="https://github.com/SahibdeepMe" target="_blank" class="hover:text-slate-300 transition">github.com/SahibdeepMe</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Comprehensive Client Logic & Interaction Runtime -->
     <script>
-        /**
-         * Comprehensive Curriculum Data Matrix
-         * Premium color tokens and metadata
-         */
-        const curriculumData = [
+        // Exact Chapter Catalog matched to SahibdeepMe/Study-Notes files
+        const syllabusData = [
             {
                 id: "light-optics",
                 title: "Light & Optics",
-                subtitle: "Wave Mechanics • Refraction • Snell's Law",
-                file: "Light.html",
+                subtitle: "Snell's Law, Refraction Through Prisms & Critical Reflection",
+                file: "./Light.html",
                 icon: "💡",
                 category: "physics",
-                categoryLabel: "Physics",
-                accentColor: "#38BDF8", // Cyan
-                gradientClass: "from-sky-500/20 via-brand-indigo/10 to-transparent",
-                tags: ["Physics", "Optics", "Refraction", "Wave Theory", "Prisms", "Lasers"],
-                stats: "4 Interactive Simulators",
-                reel: [
-                    "🌈 Dispersion: Prisms reveal spectral dispersion of polychromatic light.",
-                    "🔍 Refractive Index: Lenses focus rays through Fermat's principle.",
-                    "✨ Total Internal Reflection governs ultra-fast fiber optic cables.",
-                    "👁️ Human Cornea: Real-time dynamic optical focal adjustment."
+                tags: ["Physics", "Optics", "Refraction", "Snell"],
+                accent: "from-cyan-500 to-blue-600",
+                highlights: [
+                    "Snell's Law: n₁ sin(θ₁) = n₂ sin(θ₂)",
+                    "Total Internal Reflection & Critical Angle",
+                    "Lens Formula: 1/f = 1/v - 1/u",
+                    "Prism Angle of Minimum Deviation"
                 ]
             },
             {
-                id: "newtons-laws",
-                title: "Newton's Mechanics",
-                subtitle: "Classical Dynamics • Momentum • Gravitation",
-                file: "newtonian-physics.html",
+                id: "newtonian-physics",
+                title: "Newton's Laws & Force",
+                subtitle: "Inertial Mechanics, Momentum Dynamics & Gravitational Fields",
+                file: "./newtonian-physics.html",
                 icon: "🍎",
                 category: "physics",
-                categoryLabel: "Physics",
-                accentColor: "#818CF8", // Indigo
-                gradientClass: "from-indigo-500/20 via-purple-500/10 to-transparent",
-                tags: ["Physics", "Mechanics", "Inertia", "Gravity", "Vectors", "Momentum"],
-                stats: "5 Force Vector Demos",
-                reel: [
-                    "🎾 First Law: Objects maintain velocity without net external force.",
-                    "🚀 Second Law: Acceleration is proportional to force over mass (F=ma).",
-                    "🤝 Third Law: Action and reaction pairs are equal and opposite.",
-                    "🌎 Universal Gravity: Inverse-square law shapes orbital ellipses."
+                tags: ["Physics", "Mechanics", "Forces", "Inertia"],
+                accent: "from-indigo-500 to-purple-600",
+                highlights: [
+                    "First Law: Principle of Linear Inertia",
+                    "Second Law: F = dp/dt = m · a",
+                    "Third Law: Action-Reaction Vector Pairs",
+                    "Universal Gravitation: F = G(m₁m₂)/r²"
                 ]
             },
             {
-                id: "sound-acoustics",
-                title: "Sound & Acoustics",
-                subtitle: "Harmonics • Longitudinal Waves • Doppler",
-                file: "sound.html",
+                id: "sound-waves",
+                title: "Sound Waves & Acoustics",
+                subtitle: "Vibrations, Longitudinal Harmonics, Pitch & Velocity",
+                file: "./sound.html",
                 icon: "🎵",
                 category: "physics",
-                categoryLabel: "Physics",
-                accentColor: "#2DD4BF", // Teal
-                gradientClass: "from-teal-500/20 via-cyan-500/10 to-transparent",
-                tags: ["Physics", "Acoustics", "Frequency", "Doppler Effect", "Harmonics"],
-                stats: "3 Oscilloscope Visualizers",
-                reel: [
-                    "🌊 Sound travels via longitudinal particle compressions & rarefactions.",
-                    "🔊 Doppler Effect compresses perceived frequency as velocity increases.",
-                    "🎸 Resonance occurs when driver frequencies match natural modal harmonics.",
-                    "🎤 Transducers convert kinetic acoustic energy to electrical signals."
+                tags: ["Physics", "Sound", "Waves", "Acoustics"],
+                accent: "from-sky-400 to-cyan-600",
+                highlights: [
+                    "Wave Speed Equation: v = f · λ",
+                    "Echo Timing & Reflection: d = (v · t) / 2",
+                    "Natural Frequency vs Forced Vibration",
+                    "Acoustic Resonance & Quality of Timbre"
                 ]
             },
             {
                 id: "electricity-circuits",
-                title: "Electricity & Circuitry",
-                subtitle: "Ohm's Law • Electromagnetism • Potential",
-                file: "electricity.html",
+                title: "Current Electricity",
+                subtitle: "Ohm's Law, Resistive Networks, EMF & Joule Heating",
+                file: "./electricity.html",
                 icon: "⚡",
                 category: "physics",
-                categoryLabel: "Physics",
-                accentColor: "#F59E0B", // Amber
-                gradientClass: "from-amber-500/20 via-orange-500/10 to-transparent",
-                tags: ["Physics", "Electricity", "Ohm's Law", "Circuits", "Magnetic Fields"],
-                stats: "6 Circuit Builders",
-                reel: [
-                    "💡 Voltage represents electrical potential difference between two poles.",
-                    "🔋 Chemical cells generate electron flow across conductive lattices.",
-                    "🌀 Maxwell's equations bind changing magnetic fields to electric voltage.",
-                    "🔌 Semiconductor logic gates define modern computational registers."
+                tags: ["Physics", "Circuits", "Current", "Ohm"],
+                accent: "from-amber-400 to-orange-500",
+                highlights: [
+                    "Ohm's Law: V = I · R",
+                    "Series: R_total = R₁ + R₂ | Parallel: 1/R_total = 1/R₁ + 1/R₂",
+                    "Joule's Heating Law: H = I² · R · t",
+                    "Electrical Power: P = V · I = V²/R"
                 ]
             },
             {
-                id: "cybersecurity",
-                title: "Cyber Defense Architecture",
-                subtitle: "Public Key Cryptography • Zero Trust • Firewalls",
-                file: "Cybersecurity.html",
+                id: "biology-cells",
+                title: "Cell Biology & Genetics",
+                subtitle: "Organelle Ultrastructure, ATP Synthesis & DNA Replication",
+                file: "./biology-cells.html",
+                icon: "🧬",
+                category: "biology",
+                tags: ["Biology", "Cytology", "DNA", "Genetics"],
+                accent: "from-emerald-400 to-teal-600",
+                highlights: [
+                    "Mitochondrial Matrix: Cellular Respiration & ATP",
+                    "Nucleus & Double Helix Watson-Crick DNA",
+                    "Mitosis Cell Division: Prophase to Telophase",
+                    "Osmotic Pressure & Selective Permeability"
+                ]
+            },
+            {
+                id: "chemical-bonds",
+                title: "Chemical Molecular Bonds",
+                subtitle: "Electronegativity, Ionic Transference & Covalent Pairs",
+                file: "./chemistry-bonds.html",
+                icon: "⚗️",
+                category: "chemistry",
+                tags: ["Chemistry", "Valency", "Bonds", "Molecules"],
+                accent: "from-pink-500 to-rose-600",
+                highlights: [
+                    "Octet Rule of Electronic Configuration",
+                    "Electrovalent/Ionic Electron Transfer (NaCl)",
+                    "Covalent Electron Sharing (H₂O, CH₄)",
+                    "Coordinate / Dative Covalent Linkages"
+                ]
+            },
+            {
+                id: "agriculture-crops",
+                title: "Agriculture & Soil Science",
+                subtitle: "Crop Rotation, Modern Machinery & Micro-Irrigation",
+                file: "./Agriculture.html",
+                icon: "🌾",
+                category: "environment",
+                tags: ["Environment", "Agriculture", "Farming", "Soil"],
+                accent: "from-lime-500 to-green-600",
+                highlights: [
+                    "Kharif vs Rabi Crop Seasonal Cycles",
+                    "Drip Irrigation vs Sprinkler Systems",
+                    "Soil Nitrogen Fixing & Green Manures",
+                    "Modern Mechanized Harvesters & Yields"
+                ]
+            },
+            {
+                id: "cybersecurity-defense",
+                title: "CyberSecurity & Defense",
+                subtitle: "Ciphers, Public Key Cryptography & Zero-Trust Defense",
+                file: "./Cybersecurity.html",
                 icon: "🛡️",
-                category: "security",
-                categoryLabel: "Cybersecurity",
-                accentColor: "#10B981", // Emerald
-                gradientClass: "from-emerald-500/20 via-teal-500/10 to-transparent",
-                tags: ["Security", "Encryption", "RSA", "Zero Trust", "Firewalls", "Privacy"],
-                stats: "Live Packet Interceptor",
-                reel: [
-                    "🔐 Asymmetric Encryption relies on prime factorization intractability.",
-                    "🛡️ State-inspection firewalls reject unauthenticated packet handshakes.",
-                    "🧬 Zero Trust requires explicit authentication for each micro-service.",
-                    "🔍 Digital Forensics recovers hash-verified cryptographic evidence."
+                category: "tech",
+                tags: ["Tech", "Security", "Crypto", "Network"],
+                accent: "from-teal-400 to-emerald-600",
+                highlights: [
+                    "RSA Asymmetric Public-Private Encryption",
+                    "SHA-256 Cryptographic Hashing Algorithms",
+                    "Packet Inspection & Hardware Firewalls",
+                    "Authentication Handshakes & Anti-Spoofing"
                 ]
             },
             {
                 id: "artificial-intelligence",
                 title: "Artificial Intelligence",
-                subtitle: "Neural Networks • Deep Learning • Optimization",
-                file: "AI.html",
+                subtitle: "Neural Networks, Gradient Optimization & Heuristics",
+                file: "./AI.html",
                 icon: "🤖",
-                category: "security",
-                categoryLabel: "Advanced AI",
-                accentColor: "#F43F5E", // Rose
-                gradientClass: "from-rose-500/20 via-indigo-500/10 to-transparent",
-                tags: ["AI", "Neural Networks", "Backpropagation", "Deep Learning", "Weights"],
-                stats: "Tensor Flow Sim",
-                reel: [
-                    "🧠 Perceptrons calculate weighted sums passed through non-linear activations.",
-                    "📉 Gradient Descent iterates backward to minimize cost loss functions.",
-                    "🌐 Attention mechanisms allow transformers to grasp contextual dependencies.",
-                    "🔮 Multi-modal models map cross-domain tokens into continuous embedding spaces."
+                category: "tech",
+                tags: ["Tech", "AI", "Machine Learning", "Neural"],
+                accent: "from-purple-500 to-indigo-600",
+                highlights: [
+                    "Perceptrons & Artificial Multi-Layer Neurons",
+                    "Backpropagation & Cost Gradient Minimization",
+                    "Transformer Self-Attention Mechanisms",
+                    "Natural Language Processing Models"
                 ]
             },
             {
                 id: "quantum-computing",
                 title: "Quantum Computing",
-                subtitle: "Qubits • Superposition • Quantum Entanglement",
-                file: "Quantum Computing.html",
-                icon: "⚛️",
-                category: "advanced-tech",
-                categoryLabel: "Quantum",
-                accentColor: "#A855F7", // Purple
-                gradientClass: "from-purple-500/20 via-pink-500/10 to-transparent",
-                tags: ["Quantum", "Qubits", "Superposition", "Entanglement", "Bloch Sphere"],
-                stats: "Bloch Sphere Visualizer",
-                reel: [
-                    "🔮 Qubits exist simultaneously in linear superpositions of states |0⟩ and |1⟩.",
-                    "🔗 Entangled quantum pairs exhibit instantaneous non-local correlation.",
-                    "🌐 Shor's algorithm provides exponential speedup over classical RSA.",
-                    "❄️ Dilution refrigerators maintain sub-kelvin thermal stability."
-                ]
-            },
-            {
-                id: "cell-biology",
-                title: "Cellular & Molecular Biology",
-                subtitle: "ATP Synthesis • DNA Transcription • Mitosis",
-                file: "biology-cells.html",
-                icon: "🧬",
-                category: "biology",
-                categoryLabel: "Life Sciences",
-                accentColor: "#34D399", // Emerald Light
-                gradientClass: "from-emerald-500/20 via-green-500/10 to-transparent",
-                tags: ["Biology", "DNA", "Cellular", "Mitosis", "ATP Synthase", "Genetics"],
-                stats: "3D Cell Dissection",
-                reel: [
-                    "⚡ Mitochondria synthesize adenosine triphosphate (ATP) across cristae membranes.",
-                    "🧬 DNA double helix unzips for accurate RNA polymerase transcription.",
-                    "🛡️ Macrophages phagocytose foreign antigens via immune recognition.",
-                    "🧠 Synaptic vesicles release neurotransmitters across synaptic clefts."
-                ]
-            },
-            {
-                id: "agriscience-sustainability",
-                title: "Agriscience & Ecology",
-                subtitle: "Precision Irrigation • Soil Biomes • Carbon Capture",
-                file: "Agriculture.html",
-                icon: "🌾",
-                category: "environment",
-                categoryLabel: "Ecology",
-                accentColor: "#84CC16", // Lime
-                gradientClass: "from-lime-500/20 via-emerald-500/10 to-transparent",
-                tags: ["Agriculture", "Ecology", "Hydroponics", "Soil", "Sustainability"],
-                stats: "Crop Cycle Simulator",
-                reel: [
-                    "🌱 Mycorrhizal fungi form symbiotic nutrient exchanges with plant root hairs.",
-                    "💧 IoT drip irrigation minimizes water loss while maximizing soil saturation.",
-                    "🚜 Autonomous field sensors dynamically measure nitrogen and phosphorus levels.",
-                    "🌿 Regenerative cover cropping traps atmospheric carbon within organic matter."
-                ]
-            },
-            {
-                id: "chemical-bonds",
-                title: "Chemical Bonding & Reactions",
-                subtitle: "Electronegativity • Covalent Crystals • Enthalpy",
-                file: "chemistry-bonds.html",
-                icon: "⚗️",
-                category: "chemistry",
-                categoryLabel: "Chemistry",
-                accentColor: "#EC4899", // Pink
-                gradientClass: "from-pink-500/20 via-rose-500/10 to-transparent",
-                tags: ["Chemistry", "Bonds", "Molecules", "Electrons", "Enthalpy"],
-                stats: "Orbital Hybridizer",
-                reel: [
-                    "⚛️ Valence electrons share orbitals in covalent configurations for stability.",
-                    "💎 Carbon sp3 hybridization yields the diamond crystal lattice structure.",
-                    "🔗 Dipole-dipole hydrogen bonds grant water its unique high heat capacity.",
-                    "🧪 Catalysts lower reaction activation barriers without undergoing net loss."
+                subtitle: "Bloch Sphere, Superposition States & Entangled Qubits",
+                file: "./Quantum Computing.html",
+                icon: "🖥️",
+                category: "tech",
+                tags: ["Tech", "Quantum", "Physics", "Qubit"],
+                accent: "from-blue-600 to-cyan-500",
+                highlights: [
+                    "Qubit Superposition: |ψ⟩ = α|0⟩ + β|1⟩",
+                    "Quantum Non-Local Entanglement Logic",
+                    "Hadamard & Pauli Quantum Logic Gates",
+                    "Grover's Fast Search Speedup Principle"
                 ]
             }
         ];
 
-        /**
-         * Application State Management
-         */
-        let currentCategory = 'all';
-        let currentSearchQuery = '';
-        let currentEngine = 'ultra';
-        let reelIntervals = {};
-        let activeModalChapter = null;
+        // State Machine Management
+        let activeCategory = "all";
+        let searchQuery = "";
+        let engineSpeed = "ultra"; // "ultra" | "balanced" | "lite"
 
-        /**
-         * Initialize DOM References
-         */
-        const chaptersGrid = document.getElementById('chaptersGrid');
-        const mainSearchInput = document.getElementById('mainSearchInput');
-        const clearSearchBtn = document.getElementById('clearSearchBtn');
-        const searchDropdown = document.getElementById('searchDropdown');
-        const categoryTabs = document.getElementById('categoryTabs');
-        const resultsCountBadge = document.getElementById('resultsCountBadge');
-        const noResultsBlock = document.getElementById('noResultsBlock');
-        const resetSearchBtn = document.getElementById('resetSearchBtn');
-        const previewModal = document.getElementById('previewModal');
-        const modalCloseBtn = document.getElementById('modalCloseBtn');
-        const modalDismissBtn = document.getElementById('modalDismissBtn');
-        const engineModal = document.getElementById('engineModal');
-        const engineSettingsBtn = document.getElementById('engineSettingsBtn');
-        const closeEngineModalBtn = document.getElementById('closeEngineModalBtn');
-        const currentEngineIcon = document.getElementById('currentEngineIcon');
-        const currentEngineLabel = document.getElementById('currentEngineLabel');
-        const footerModeText = document.getElementById('footerModeText');
-        const engineFooterTrigger = document.getElementById('engineFooterTrigger');
-        const quickSearchBtn = document.getElementById('quickSearchBtn');
+        const grid = document.getElementById("notesGrid");
+        const noResults = document.getElementById("noResultsState");
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.getElementById("clearSearchBtn");
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        const activeResultCount = document.getElementById("activeResultCount");
+        const quickChips = document.querySelectorAll(".quick-chip");
 
-        /**
-         * Render Curriculum Cards
-         */
-        function renderCards() {
-            // Filter logic
-            const filtered = curriculumData.filter(chapter => {
-                const matchesCategory = currentCategory === 'all' || chapter.category === currentCategory;
-                
-                if (!currentSearchQuery.trim()) return matchesCategory;
+        // Modal Elements
+        const modal = document.getElementById("moduleModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalSubtitle = document.getElementById("modalSubtitle");
+        const modalIcon = document.getElementById("modalIcon");
+        const modalCategory = document.getElementById("modalCategory");
+        const modalHighlights = document.getElementById("modalHighlights");
+        const modalTags = document.getElementById("modalTags");
+        const modalLaunchBtn = document.getElementById("modalLaunchBtn");
+        const closeModalBtn = document.getElementById("closeModalBtn");
 
-                const q = currentSearchQuery.toLowerCase();
-                const matchesTitle = chapter.title.toLowerCase().includes(q);
-                const matchesSubtitle = chapter.subtitle.toLowerCase().includes(q);
-                const matchesTags = chapter.tags.some(tag => tag.toLowerCase().includes(q));
-                const matchesReel = chapter.reel.some(line => line.toLowerCase().includes(q));
-
-                return matchesCategory && (matchesTitle || matchesSubtitle || matchesTags || matchesReel);
+        // Render Cards into Main Grid
+        function renderNotes() {
+            grid.innerHTML = "";
+            const filtered = syllabusData.filter(item => {
+                const matchesCat = activeCategory === "all" || item.category === activeCategory;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                                      item.highlights.some(h => h.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchesCat && matchesSearch;
             });
 
-            // Update Count Badge
-            resultsCountBadge.textContent = `${filtered.length} Active`;
-
-            // Clear active intervals
-            Object.values(reelIntervals).forEach(intId => clearInterval(intId));
-            reelIntervals = {};
+            activeResultCount.textContent = `${filtered.length} AVAILABLE`;
 
             if (filtered.length === 0) {
-                chaptersGrid.innerHTML = '';
-                noResultsBlock.classList.remove('hidden');
-                return;
-            }
-
-            noResultsBlock.classList.add('hidden');
-
-            chaptersGrid.innerHTML = filtered.map((ch, idx) => {
-                return `
-                    <div class="spotlight-card group flex flex-col justify-between" 
-                         data-id="${ch.id}" 
-                         data-category="${ch.category}">
-                        
-                        <!-- Internal Gradient Accent -->
-                        <div class="absolute inset-0 bg-gradient-to-br ${ch.gradientClass} opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none"></div>
-
-                        <div class="relative z-10 p-6 flex flex-col flex-1">
-                            
-                            <!-- Card Header: Icon, Category & Actions -->
-                            <div class="flex items-start justify-between gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                    ${ch.icon}
+                noResults.classList.remove("hidden");
+            } else {
+                noResults.classList.add("hidden");
+                filtered.forEach((chapter, index) => {
+                    const card = document.createElement("div");
+                    card.className = "interactive-card glass-surface rounded-3xl p-6 sm:p-7 flex flex-col justify-between group cursor-pointer border border-white/10";
+                    
+                    // Card Interior Layout
+                    card.innerHTML = `
+                        <div>
+                            <!-- Header Row with Category Badge and Icon -->
+                            <div class="flex items-start justify-between mb-5">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                                    ${chapter.icon}
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300 font-semibold">
-                                        ${ch.categoryLabel}
-                                    </span>
-                                    <button class="preview-trigger-btn p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
-                                            data-id="${ch.id}" title="Quick Preview">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                        </svg>
-                                    </button>
-                                </div>
+                                <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 px-3 py-1 rounded-full bg-white/[0.04] border border-white/5">
+                                    ${chapter.category}
+                                </span>
                             </div>
 
                             <!-- Title & Subtitle -->
-                            <h3 class="text-xl font-bold text-white tracking-tight mb-1 group-hover:text-brand-cyan transition-colors">
-                                ${highlightMatch(ch.title, currentSearchQuery)}
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brandCyan transition-colors">
+                                ${chapter.title}
                             </h3>
-                            <p class="text-xs text-slate-400 mb-4 line-clamp-1">
-                                ${highlightMatch(ch.subtitle, currentSearchQuery)}
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
+                                ${chapter.subtitle}
                             </p>
 
-                            <!-- Live Concept Preview Reel -->
-                            <div class="mt-auto mb-5 p-3.5 rounded-xl bg-obsidian-950/70 border border-white/5 min-h-[72px] flex flex-col justify-center">
-                                <div class="flex items-center justify-between text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">
-                                    <span class="flex items-center gap-1.5">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
-                                        INSIGHT REEL
-                                    </span>
-                                    <span>${ch.stats}</span>
-                                </div>
-                                <p id="reel-text-${ch.id}" class="text-xs text-slate-300 font-medium leading-snug line-clamp-2 transition-opacity duration-300">
-                                    ${ch.reel[0]}
-                                </p>
-                            </div>
-
-                            <!-- Tag Pills -->
-                            <div class="flex flex-wrap gap-1.5 mb-6">
-                                ${ch.tags.slice(0, 3).map(tag => `
-                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-slate-400">
-                                        #${tag}
-                                    </span>
+                            <!-- Key Curriculum Milestones -->
+                            <div class="space-y-2 mb-6 border-t border-white/5 pt-4">
+                                ${chapter.highlights.slice(0, 3).map(h => `
+                                    <div class="flex items-center gap-2 text-xs text-slate-400">
+                                        <span class="text-brandCyan text-[11px]">▹</span>
+                                        <span class="truncate">${h}</span>
+                                    </div>
                                 `).join('')}
-                                ${ch.tags.length > 3 ? `
-                                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-white/5 text-slate-400">
-                                        +${ch.tags.length - 3}
-                                    </span>
-                                ` : ''}
                             </div>
+                        </div>
 
-                            <!-- Primary Action Button -->
-                            <a href="${ch.file}" 
-                               class="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-brand-indigo text-slate-200 hover:text-white border border-white/10 hover:border-brand-indigo/50 text-xs font-bold transition-all flex items-center justify-between group/btn shadow-md">
-                                <span>Launch Interactive Study</span>
-                                <span class="transform group-hover/btn:translate-x-1 transition-transform">→</span>
+                        <!-- Card Footer Controls -->
+                        <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+                            <button class="quick-view-btn text-xs font-semibold text-slate-400 hover:text-white transition px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10" data-id="${chapter.id}">
+                                Inspect
+                            </button>
+                            <a href="${chapter.file}" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-brandCyan hover:text-slate-950 text-xs font-bold text-white transition flex items-center gap-1.5 group-hover:border-brandCyan/40">
+                                <span>Open File</span>
+                                <span class="group-hover:translate-x-1 transition-transform">→</span>
                             </a>
                         </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
 
-            // Bind mouse tracking for spotlight effect
-            setupSpotlights();
+                    // Mouse tracking spotlight radial position
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
 
-            // Start live text reels
-            startAllReels(filtered);
-        }
+                    // Quick View Modal Trigger on card click
+                    card.querySelector('.quick-view-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openModal(chapter);
+                    });
 
-        /**
-         * Text Highlighting Helper
-         */
-        function highlightMatch(text, query) {
-            if (!query || !query.trim()) return text;
-            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            return text.replace(regex, `<mark class="bg-brand-cyan/20 text-brand-cyan px-0.5 rounded">$1</mark>`);
-        }
-
-        /**
-         * Spotlight Mouse Coordinate Handler
-         */
-        function setupSpotlights() {
-            if (currentEngine === 'lite') return;
-
-            document.querySelectorAll('.spotlight-card').forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    card.style.setProperty('--mouse-x', `${x}px`);
-                    card.style.setProperty('--mouse-y', `${y}px`);
+                    grid.appendChild(card);
                 });
-            });
-        }
-
-        /**
-         * Cycle Concept Reel Animations
-         */
-        function startAllReels(chapters) {
-            const delay = currentEngine === 'lite' ? 8000 : 4200;
-
-            chapters.forEach(ch => {
-                let idx = 0;
-                const el = document.getElementById(`reel-text-${ch.id}`);
-                if (!el) return;
-
-                reelIntervals[ch.id] = setInterval(() => {
-                    el.style.opacity = '0';
-                    setTimeout(() => {
-                        idx = (idx + 1) % ch.reel.length;
-                        el.textContent = ch.reel[idx];
-                        el.style.opacity = '1';
-                    }, 280);
-                }, delay);
-            });
-        }
-
-        /**
-         * Autocomplete Search Dropdown
-         */
-        function updateSearchDropdown(query) {
-            if (!query.trim()) {
-                searchDropdown.classList.add('hidden');
-                clearSearchBtn.classList.add('hidden');
-                return;
             }
-
-            clearSearchBtn.classList.remove('hidden');
-
-            const q = query.toLowerCase();
-            const matches = curriculumData.filter(ch => 
-                ch.title.toLowerCase().includes(q) ||
-                ch.subtitle.toLowerCase().includes(q) ||
-                ch.tags.some(t => t.toLowerCase().includes(q))
-            ).slice(0, 5);
-
-            if (matches.length === 0) {
-                searchDropdown.innerHTML = `
-                    <div class="p-4 text-center text-xs text-slate-400">
-                        No instant modules match "<strong class="text-white">${query}</strong>". Press Enter to view full results.
-                    </div>
-                `;
-            } else {
-                searchDropdown.innerHTML = `
-                    <div class="p-2 border-b border-white/5 text-[10px] font-mono text-slate-400 uppercase tracking-wider px-3">
-                        Suggested Modules (${matches.length})
-                    </div>
-                    <div class="py-1">
-                        ${matches.map(m => `
-                            <a href="${m.file}" class="flex items-center justify-between p-3 hover:bg-white/5 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <span class="text-xl">${m.icon}</span>
-                                    <div>
-                                        <div class="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors">${m.title}</div>
-                                        <div class="text-[11px] text-slate-400">${m.subtitle}</div>
-                                    </div>
-                                </div>
-                                <span class="text-xs text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all">Launch →</span>
-                            </a>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            searchDropdown.classList.remove('hidden');
         }
 
-        /**
-         * Open Quick Preview Modal
-         */
-        function openPreview(chapterId) {
-            const ch = curriculumData.find(c => c.id === chapterId);
-            if (!ch) return;
+        // Open Inspection Modal
+        function openModal(chapter) {
+            modalTitle.textContent = chapter.title;
+            modalSubtitle.textContent = chapter.subtitle;
+            modalIcon.textContent = chapter.icon;
+            modalCategory.textContent = chapter.category.toUpperCase();
+            modalLaunchBtn.href = chapter.file;
 
-            activeModalChapter = ch;
-            document.getElementById('modalIcon').textContent = ch.icon;
-            document.getElementById('modalCategory').textContent = ch.categoryLabel;
-            document.getElementById('modalTitle').textContent = ch.title;
-            document.getElementById('modalSubtitle').textContent = ch.subtitle;
-            document.getElementById('modalReelText').textContent = ch.reel[0];
-            document.getElementById('modalLaunchBtn').href = ch.file;
-
-            const tagsContainer = document.getElementById('modalTags');
-            tagsContainer.innerHTML = ch.tags.map(t => `
-                <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                    #${t}
-                </span>
+            modalHighlights.innerHTML = chapter.highlights.map(h => `
+                <div class="flex items-center gap-2.5 text-xs text-slate-300 bg-white/5 p-2 rounded-lg border border-white/5">
+                    <span class="text-brandCyan">✓</span>
+                    <span>${h}</span>
+                </div>
             `).join('');
 
-            previewModal.classList.remove('hidden');
+            modalTags.innerHTML = chapter.tags.map(t => `
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-slate-400 border border-white/10">#${t}</span>
+            `).join('');
 
-            // Modal mini-reel
-            let mIdx = 0;
-            const reelEl = document.getElementById('modalReelText');
-            if (window.modalReelInterval) clearInterval(window.modalReelInterval);
-            window.modalReelInterval = setInterval(() => {
-                reelEl.style.opacity = '0';
-                setTimeout(() => {
-                    mIdx = (mIdx + 1) % ch.reel.length;
-                    reelEl.textContent = ch.reel[mIdx];
-                    reelEl.style.opacity = '1';
-                }, 250);
-            }, 3500);
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('modalCardContainer').classList.remove('scale-95');
+            document.getElementById('modalCardContainer').classList.add('scale-100');
         }
 
-        function closePreview() {
-            previewModal.classList.add('hidden');
-            if (window.modalReelInterval) clearInterval(window.modalReelInterval);
+        // Close Inspection Modal
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('modalCardContainer').classList.remove('scale-100');
+            document.getElementById('modalCardContainer').classList.add('scale-95');
         }
 
-        /**
-         * Performance Engine Optimization
-         */
-        function setEngineMode(mode) {
-            currentEngine = mode;
-            localStorage.setItem('studyHubEngine', mode);
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
 
-            const body = document.body;
-            body.classList.remove('lite-mode');
-
-            if (mode === 'ultra') {
-                currentEngineIcon.textContent = '🖥️';
-                currentEngineLabel.textContent = 'ULTRA';
-                footerModeText.textContent = 'ULTRA';
-                initCanvas();
-            } else if (mode === 'balanced') {
-                currentEngineIcon.textContent = '📱';
-                currentEngineLabel.textContent = 'BALANCED';
-                footerModeText.textContent = 'BALANCED';
-                initCanvas();
+        // Search Input Handling
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
             } else {
-                currentEngineIcon.textContent = '⚡';
-                currentEngineLabel.textContent = 'LITE';
-                footerModeText.textContent = 'LITE';
-                body.classList.add('lite-mode');
+                clearBtn.classList.add('hidden');
             }
+            renderNotes();
+        });
 
-            // Update radio checks
-            document.querySelectorAll('.engine-opt-btn').forEach(btn => {
-                const isSelected = btn.dataset.engine === mode;
-                const check = btn.querySelector('.radio-check');
-                if (isSelected) {
-                    btn.classList.add('border-brand-cyan', 'bg-brand-indigo/10');
-                    btn.classList.remove('border-white/10');
-                    check.innerHTML = '<span class="w-2 h-2 rounded-full bg-brand-cyan"></span>';
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            clearBtn.classList.add('hidden');
+            renderNotes();
+            searchInput.focus();
+        });
+
+        document.getElementById('resetSearchQuery').addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            activeCategory = 'all';
+            updateActiveCategoryPill();
+            clearBtn.classList.add('hidden');
+            renderNotes();
+        });
+
+        // Quick Tag Chips Click
+        quickChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const tag = chip.getAttribute('data-tag');
+                searchInput.value = tag;
+                searchQuery = tag;
+                clearBtn.classList.remove('hidden');
+                renderNotes();
+            });
+        });
+
+        // Category Filtering
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeCategory = btn.getAttribute('data-cat');
+                updateActiveCategoryPill();
+                renderNotes();
+            });
+        });
+
+        function updateActiveCategoryPill() {
+            categoryButtons.forEach(btn => {
+                if (btn.getAttribute('data-cat') === activeCategory) {
+                    btn.classList.add('active', 'bg-brandCyan/15', 'border-brandCyan/40', 'text-brandCyan');
+                    btn.classList.remove('border-surfaceBorder', 'bg-surface/50', 'text-slate-400');
                 } else {
-                    btn.classList.remove('border-brand-cyan', 'bg-brand-indigo/10');
-                    btn.classList.add('border-white/10');
-                    check.innerHTML = '';
+                    btn.classList.remove('active', 'bg-brandCyan/15', 'border-brandCyan/40', 'text-brandCyan');
+                    btn.classList.add('border-surfaceBorder', 'bg-surface/50', 'text-slate-400');
                 }
             });
-
-            renderCards();
         }
 
-        /**
-         * Ambient Interactive Particle Canvas
-         */
-        let canvasAnimFrame = null;
-        function initCanvas() {
-            const canvas = document.getElementById('ambientCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+        // Global Shortcut Handler: Command/Ctrl + K to focus search
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            if (e.key === 'Escape') {
+                if (!modal.classList.contains('pointer-events-none')) {
+                    closeModal();
+                } else if (searchInput.value) {
+                    searchInput.value = '';
+                    searchQuery = '';
+                    clearBtn.classList.add('hidden');
+                    renderNotes();
+                }
+            }
+        });
 
-            if (currentEngine === 'lite') {
-                if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+        document.getElementById('quickSearchTrigger').addEventListener('click', () => {
+            searchInput.focus();
+        });
+
+        // Ambient Background Particle Physics Simulation (Canvas Engine)
+        const canvas = document.getElementById("ambientCanvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(0, 229, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles(count) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            if (engineSpeed !== "lite") {
+                animationFrameId = requestAnimationFrame(animateCanvas);
+            }
+        }
+
+        // Engine Performance Mode Switcher
+        const toggleEngineBtn = document.getElementById("toggleEngineSpeed");
+        const engineBadge = document.getElementById("engineBadge");
+
+        toggleEngineBtn.addEventListener('click', () => {
+            if (engineSpeed === "ultra") {
+                engineSpeed = "balanced";
+                engineBadge.textContent = "BALANCED 30FPS";
+                engineBadge.className = "text-amber-400 font-semibold";
+                initParticles(35);
+            } else if (engineSpeed === "balanced") {
+                engineSpeed = "lite";
+                engineBadge.textContent = "LITE ECO";
+                engineBadge.className = "text-slate-400 font-semibold";
+                cancelAnimationFrame(animationFrameId);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                return;
+            } else {
+                engineSpeed = "ultra";
+                engineBadge.textContent = "ULTRA 60FPS";
+                engineBadge.className = "text-emerald-400 font-semibold";
+                initParticles(75);
+                animateCanvas();
             }
+        });
 
-            let width = (canvas.width = window.innerWidth);
-            let height = (canvas.height = window.innerHeight);
+        // Initialize Application
+        initParticles(75);
+        animateCanvas();
+        renderNotes();
 
-            window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            });
+        // Service Offline State Monitor
+        window.addEventListener('offline', () => {
+            const counter = document.getElementById("activeNodesCounter");
+            counter.textContent = "OFFLINE LOCAL CACHE ACTIVE";
+            counter.className = "text-amber-400 font-bold";
+        });
 
-            const particleCount = currentEngine === 'ultra' ? 36 : 18;
-            const particles = [];
-
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    radius: Math.random() * 1.8 + 0.6,
-                    color: i % 2 === 0 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, ',
-                    alpha: Math.random() * 0.4 + 0.1
-                });
-            }
-
-            function render() {
-                ctx.clearRect(0, 0, width, height);
-
-                // Update & draw particles
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    if (p.x < 0) p.x = width;
-                    if (p.x > width) p.x = 0;
-                    if (p.y < 0) p.y = height;
-                    if (p.y > height) p.y = 0;
-
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color + p.alpha + ')';
-                    ctx.fill();
-
-                    // Subtle constellation connections
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p2 = particles[j];
-                        const dx = p.x - p2.x;
-                        const dy = p.y - p2.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-
-                        if (dist < 120) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(129, 140, 248, ${0.1 * (1 - dist / 120)})`;
-                            ctx.lineWidth = 0.6;
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-
-                canvasAnimFrame = requestAnimationFrame(render);
-            }
-
-            if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
-            render();
-        }
-
-        /**
-         * Animated Stat Counters
-         */
-        function animateNumber(elementId, target, suffix = '') {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            let current = 0;
-            const step = Math.ceil(target / 40);
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    el.textContent = target + suffix;
-                    clearInterval(timer);
-                } else {
-                    el.textContent = current + suffix;
-                }
-            }, 30);
-        }
-
-        /**
-         * Event Listeners Setup
-         */
-        function initializeEvents() {
-            // Category Tabs Click
-            categoryTabs.addEventListener('click', e => {
-                const btn = e.target.closest('.cat-pill');
-                if (!btn) return;
-
-                document.querySelectorAll('.cat-pill').forEach(b => {
-                    b.classList.remove('active', 'bg-white/10', 'text-white', 'border-white/15');
-                    b.classList.add('text-slate-400', 'border-transparent');
-                });
-
-                btn.classList.add('active', 'bg-white/10', 'text-white', 'border-white/15');
-                btn.classList.remove('text-slate-400', 'border-transparent');
-
-                currentCategory = btn.dataset.cat;
-                renderCards();
-            });
-
-            // Live Search Input Handler
-            mainSearchInput.addEventListener('input', e => {
-                currentSearchQuery = e.target.value;
-                updateSearchDropdown(currentSearchQuery);
-                renderCards();
-            });
-
-            // Clear Search
-            clearSearchBtn.addEventListener('click', () => {
-                mainSearchInput.value = '';
-                currentSearchQuery = '';
-                updateSearchDropdown('');
-                renderCards();
-                mainSearchInput.focus();
-            });
-
-            // Reset from No-Results state
-            resetSearchBtn.addEventListener('click', () => {
-                mainSearchInput.value = '';
-                currentSearchQuery = '';
-                currentCategory = 'all';
-
-                // Reset pills
-                document.querySelectorAll('.cat-pill').forEach(b => {
-                    const isAll = b.dataset.cat === 'all';
-                    b.classList.toggle('active', isAll);
-                    b.classList.toggle('bg-white/10', isAll);
-                    b.classList.toggle('text-white', isAll);
-                    b.classList.toggle('border-white/15', isAll);
-                    b.classList.toggle('text-slate-400', !isAll);
-                    b.classList.toggle('border-transparent', !isAll);
-                });
-
-                renderCards();
-            });
-
-            // Suggested Search Chips
-            document.querySelectorAll('.quick-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    const tag = chip.dataset.tag;
-                    mainSearchInput.value = tag;
-                    currentSearchQuery = tag;
-                    updateSearchDropdown('');
-                    renderCards();
-                    mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                });
-            });
-
-            // Quick Search Keyboard Trigger (Cmd/Ctrl + K)
-            window.addEventListener('keydown', e => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                    e.preventDefault();
-                    mainSearchInput.focus();
-                    mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                if (e.key === 'Escape') {
-                    searchDropdown.classList.add('hidden');
-                    closePreview();
-                    engineModal.classList.add('hidden');
-                }
-            });
-
-            // Header Quick Search Button
-            quickSearchBtn.addEventListener('click', () => {
-                mainSearchInput.focus();
-                mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
-
-            // Close search dropdown on click outside
-            document.addEventListener('click', e => {
-                if (!mainSearchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
-                    searchDropdown.classList.add('hidden');
-                }
-            });
-
-            // Delegate preview buttons
-            chaptersGrid.addEventListener('click', e => {
-                const btn = e.target.closest('.preview-trigger-btn');
-                if (btn) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openPreview(btn.dataset.id);
-                }
-            });
-
-            // Modal Close Events
-            modalCloseBtn.addEventListener('click', closePreview);
-            modalDismissBtn.addEventListener('click', closePreview);
-            previewModal.addEventListener('click', e => {
-                if (e.target === previewModal) closePreview();
-            });
-
-            // Engine Modal Toggle
-            const openEngineModal = () => engineModal.classList.remove('hidden');
-            const closeEngineModal = () => engineModal.classList.add('hidden');
-
-            engineSettingsBtn.addEventListener('click', openEngineModal);
-            engineFooterTrigger.addEventListener('click', openEngineModal);
-            closeEngineModalBtn.addEventListener('click', closeEngineModal);
-            engineModal.addEventListener('click', e => {
-                if (e.target === engineModal) closeEngineModal();
-            });
-
-            // Engine Option Buttons
-            document.querySelectorAll('.engine-opt-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    setEngineMode(btn.dataset.engine);
-                });
-            });
-        }
-
-        /**
-         * Device Auto-Detection
-         */
-        function detectInitialDevice() {
-            const saved = localStorage.getItem('studyHubEngine');
-            if (saved) return saved;
-
-            const ua = navigator.userAgent.toLowerCase();
-            const isMobile = /mobile|android|iphone|ipod/.test(ua);
-            const isTablet = /tablet|ipad/.test(ua) && !isMobile;
-
-            if (isMobile) return 'lite';
-            if (isTablet) return 'balanced';
-            return 'ultra';
-        }
-
-        /**
-         * Application Bootstrapper
-         */
-        document.addEventListener('DOMContentLoaded', () => {
-            const initialEngine = detectInitialDevice();
-            setEngineMode(initialEngine);
-            initializeEvents();
-            renderCards();
-
-            // Run counters
-            setTimeout(() => {
-                animateNumber('statSubjects', curriculumData.length);
-                animateNumber('statConcepts', curriculumData.length * 4, '+');
-                animateNumber('statAnimations', curriculumData.length * 10, '+');
-            }, 300);
+        window.addEventListener('online', () => {
+            const counter = document.getElementById("activeNodesCounter");
+            counter.textContent = "10 SUBJECTS LOADED";
+            counter.className = "text-brandCyan";
         });
     </script>
 </body>
