@@ -1,1500 +1,1408 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ Dynamic Study Notes Hub 🧠</title>
-    <!-- Load Tailwind CSS -->
+    <title>⚡ StudyNotes — Premium Visual Learning Architecture</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Animate.css for extra animations -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <!-- Configure Tailwind with custom theme -->
+
+    <!-- Configure Custom Tailwind Palette & Styles -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'Montserrat', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'yt-red': '#FF0000',
-                        'telegram-blue': '#0088CC',
-                        'neon-pink': '#FF00FF',
-                        'electric-blue': '#00F0FF',
-                        'vivid-purple': '#9D4EDD',
-                        'lime-green': '#00FF88',
-                        'sunset-orange': '#FF6B35',
-                        'cyber-yellow': '#FFEE32',
-                        'holo-blue': '#00D2FF',
-                        'matrix-green': '#00FF41',
-                        'gradient-1': '#667EEA',
-                        'gradient-2': '#764BA2',
-                        'gradient-3': '#F093FB',
-                        'gradient-4': '#F5576C',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-                        'spin-slow': 'spin 20s linear infinite',
-                        'bounce-slow': 'bounce 3s infinite',
-                        'shimmer': 'shimmer 3s infinite',
-                        'wave': 'wave 5s ease-in-out infinite',
-                        'gradient-x': 'gradient-x 15s ease infinite',
-                        'slide-in': 'slideIn 0.5s ease-out',
-                        'rotate-3d': 'rotate3d 20s linear infinite',
-                        'handshake': 'handshake 1.5s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                        obsidian: {
+                            950: '#05070B',
+                            900: '#090D16',
+                            850: '#0D1322',
+                            800: '#131A2E',
+                            700: '#1D2742',
                         },
-                        'pulse-glow': {
-                            '0%, 100%': { 
-                                opacity: 1,
-                                filter: 'drop-shadow(0 0 10px currentColor)'
-                            },
-                            '50%': { 
-                                opacity: 0.8,
-                                filter: 'drop-shadow(0 0 20px currentColor)'
-                            },
-                        },
-                        shimmer: {
-                            '0%': { backgroundPosition: '-200% center' },
-                            '100%': { backgroundPosition: '200% center' },
-                        },
-                        wave: {
-                            '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
-                            '25%': { transform: 'translateX(-10px) rotate(-2deg)' },
-                            '75%': { transform: 'translateX(10px) rotate(2deg)' },
-                        },
-                        'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center'
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center'
-                            },
-                        },
-                        slideIn: {
-                            '0%': { 
-                                transform: 'translateY(50px)',
-                                opacity: 0
-                            },
-                            '100%': { 
-                                transform: 'translateY(0)',
-                                opacity: 1
-                            },
-                        },
-                        rotate3d: {
-                            '0%': { transform: 'rotateY(0deg) rotateX(0deg)' },
-                            '100%': { transform: 'rotateY(360deg) rotateX(360deg)' },
-                        },
-                        handshake: {
-                            '0%, 100%': { transform: 'rotate(0deg)' },
-                            '25%': { transform: 'rotate(10deg)' },
-                            '75%': { transform: 'rotate(-10deg)' },
+                        brand: {
+                            cyan: '#38BDF8',
+                            indigo: '#6366F1',
+                            violet: '#8B5CF6',
+                            emerald: '#10B981',
+                            rose: '#F43F5E',
+                            amber: '#F59E0B',
                         }
                     },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                    animation: {
+                        'aurora': 'aurora 20s ease-in-out infinite alternate',
+                        'float': 'float 7s ease-in-out infinite',
+                        'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
+                        'shimmer-beam': 'shimmerBeam 3s linear infinite',
+                    },
+                    keyframes: {
+                        aurora: {
+                            '0%': { transform: 'scale(1) translate(0px, 0px) rotate(0deg)' },
+                            '50%': { transform: 'scale(1.15) translate(40px, -20px) rotate(8deg)' },
+                            '100%': { transform: 'scale(0.95) translate(-30px, 20px) rotate(-8deg)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        },
+                        pulseSubtle: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.75' }
+                        },
+                        shimmerBeam: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-        
-        /* DEFAULT SPEED (PC) */
-        body {
-            background: linear-gradient(-45deg, #667EEA, #764BA2, #F093FB, #F5576C);
-            background-size: 400% 400%;
-            animation: gradient-x 15s ease infinite; /* SLOW for PC */
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+        /* Smooth Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090D16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1D2742;
+            border-radius: 9999px;
+            border: 2px solid #090D16;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2D3A5D;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23FFFFFF" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
-            opacity: 0.3;
-            z-index: -1;
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(13, 19, 34, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.55);
         }
 
-        .glass-card {
+        .glass-panel-subtle {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-pill:hover {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .neon-border {
-            position: relative;
-            border: 2px solid transparent;
-            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
-            background-clip: padding-box;
-            border-radius: 1rem;
+        /* Ambient Glow Grid */
+        .bg-mesh-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
 
-        .neon-border::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #FF00FF, #00F0FF, #FF00FF);
-            border-radius: 1rem;
-            z-index: -1;
-            filter: blur(10px);
-            opacity: 0.7;
-        }
-
-        .text-gradient {
-            background: linear-gradient(45deg, #FF00FF, #00F0FF, #9D4EDD, #FF6B35);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hover-3d {
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .hover-3d:hover {
-            transform: perspective(1000px) rotateY(10deg) rotateX(5deg) translateZ(20px);
-        }
-
-        .stagger-delay-1 { animation-delay: 0.1s; }
-        .stagger-delay-2 { animation-delay: 0.2s; }
-        .stagger-delay-3 { animation-delay: 0.3s; }
-        .stagger-delay-4 { animation-delay: 0.4s; }
-        .stagger-delay-5 { animation-delay: 0.5s; }
-        .stagger-delay-6 { animation-delay: 0.6s; }
-        .stagger-delay-7 { animation-delay: 0.7s; }
-
-        .typing-effect::after {
-            content: '|';
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .notes-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        }
-
-        .category-btn {
+        /* Card Spotlight Mouse Track */
+        .spotlight-card {
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            border-radius: 1.25rem;
+            background: rgba(13, 19, 34, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.35s ease, 
+                        box-shadow 0.35s ease;
         }
 
-        .category-btn::before {
+        .spotlight-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .category-btn:hover::before {
-            left: 100%;
-        }
-
-        .category-btn.active {
-            background: linear-gradient(45deg, #FF00FF, #00F0FF);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-        }
-
-        /* Black & White Handshake Logo */
-        .handshake-logo {
-            filter: grayscale(100%) contrast(150%);
-            transition: all 0.3s ease;
-        }
-
-        .handshake-logo:hover {
-            filter: grayscale(0%) contrast(100%);
-            transform: scale(1.1);
-        }
-
-        /* Search bar focus effect */
-        .search-bar:focus {
-            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.3);
-        }
-
-        /* Search results animation */
-        .search-result {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        /* Device Selector Styles */
-        .device-selector-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(-45deg, #667EEA, #764BA2, #F093FB, #F5576C);
-            background-size: 400% 400%;
-            animation: gradient-x 15s ease infinite;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            transition: opacity 0.3s ease;
-        }
-
-        .device-selector {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 2rem;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-
-        .device-selector.visible {
-            transform: scale(1);
-        }
-
-        .device-option {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid transparent;
-            border-radius: 1.5rem;
-            padding: 1.5rem 2rem;
-            margin: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .device-option:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .device-option.active {
-            background: linear-gradient(45deg, #FF00FF, #00F0FF);
-            border-color: transparent;
-            transform: scale(1.05);
-        }
-
-        /* MOBILE/TABLET OPTIMIZATIONS - SLOW DOWN ANIMATIONS */
-        .mobile-tablet-mode body {
-            /* SLOW DOWN background gradient animation */
-            animation: gradient-x 30s ease infinite !important; /* SLOWER for mobile */
-        }
-        
-        .mobile-tablet-mode .floating-icon {
-            /* SLOW DOWN floating animations */
-            animation-duration: 8s !important;
-        }
-        
-        .mobile-tablet-mode .animate-spin-slow {
-            /* SLOW DOWN spinning animations */
-            animation-duration: 30s !important;
-        }
-        
-        .mobile-tablet-mode .animate-pulse {
-            /* SLOW DOWN pulsing animations */
-            animation-duration: 3s !important;
-        }
-        
-        .mobile-tablet-mode .animate-bounce-slow {
-            /* SLOW DOWN bouncing animations */
-            animation-duration: 4s !important;
-        }
-        
-        .mobile-tablet-mode .animate-wave {
-            /* SLOW DOWN wave animations */
-            animation-duration: 8s !important;
-        }
-        
-        .mobile-tablet-mode .animate-handshake {
-            /* SLOW DOWN handshake animations */
-            animation-duration: 3s !important;
-        }
-
-        .mobile-tablet-mode .hover-3d {
-            /* Disable 3D transforms on mobile/tablet */
-            transform: none !important;
-            transition: none !important;
-        }
-
-        .mobile-tablet-mode .glass-card {
-            /* Reduce blur for better performance */
-            backdrop-filter: blur(5px);
-        }
-
-        .mobile-tablet-mode .notes-grid {
-            /* Simplify grid for mobile/tablet */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .mobile-tablet-mode .neon-border::after {
-            /* Reduce blur effect for performance */
-            filter: blur(5px);
-        }
-
-        /* Reduce content reel speed for mobile/tablet */
-        .mobile-tablet-mode .content-reel-text {
-            transition-duration: 1s !important; /* SLOWER transitions */
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Performance optimizations */
-        .will-change-transform {
-            will-change: transform;
-        }
-
-        /* ClearCache simulation */
-        .clear-cache {
-            opacity: 0;
-            position: absolute;
-            pointer-events: none;
-        }
-        
-        /* FIX: Make sure mobile-tablet-mode applies properly */
-        body.mobile-tablet-mode {
-            animation: gradient-x 30s ease infinite !important;
-        }
-
-        /* Device Selector Button */
-        .device-selector-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            background: linear-gradient(45deg, #FF00FF, #00F0FF);
-            border: none;
+            top: var(--mouse-y, -200px);
+            left: var(--mouse-x, -200px);
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-            transition: all 0.3s ease;
+            background: radial-gradient(circle closest-side, rgba(99, 102, 241, 0.14), transparent);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
         }
 
-        .device-selector-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.7);
+        .spotlight-card:hover::before {
+            opacity: 1;
         }
 
-        .device-selector-btn span {
-            font-size: 24px;
+        .spotlight-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 
+                        0 0 25px -5px rgba(99, 102, 241, 0.2);
         }
 
-        /* Search Tag Badge */
-        .search-tag {
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-left: 6px;
-            opacity: 0.8;
-        }
-
-        /* Search Highlight */
-        .search-highlight {
-            background: linear-gradient(45deg, #FF00FF, #00F0FF);
+        /* Text Gradients */
+        .headline-gradient {
+            background: linear-gradient(135deg, #FFFFFF 20%, #CBD5E1 55%, #94A3B8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Performance Mode Styles (Mobile / Lite) */
+        .lite-mode canvas {
+            display: none !important;
+        }
+        .lite-mode .spotlight-card {
+            backdrop-filter: none !important;
+            background: #0D1322 !important;
+            transform: none !important;
+        }
+        .lite-mode .spotlight-card:hover {
+            transform: translateY(-2px) !important;
+        }
+        .lite-mode .spotlight-card::before {
+            display: none !important;
         }
     </style>
 </head>
-<body class="text-white relative">
-    
-    <!-- Device Selector Overlay -->
-    <div id="deviceSelector" class="device-selector-overlay">
-        <div class="device-selector">
-            <h1 class="text-4xl font-bold mb-2 text-gradient">⚡ Study Notes Hub</h1>
-            <p class="text-xl text-white/80 mb-8">Select your device for optimal experience</p>
-            
-            <div class="space-y-4">
-                <div class="device-option" data-device="pc">
-                    <span class="text-3xl">🖥️</span>
-                    <span>Desktop/PC (Full Experience)</span>
-                </div>
-                
-                <div class="device-option" data-device="tablet">
-                    <span class="text-3xl">📱</span>
-                    <span>Tablet (Reduced Animations)</span>
-                </div>
-                
-                <div class="device-option" data-device="mobile">
-                    <span class="text-3xl">📲</span>
-                    <span>Mobile (Minimal Animations)</span>
-                </div>
-            </div>
-            
-            <p class="text-white/60 mt-8 text-sm">
-                <span class="font-bold">Note:</span> Mobile & Tablet modes will reduce animations for better performance
-            </p>
-        </div>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen antialiased selection:bg-brand-indigo/30 selection:text-brand-cyan relative overflow-x-hidden font-sans">
+
+    <!-- Interactive Ambient Canvas Background -->
+    <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- Deep Ambient Glow Blobs -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-brand-indigo/15 rounded-full blur-[130px] animate-aurora"></div>
+        <div class="absolute top-1/3 -right-40 w-[550px] h-[550px] bg-brand-violet/10 rounded-full blur-[150px] animate-aurora" style="animation-delay: -5s;"></div>
+        <div class="absolute -bottom-32 left-1/3 w-[650px] h-[650px] bg-brand-cyan/10 rounded-full blur-[140px] animate-aurora" style="animation-delay: -10s;"></div>
+        <div class="absolute inset-0 bg-mesh-grid opacity-30"></div>
     </div>
 
-    <!-- Main Content (Hidden initially) -->
-    <div id="mainContent" class="hidden">
-        <!-- Device Selector Button -->
-        <button id="deviceSelectorBtn" class="device-selector-btn" title="Change Device Mode">
-            <span>⚙️</span>
-        </button>
+    <!-- MAIN WRAPPER -->
+    <div class="relative z-10 flex flex-col min-h-screen">
 
-        <!-- Header Section -->
-        <header class="py-12 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <!-- Top Navigation Bar -->
+        <nav class="sticky top-0 z-40 border-b border-white/5 bg-obsidian-950/80 backdrop-blur-xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
                 
-                <!-- Contact Links -->
-                <div class="flex flex-col items-center mb-8">
-                    <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight">
-                        <span class="text-gradient animate-gradient-x bg-clip-text">
-                            STUDY<span class="animate-pulse">⚡</span>NOTES
-                        </span>
-                    </h1>
-                    
-                    <!-- Contact Links -->
-                    <div class="flex flex-wrap justify-center gap-6 mt-4">
-                        <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
-                           target="_blank"
-                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yt-red to-red-600 hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <span class="text-xl">▶️</span>
-                            <span class="font-bold">YouTube</span>
-                        </a>
-                        
-                        <a href="https://t.me/SAHIBDEEP_Channel" 
-                           target="_blank"
-                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-telegram-blue to-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <span class="text-xl">✈️</span>
-                            <span class="font-bold">Telegram</span>
-                        </a>
-                        
-                        <a href="contact.html" 
-                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <span class="text-xl">📧</span>
-                            <span class="font-bold">Contact</span>
-                        </a>
-                        
-                        <!-- Certificate Button -->
-                        <a href="certificate.html" 
-                           class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-vivid-purple to-neon-pink hover:scale-105 transition-transform duration-300 shadow-lg">
-                            <span class="text-xl">🏆</span>
-                            <span class="font-bold">Certificate</span>
-                        </a>
+                <!-- Brand / Logo -->
+                <a href="#" class="flex items-center gap-3.5 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-indigo to-brand-cyan p-[1px] shadow-lg shadow-brand-indigo/20 group-hover:shadow-brand-cyan/30 transition-shadow">
+                        <div class="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center">
+                            <span class="text-xl">⚡</span>
+                        </div>
                     </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold tracking-tight text-white font-sans">Study<span class="text-brand-cyan">Notes</span></span>
+                            <span class="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full bg-brand-indigo/20 text-brand-cyan border border-brand-indigo/30 font-semibold">Hub v2.6</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Interactive Visual Curriculum</p>
+                    </div>
+                </a>
+
+                <!-- Center Quick Search Trigger (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-md mx-6">
+                    <button id="quickSearchBtn" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 text-sm hover:border-brand-indigo/40 hover:bg-white/[0.07] transition-all group">
+                        <span class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-slate-400 group-hover:text-brand-cyan transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span>Search modules, theories, tags...</span>
+                        </span>
+                        <kbd class="hidden lg:inline-flex items-center gap-1 font-mono text-[11px] bg-obsidian-900 border border-white/10 px-2 py-0.5 rounded text-slate-400">⌘K</kbd>
+                    </button>
                 </div>
+
+                <!-- Right Action Links & Engine Mode Switch -->
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                    <!-- YouTube Channel -->
+                    <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" target="_blank" rel="noopener" title="Sahibdeep's YouTube"
+                       class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/40 hover:bg-red-500/10 text-slate-300 hover:text-white transition-all text-xs font-medium">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                        <span class="hidden sm:inline">YouTube</span>
+                    </a>
+
+                    <!-- Telegram Community -->
+                    <a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener" title="Telegram Community"
+                       class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-sky-500/40 hover:bg-sky-500/10 text-slate-300 hover:text-white transition-all text-xs font-medium">
+                        <svg class="w-3.5 h-3.5 text-sky-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                        </svg>
+                        <span class="hidden sm:inline">Telegram</span>
+                    </a>
+
+                    <!-- Experience Toggle Menu Trigger -->
+                    <button id="engineSettingsBtn" class="flex items-center gap-2 p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-brand-indigo/15 border border-brand-indigo/30 hover:border-brand-indigo/50 text-brand-cyan transition-all text-xs font-semibold">
+                        <span id="currentEngineIcon">🖥️</span>
+                        <span id="currentEngineLabel" class="hidden sm:inline font-mono">ULTRA</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <header class="relative pt-12 pb-16 md:pt-20 md:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                
+                <!-- Status Pill -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-xs font-medium text-slate-300">Curated Animated STEM & Cybersecurity Courseware</span>
+                    <span class="text-xs text-slate-500">•</span>
+                    <span class="text-xs font-mono text-brand-cyan">2026 Release</span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+                    <span class="headline-gradient">Intuitive Learning,</span><br/>
+                    <span class="accent-gradient">Powered by Motion.</span>
+                </h1>
 
                 <!-- Subtitle -->
-                <p class="text-2xl md:text-3xl font-bold mb-4">
-                    <span class="typing-effect inline-block">Where Learning Comes Alive</span>
-                </p>
-                
-                <p class="text-xl text-white/80 max-w-3xl mx-auto mb-8 animate__animated animate__fadeInUp">
-                    Explore <span class="font-bold text-cyber-yellow">animated</span> concepts, 
-                    <span class="font-bold text-lime-green">interactive</span> previews, and 
-                    <span class="font-bold text-electric-blue">dynamic</span> learning experiences
+                <p class="text-base sm:text-lg lg:text-xl text-slate-400 max-w-3xl mx-auto mb-10 font-normal leading-relaxed">
+                    Discard dry textbooks. Explore interactive physics simulators, molecular mechanics, cyber defenses, and quantum computing through synchronized, interactive animations.
                 </p>
 
-                <!-- Enhanced Search Bar -->
-                <div class="max-w-2xl mx-auto mb-8 animate__animated animate__fadeInUp">
-                    <div class="relative">
-                        <input type="text" 
-                               id="searchInput"
-                               placeholder="🔍 Search subjects, concepts, tags (e.g., physics, waves, security)..." 
-                               class="w-full px-6 py-4 rounded-2xl glass-card border border-white/20 focus:outline-none focus:ring-4 focus:ring-electric-blue/50 text-lg placeholder-white/50 shadow-lg search-bar">
-                        <div class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white/50 text-sm hidden md:block">
-                            Press Enter to search
+                <!-- Search Input Bar (High Impact) -->
+                <div class="max-w-2xl mx-auto relative mb-6">
+                    <div class="relative flex items-center">
+                        <div class="absolute left-4.5 pointer-events-none text-slate-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
                         </div>
-                        <div id="searchResults" class="absolute w-full mt-2 bg-gray-900/95 backdrop-blur-sm rounded-xl border border-white/20 shadow-2xl z-50 hidden overflow-hidden max-h-80 overflow-y-auto">
-                            <!-- Search results will appear here -->
+                        <input type="text" id="mainSearchInput" 
+                               placeholder="Search anything: 'optics', 'quantum', 'encryption', 'DNA'..." 
+                               class="w-full pl-12 pr-28 py-4 rounded-2xl bg-obsidian-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-brand-indigo focus:ring-4 focus:ring-brand-indigo/15 text-base shadow-2xl transition-all"
+                               autocomplete="off">
+                        
+                        <!-- Clear Search / Status -->
+                        <div class="absolute right-3.5 flex items-center gap-2">
+                            <button id="clearSearchBtn" class="hidden text-xs text-slate-400 hover:text-white px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">Clear</button>
+                            <span class="text-[11px] font-mono text-slate-500 bg-white/5 px-2 py-1 rounded border border-white/5 hidden sm:inline-block">ESC</span>
                         </div>
                     </div>
-                    
-                    <!-- Search Tags Suggestion -->
-                    <div class="flex flex-wrap justify-center gap-2 mt-4">
-                        <span class="text-white/70 text-sm">Try searching:</span>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="physics">#physics</button>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="biology">#biology</button>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="security">#security</button>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="chemistry">#chemistry</button>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="ai">#ai</button>
-                        <button class="search-tag-btn text-xs px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors" data-tag="quantum">#quantum</button>
+
+                    <!-- Search Autocomplete Dropdown -->
+                    <div id="searchDropdown" class="hidden absolute top-full left-0 right-0 mt-2 bg-obsidian-900/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-2xl z-50 text-left max-h-96 overflow-y-auto">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
-                <!-- Stats with animated counters -->
-                <div class="flex justify-center items-center space-x-8 mb-6">
-                    <div class="text-center animate__animated animate__fadeInLeft">
-                        <div class="text-4xl font-bold text-neon-pink" id="subject-count">0</div>
-                        <div class="text-sm text-white/70">Subjects</div>
+                <!-- Suggested Quick Filter Chips -->
+                <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
+                    <span class="text-slate-500">Popular:</span>
+                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Optics">#Optics</button>
+                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Gravity">#Gravity</button>
+                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Encryption">#Encryption</button>
+                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="Superposition">#Quantum</button>
+                    <button class="quick-chip glass-pill px-3 py-1.5 rounded-full hover:text-white" data-tag="DNA">#DNA</button>
+                </div>
+
+                <!-- Metric Counters Row -->
+                <div class="grid grid-cols-3 max-w-xl mx-auto mt-14 pt-8 border-t border-white/5 text-center">
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="statSubjects">9</div>
+                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Core Tracks</div>
                     </div>
-                    <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-                    <div class="text-center animate__animated animate__fadeInUp">
-                        <div class="text-4xl font-bold text-electric-blue" id="concept-count">0</div>
-                        <div class="text-sm text-white/70">Key Concepts</div>
+                    <div class="border-x border-white/5">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-brand-cyan font-mono" id="statConcepts">36+</div>
+                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Interactive Key Concepts</div>
                     </div>
-                    <div class="h-12 w-0.5 bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-                    <div class="text-center animate__animated animate__fadeInRight">
-                        <div class="text-4xl font-bold text-lime-green" id="animation-count">0</div>
-                        <div class="text-sm text-white/70">Animations</div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet font-mono" id="statAnimations">90+</div>
+                        <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-medium">Vector Simulations</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Floating decorative elements -->
-            <div class="absolute top-4 left-4 w-16 h-16 rounded-full bg-gradient-to-br from-neon-pink to-transparent animate-spin-slow"></div>
-            <div class="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-gradient-to-tr from-electric-blue to-transparent animate-spin-slow" style="animation-direction: reverse;"></div>
         </header>
 
-        <!-- Main Content Grid -->
-        <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-            <!-- Section Title -->
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 relative inline-block">
-                    <span class="text-gradient">Interactive Subjects</span>
-                    <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-blue to-transparent animate-pulse"></span>
-                </h2>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto animate__animated animate__fadeIn">
-                    Click any subject to dive into animated learning experiences
-                </p>
+        <!-- MAIN CURRICULUM SECTION -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 flex-1 w-full">
+
+            <!-- Category Filter Ribbon -->
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-10 pb-4 border-b border-white/5">
+                <div>
+                    <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                        <span>Modules Portfolio</span>
+                        <span id="resultsCountBadge" class="text-xs font-mono px-2 py-0.5 rounded-full bg-white/5 text-slate-400 border border-white/5">9 Active</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Select a category or launch an interactive lesson module.</p>
+                </div>
+
+                <!-- Category Pills Bar -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 max-w-full" id="categoryTabs">
+                    <button class="cat-pill active px-4 py-2 rounded-xl text-xs font-semibold bg-white/10 text-white border border-white/15 transition-all whitespace-nowrap" data-cat="all">
+                        All Disciplines
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="physics">
+                        ⚡ Physics
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="security">
+                        🛡️ Cyber & AI
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="advanced-tech">
+                        ⚛️ Quantum
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="biology">
+                        🧬 Biology
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="chemistry">
+                        🧪 Chemistry
+                    </button>
+                    <button class="cat-pill px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all whitespace-nowrap" data-cat="environment">
+                        🌾 Agriscience
+                    </button>
+                </div>
             </div>
 
-            <!-- Category Filters with Climax Effect -->
-            <div class="flex flex-wrap justify-center gap-4 mb-12 animate__animated animate__fadeInUp">
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold active" data-category="all">
-                    🎯 All Subjects
-                </button>
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="physics">
-                    ⚡ Physics
-                </button>
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="biology">
-                    🧬 Biology
-                </button>
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="security">
-                    🛡️ Security
-                </button>
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="chemistry">
-                    🧪 Chemistry
-                </button>
-                <button class="category-btn px-8 py-4 rounded-2xl glass-card hover:scale-105 transition-all duration-300 text-lg font-bold" data-category="advanced-tech">
-                    🤖 Advanced Tech
+            <!-- Notes Modules Grid -->
+            <div id="chaptersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated by JS with high aesthetic spotlight cards -->
+            </div>
+
+            <!-- No Results State (Hidden by default) -->
+            <div id="noResultsBlock" class="hidden text-center py-20">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl">
+                    🔍
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">No matching modules found</h3>
+                <p class="text-sm text-slate-400 max-w-sm mx-auto mb-6">We couldn't find anything matching your search query. Try searching for a different keyword or category.</p>
+                <button id="resetSearchBtn" class="px-5 py-2.5 rounded-xl bg-brand-indigo text-white text-xs font-semibold hover:bg-brand-indigo/80 transition-colors">
+                    Reset Filters
                 </button>
             </div>
 
-            <!-- Notes Grid -->
-            <div id="notes-grid" class="notes-grid mb-16">
-                <!-- Cards will be inserted here by JavaScript -->
-            </div>
+            <!-- Collaboration & Institutional Callout -->
+            <div class="mt-20 rounded-3xl glass-panel p-8 sm:p-12 relative overflow-hidden border border-white/10">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-indigo/15 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-2xl text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-indigo/15 border border-brand-indigo/30 text-brand-cyan text-xs font-semibold mb-4">
+                            <span>🤝 Master Educational Framework</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
+                            Engineered by Sahibdeep × Gemini
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Combining human pedagocic insights with machine intelligence to build high-contrast, distraction-free visual animations for high school and university students globally.
+                        </p>
+                    </div>
 
-            <!-- Call to Action -->
-            <div class="text-center mb-12">
-                <div class="relative inline-block">
-                    <div class="absolute inset-0 bg-gradient-to-r from-neon-pink via-vivid-purple to-electric-blue rounded-2xl blur-xl opacity-50 animate-pulse"></div>
-                    <div class="relative glass-card px-12 py-8 rounded-2xl border border-white/20">
-                        <h3 class="text-3xl font-bold mb-4">Ready to Master More?</h3>
-                        <p class="text-xl mb-6 max-w-2xl">Join thousands of students using our animated study system</p>
-                        <button onclick="window.location.href='about.html'" 
-                                class="px-10 py-4 rounded-full bg-gradient-to-r from-lime-green to-cyan-500 text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-lg shimmer-button">
-                            🚀 Get Started Now
-                        </button>
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <a href="contact.html" class="px-6 py-3 rounded-xl bg-white text-obsidian-950 font-bold text-xs hover:bg-slate-200 transition-all shadow-xl shadow-white/5">
+                            Get In Touch
+                        </a>
+                        <a href="certificate.html" class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-xs hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-2">
+                            <span>🏆</span>
+                            <span>Verify Certificates</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </main>
-        
-        <!-- Footer Section -->
-        <footer class="mt-auto py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-            <div class="max-w-7xl mx-auto relative z-10">
-                <div class="grid md:grid-cols-3 gap-8 mb-8">
-                    <!-- Logo Section -->
-                    <div class="text-center md:text-left">
-                        <div class="text-3xl font-bold mb-4 inline-block">
-                            <span class="text-gradient">SNH</span>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-white/5 bg-obsidian-950/90 text-slate-400 text-xs py-12 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                    
+                    <div class="md:col-span-2">
+                        <div class="flex items-center gap-2 text-white font-bold text-base mb-3">
+                            <span class="text-brand-cyan">⚡</span>
+                            <span>StudyNotes Hub</span>
                         </div>
-                        <p class="text-white/70 mb-4">Making learning fun, interactive, and unforgettable through animation.</p>
-                        <!-- Current Device Display -->
-                        <div id="deviceDisplay" class="mt-4 p-3 rounded-lg bg-white/10 backdrop-blur-sm inline-flex items-center gap-2">
-                            <!-- Will be filled by JavaScript -->
+                        <p class="text-slate-400 max-w-sm mb-4 leading-relaxed text-xs">
+                            A curated suite of modern animated scientific, technological, and computational modules engineered for maximum conceptual retention.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span class="font-mono text-[11px] text-slate-400">Systems Operational • 2026 Engine</span>
                         </div>
                     </div>
 
-                    <!-- Quick Links -->
-                    <div class="text-center">
-                        <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Quick Links</h4>
-                        <div class="space-y-2">
-                            <a href="#" class="block hover:text-electric-blue transition-colors duration-200">📚 All Subjects</a>
-                            <a href="#" class="block hover:text-electric-blue transition-colors duration-200">🎨 Interactive Demos</a>
-                            <a href="about.html" class="block hover:text-electric-blue transition-colors duration-200">📜 About Project</a>
-                            <a href="contact.html" class="block hover:text-electric-blue transition-colors duration-200">📧 Contact Us</a>
-                        </div>
+                    <div>
+                        <h4 class="font-semibold text-white uppercase tracking-wider text-[11px] mb-4">Learning Tracks</h4>
+                        <ul class="space-y-2.5">
+                            <li><a href="Light.html" class="hover:text-brand-cyan transition-colors">Optics & Waveforms</a></li>
+                            <li><a href="Cybersecurity.html" class="hover:text-brand-cyan transition-colors">Cyber Threat Defense</a></li>
+                            <li><a href="Quantum Computing.html" class="hover:text-brand-cyan transition-colors">Quantum Superposition</a></li>
+                            <li><a href="AI.html" class="hover:text-brand-cyan transition-colors">Neural Architectures</a></li>
+                        </ul>
                     </div>
 
-                    <!-- Contact Links Footer -->
-                    <div class="text-center md:text-right">
-                        <h4 class="text-xl font-bold mb-4 text-cyber-yellow">Connect With Us</h4>
-                        <div class="flex flex-col items-center md:items-end space-y-3">
-                            <a href="https://youtube.com/@sahibdeep_yt?si=093Qws0lSme1brxn" 
-                               target="_blank"
-                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                                <span class="text-2xl">▶️</span>
-                                <span class="font-medium">YouTube Channel</span>
-                            </a>
-                            <a href="https://t.me/SAHIBDEEP_Channel" 
-                               target="_blank"
-                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                                <span class="text-2xl">✈️</span>
-                                <span class="font-medium">Telegram Channel</span>
-                            </a>
-                            <a href="contact.html" 
-                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                                <span class="text-2xl">📧</span>
-                                <span class="font-medium">Contact Form</span>
-                            </a>
-                            <!-- Certificate link in footer -->
-                            <a href="certificate.html" 
-                               class="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
-                                <span class="text-2xl">🏆</span>
-                                <span class="font-medium">Certificate</span>
-                            </a>
-                        </div>
+                    <div>
+                        <h4 class="font-semibold text-white uppercase tracking-wider text-[11px] mb-4">Project & Legal</h4>
+                        <ul class="space-y-2.5">
+                            <li><a href="about.html" class="hover:text-brand-cyan transition-colors">Methodology & About</a></li>
+                            <li><a href="certificate.html" class="hover:text-brand-cyan transition-colors">Accreditation</a></li>
+                            <li><a href="contact.html" class="hover:text-brand-cyan transition-colors">Direct Inquiries</a></li>
+                            <li><a href="https://t.me/SAHIBDEEP_Channel" target="_blank" rel="noopener" class="hover:text-brand-cyan transition-colors">Join Community</a></li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Collaboration Section -->
-                <div class="border-t border-white/20 pt-8 text-center">
-                    <div class="flex flex-col items-center space-y-6">
-                        <!-- Black & White Handshake Logo with animation -->
-                        <div class="flex items-center space-x-6 animate-wave">
-                            <span class="text-3xl font-bold text-white">Sahibdeep</span>
-                            <div class="handshake-logo animate-handshake">
-                                <span class="text-5xl">🤝</span>
-                            </div>
-                            <span class="text-3xl font-bold text-white">GEMINI</span>
-                        </div>
-                        
-                        <div class="text-white/70 text-lg">
-                            AI-Powered Educational Collaboration
-                        </div>
-                        
-                        <!-- Copyright -->
-                        <div class="text-sm text-white/50 mt-4">
-                            © 2024 Study Notes Hub • All animations created with ❤️ for students worldwide
-                        </div>
+                <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+                    <div>
+                        © 2026 StudyNotes Hub. Handcrafted with precision by <span class="text-white font-semibold">Sahibdeep</span> &amp; Gemini.
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button id="engineFooterTrigger" class="hover:text-white transition-colors flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+                            <span>Graphics: <strong class="text-white font-mono" id="footerModeText">ULTRA</strong></span>
+                        </button>
+                        <span>•</span>
+                        <span>Zero Telemetry</span>
                     </div>
                 </div>
             </div>
         </footer>
     </div>
 
+    <!-- QUICK PREVIEW MODAL / DRAWER -->
+    <div id="previewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-950/80 backdrop-blur-md">
+        <div class="relative w-full max-w-2xl bg-obsidian-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden glass-panel">
+            
+            <div class="p-6 sm:p-8">
+                <!-- Header -->
+                <div class="flex items-start justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div id="modalIcon" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl">
+                            💡
+                        </div>
+                        <div>
+                            <span id="modalCategory" class="text-[11px] font-mono uppercase tracking-wider text-brand-cyan">PHYSICS</span>
+                            <h3 id="modalTitle" class="text-2xl font-bold text-white tracking-tight">Module Title</h3>
+                            <p id="modalSubtitle" class="text-xs text-slate-400">Key Focus Areas</p>
+                        </div>
+                    </div>
+                    <button id="modalCloseBtn" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Animated Carousel Reel -->
+                <div class="mb-6 p-4 rounded-2xl bg-obsidian-950/60 border border-white/5">
+                    <div class="text-[10px] font-mono uppercase text-slate-500 mb-2 flex items-center justify-between">
+                        <span>Interactive Concept Focus</span>
+                        <span class="flex items-center gap-1 text-emerald-400">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            LIVE FEED
+                        </span>
+                    </div>
+                    <div id="modalReelText" class="text-sm font-medium text-slate-200 min-h-[44px] flex items-center">
+                        Loading concept preview...
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="mb-8">
+                    <div class="text-[10px] font-mono uppercase text-slate-500 mb-2">Syllabus Tags</div>
+                    <div id="modalTags" class="flex flex-wrap gap-1.5">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+                    <button id="modalDismissBtn" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">
+                        Dismiss
+                    </button>
+                    <a id="modalLaunchBtn" href="#" class="px-6 py-2.5 rounded-xl bg-brand-indigo hover:bg-brand-indigo/90 text-white text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-indigo/25">
+                        <span>Launch Full Module</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENGINE / DEVICE SELECTOR DIALOG -->
+    <div id="engineModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-950/80 backdrop-blur-md">
+        <div class="relative w-full max-w-md bg-obsidian-900 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl glass-panel">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-brand-indigo/20 text-brand-cyan border border-brand-indigo/30 flex items-center justify-center text-xl mx-auto mb-3">
+                    ⚙️
+                </div>
+                <h3 class="text-xl font-bold text-white tracking-tight">Performance Engine</h3>
+                <p class="text-xs text-slate-400 mt-1">Tailor visuals to your current device and GPU preferences</p>
+            </div>
+
+            <div class="space-y-3 mb-6">
+                <!-- Option 1: ULTRA (Desktop) -->
+                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="ultra">
+                    <div class="flex items-center gap-3.5">
+                        <span class="text-2xl">🖥️</span>
+                        <div>
+                            <div class="text-sm font-bold text-white flex items-center gap-2">
+                                Ultra Engine
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan font-mono">Recommended</span>
+                            </div>
+                            <div class="text-xs text-slate-400">Full 3D tilt, canvas particles &amp; spotlight shaders</div>
+                        </div>
+                    </div>
+                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
+                </button>
+
+                <!-- Option 2: BALANCED (Tablet) -->
+                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="balanced">
+                    <div class="flex items-center gap-3.5">
+                        <span class="text-2xl">📱</span>
+                        <div>
+                            <div class="text-sm font-bold text-white">Balanced Engine</div>
+                            <div class="text-xs text-slate-400">Smooth animations with reduced blur effects</div>
+                        </div>
+                    </div>
+                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
+                </button>
+
+                <!-- Option 3: LITE (Mobile / Battery Saver) -->
+                <button class="engine-opt-btn w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all" data-engine="lite">
+                    <div class="flex items-center gap-3.5">
+                        <span class="text-2xl">⚡</span>
+                        <div>
+                            <div class="text-sm font-bold text-white">Lite Performance</div>
+                            <div class="text-xs text-slate-400">Zero particle canvas, static cards for max battery</div>
+                        </div>
+                    </div>
+                    <span class="radio-check w-4 h-4 rounded-full border border-white/20 flex items-center justify-center"></span>
+                </button>
+            </div>
+
+            <button id="closeEngineModalBtn" class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors">
+                Apply &amp; Return
+            </button>
+        </div>
+    </div>
+
+    <!-- CORE JAVASCRIPT APPLICATION LOGIC -->
     <script>
-        // Device selection and optimization
-        let currentDevice = 'pc';
-        let isMobileOrTablet = false;
-        let isInitialized = false;
-        
-        // Auto-detect device on first load
-        function autoDetectDevice() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobile = /mobile|android|iphone|ipad|ipod/.test(userAgent);
-            const isTablet = /tablet|ipad/.test(userAgent) && !/mobile/.test(userAgent);
-            
-            if (isTablet) return 'tablet';
-            if (isMobile) return 'mobile';
-            return 'pc';
-        }
-        
-        // Check if we should show device selector
-        function shouldShowDeviceSelector() {
-            const savedDevice = localStorage.getItem('studyHubDevice');
-            const hasVisitedBefore = localStorage.getItem('studyHubVisited');
-            
-            if (!hasVisitedBefore) {
-                localStorage.setItem('studyHubVisited', 'true');
-                return true; // Show for first-time visitors
-            }
-            
-            if (!savedDevice) {
-                return true; // Show if no device saved
-            }
-            
-            return false; // Don't show if device already selected
-        }
-
-        // Function to apply device-specific optimizations
-        function applyDeviceOptimizations(deviceType) {
-            if (isInitialized && deviceType === currentDevice) return;
-            
-            const body = document.body;
-            const mainContent = document.getElementById('mainContent');
-            const deviceSelector = document.getElementById('deviceSelector');
-            
-            // Set current device
-            currentDevice = deviceType;
-            localStorage.setItem('studyHubDevice', deviceType);
-            isMobileOrTablet = (deviceType === 'mobile' || deviceType === 'tablet');
-            
-            console.log(`🚀 Applying ${deviceType} optimizations...`);
-            
-            // Apply optimizations for mobile/tablet
-            if (isMobileOrTablet) {
-                body.classList.add('mobile-tablet-mode');
-                
-                // Adjust viewport meta tag dynamically
-                const viewportMeta = document.querySelector('meta[name="viewport"]');
-                if (viewportMeta) {
-                    if (deviceType === 'mobile') {
-                        viewportMeta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
-                    } else if (deviceType === 'tablet') {
-                        viewportMeta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.5";
-                    }
-                }
-            } else {
-                body.classList.remove('mobile-tablet-mode');
-                
-                // Set PC viewport
-                const viewportMeta = document.querySelector('meta[name="viewport"]');
-                if (viewportMeta) {
-                    viewportMeta.content = "width=device-width, initial-scale=1.0";
-                }
-            }
-            
-            // Update device display
-            updateDeviceDisplay();
-            
-            // Hide device selector and show main content
-            if (deviceSelector) {
-                deviceSelector.style.opacity = '0';
-                setTimeout(() => {
-                    deviceSelector.style.display = 'none';
-                }, 300);
-            }
-            
-            if (mainContent) {
-                mainContent.classList.remove('hidden');
-                mainContent.style.opacity = '0';
-                
-                // Fade in main content
-                setTimeout(() => {
-                    mainContent.style.transition = 'opacity 0.5s ease';
-                    mainContent.style.opacity = '1';
-                }, 100);
-            }
-            
-            // Initialize notes hub only once
-            if (!isInitialized) {
-                setTimeout(initializeNotesHub, 500);
-                isInitialized = true;
-            }
-        }
-
-        // Update device display in footer
-        function updateDeviceDisplay() {
-            const deviceDisplay = document.getElementById('deviceDisplay');
-            if (deviceDisplay) {
-                const icon = currentDevice === 'pc' ? '🖥️' : currentDevice === 'tablet' ? '📱' : '📲';
-                const modeText = isMobileOrTablet ? 'Optimized' : 'Full Experience';
-                
-                deviceDisplay.innerHTML = `
-                    <span class="text-xl">${icon}</span>
-                    <span class="text-sm font-medium">
-                        ${currentDevice.toUpperCase()} MODE
-                        <span class="search-tag">${modeText}</span>
-                    </span>
-                `;
-            }
-        }
-
-        // Show device selector
-        function showDeviceSelector() {
-            const deviceSelector = document.getElementById('deviceSelector');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (deviceSelector) {
-                deviceSelector.style.display = 'flex';
-                deviceSelector.style.opacity = '1';
-                mainContent.style.opacity = '0.3';
-                
-                // Highlight current device
-                document.querySelectorAll('.device-option').forEach(option => {
-                    option.classList.remove('active');
-                    if (option.dataset.device === currentDevice) {
-                        option.classList.add('active');
-                    }
-                });
-            }
-        }
-
-        // Hide device selector
-        function hideDeviceSelector() {
-            const deviceSelector = document.getElementById('deviceSelector');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (deviceSelector) {
-                deviceSelector.style.opacity = '0';
-                mainContent.style.opacity = '1';
-                
-                setTimeout(() => {
-                    deviceSelector.style.display = 'none';
-                }, 300);
-            }
-        }
-
-        // Device selector event listeners
-        document.querySelectorAll('.device-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const deviceType = this.dataset.device;
-                applyDeviceOptimizations(deviceType);
-            });
-        });
-
-        // Device selector button on main page
-        document.getElementById('deviceSelectorBtn').addEventListener('click', showDeviceSelector);
-
-        // Close device selector when clicking outside
-        document.getElementById('deviceSelector').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideDeviceSelector();
-            }
-        });
-
-        // Enhanced data with categories and more tags
-        const chapters = [
+        /**
+         * Comprehensive Curriculum Data Matrix
+         * Premium color tokens and metadata
+         */
+        const curriculumData = [
             {
+                id: "light-optics",
                 title: "Light & Optics",
-                subtitle: "Waves • Reflection • Refraction",
+                subtitle: "Wave Mechanics • Refraction • Snell's Law",
                 file: "Light.html",
                 icon: "💡",
-                color: "from-neon-pink to-purple-500",
                 category: "physics",
-                reelContent: [
-                    "🌈 Prisms create rainbow magic!",
-                    "🔍 Lenses bend light to focus",
-                    "👁️ Human eye = natural camera",
-                    "✨ Total internal reflection in fibers"
-                ],
-                tags: ["Physics", "Optics", "Waves", "Light", "Refraction", "Reflection"],
-                animation: "pulse-glow"
+                categoryLabel: "Physics",
+                accentColor: "#38BDF8", // Cyan
+                gradientClass: "from-sky-500/20 via-brand-indigo/10 to-transparent",
+                tags: ["Physics", "Optics", "Refraction", "Wave Theory", "Prisms", "Lasers"],
+                stats: "4 Interactive Simulators",
+                reel: [
+                    "🌈 Dispersion: Prisms reveal spectral dispersion of polychromatic light.",
+                    "🔍 Refractive Index: Lenses focus rays through Fermat's principle.",
+                    "✨ Total Internal Reflection governs ultra-fast fiber optic cables.",
+                    "👁️ Human Cornea: Real-time dynamic optical focal adjustment."
+                ]
             },
             {
-                title: "Newton's Laws",
-                subtitle: "Motion • Forces • Gravity",
+                id: "newtons-laws",
+                title: "Newton's Mechanics",
+                subtitle: "Classical Dynamics • Momentum • Gravitation",
                 file: "newtonian-physics.html",
                 icon: "🍎",
-                color: "from-purple-500 to-indigo-600",
                 category: "physics",
-                reelContent: [
-                    "🎾 Inertia keeps things moving",
-                    "🚀 Force = mass × acceleration",
-                    "🤝 Action meets reaction",
-                    "🌎 Gravity pulls us down"
-                ],
-                tags: ["Physics", "Motion", "Forces", "Gravity", "Newton", "Inertia"],
-                animation: "float"
+                categoryLabel: "Physics",
+                accentColor: "#818CF8", // Indigo
+                gradientClass: "from-indigo-500/20 via-purple-500/10 to-transparent",
+                tags: ["Physics", "Mechanics", "Inertia", "Gravity", "Vectors", "Momentum"],
+                stats: "5 Force Vector Demos",
+                reel: [
+                    "🎾 First Law: Objects maintain velocity without net external force.",
+                    "🚀 Second Law: Acceleration is proportional to force over mass (F=ma).",
+                    "🤝 Third Law: Action and reaction pairs are equal and opposite.",
+                    "🌎 Universal Gravity: Inverse-square law shapes orbital ellipses."
+                ]
             },
             {
-                title: "Sound Waves",
-                subtitle: "Vibration • Frequency • Pitch",
+                id: "sound-acoustics",
+                title: "Sound & Acoustics",
+                subtitle: "Harmonics • Longitudinal Waves • Doppler",
                 file: "sound.html",
                 icon: "🎵",
-                color: "from-cyan-500 to-blue-600",
                 category: "physics",
-                reelContent: [
-                    "🎤 Microphones catch vibrations",
-                    "🔊 Speakers push air molecules",
-                    "🎸 Strings vibrate at frequencies",
-                    "🌊 Sound travels in waves"
-                ],
-                tags: ["Physics", "Audio", "Waves", "Sound", "Vibration", "Frequency"],
-                animation: "bounce-slow"
+                categoryLabel: "Physics",
+                accentColor: "#2DD4BF", // Teal
+                gradientClass: "from-teal-500/20 via-cyan-500/10 to-transparent",
+                tags: ["Physics", "Acoustics", "Frequency", "Doppler Effect", "Harmonics"],
+                stats: "3 Oscilloscope Visualizers",
+                reel: [
+                    "🌊 Sound travels via longitudinal particle compressions & rarefactions.",
+                    "🔊 Doppler Effect compresses perceived frequency as velocity increases.",
+                    "🎸 Resonance occurs when driver frequencies match natural modal harmonics.",
+                    "🎤 Transducers convert kinetic acoustic energy to electrical signals."
+                ]
             },
             {
-                title: "Electricity",
-                subtitle: "Circuits • Current • Voltage",
+                id: "electricity-circuits",
+                title: "Electricity & Circuitry",
+                subtitle: "Ohm's Law • Electromagnetism • Potential",
                 file: "electricity.html",
                 icon: "⚡",
-                color: "from-yellow-400 to-orange-500",
                 category: "physics",
-                reelContent: [
-                    "💡 Bulbs convert energy to light",
-                    "🔋 Batteries store chemical energy",
-                    "🌀 Transformers change voltage",
-                    "🔌 Conductors vs insulators"
-                ],
-                tags: ["Physics", "Energy", "Circuits", "Electricity", "Voltage", "Current"],
-                animation: "pulse-glow"
+                categoryLabel: "Physics",
+                accentColor: "#F59E0B", // Amber
+                gradientClass: "from-amber-500/20 via-orange-500/10 to-transparent",
+                tags: ["Physics", "Electricity", "Ohm's Law", "Circuits", "Magnetic Fields"],
+                stats: "6 Circuit Builders",
+                reel: [
+                    "💡 Voltage represents electrical potential difference between two poles.",
+                    "🔋 Chemical cells generate electron flow across conductive lattices.",
+                    "🌀 Maxwell's equations bind changing magnetic fields to electric voltage.",
+                    "🔌 Semiconductor logic gates define modern computational registers."
+                ]
             },
             {
-                title: "CyberSecurity",
-                subtitle: "Digital Defense • Privacy",
+                id: "cybersecurity",
+                title: "Cyber Defense Architecture",
+                subtitle: "Public Key Cryptography • Zero Trust • Firewalls",
                 file: "Cybersecurity.html",
                 icon: "🛡️",
-                color: "from-matrix-green to-emerald-500",
                 category: "security",
-                reelContent: [
-                    "🔐 Encryption protects secrets",
-                    "🛡️ Firewalls block intruders",
-                    "👻 Malware hides in files",
-                    "🔍 Digital forensics investigation"
-                ],
-                tags: ["Tech", "Security", "Digital", "Cybersecurity", "Encryption", "Privacy"],
-                animation: "pulse"
+                categoryLabel: "Cybersecurity",
+                accentColor: "#10B981", // Emerald
+                gradientClass: "from-emerald-500/20 via-teal-500/10 to-transparent",
+                tags: ["Security", "Encryption", "RSA", "Zero Trust", "Firewalls", "Privacy"],
+                stats: "Live Packet Interceptor",
+                reel: [
+                    "🔐 Asymmetric Encryption relies on prime factorization intractability.",
+                    "🛡️ State-inspection firewalls reject unauthenticated packet handshakes.",
+                    "🧬 Zero Trust requires explicit authentication for each micro-service.",
+                    "🔍 Digital Forensics recovers hash-verified cryptographic evidence."
+                ]
             },
             {
+                id: "artificial-intelligence",
                 title: "Artificial Intelligence",
-                subtitle: "AI: Intelligence, Amplified.",
+                subtitle: "Neural Networks • Deep Learning • Optimization",
                 file: "AI.html",
                 icon: "🤖",
-                color: "from-orange-400 to-red-700",
                 category: "security",
-                reelContent: [
-                    "⚡ Tomorrow's Solutions, Today's Advantage.",
-                    "🚀 Beyond Limits: The Future of Insight.",
-                    "🛡️ AI: Where Data Meets Discovery.",
-                    "🔍 Smart Tech, Smarter World."
-                ],
-                tags: ["AI", "Artificial Intelligence", "Machine Learning", "Tech", "Security", "Data"],
-                animation: "pulse"
+                categoryLabel: "Advanced AI",
+                accentColor: "#F43F5E", // Rose
+                gradientClass: "from-rose-500/20 via-indigo-500/10 to-transparent",
+                tags: ["AI", "Neural Networks", "Backpropagation", "Deep Learning", "Weights"],
+                stats: "Tensor Flow Sim",
+                reel: [
+                    "🧠 Perceptrons calculate weighted sums passed through non-linear activations.",
+                    "📉 Gradient Descent iterates backward to minimize cost loss functions.",
+                    "🌐 Attention mechanisms allow transformers to grasp contextual dependencies.",
+                    "🔮 Multi-modal models map cross-domain tokens into continuous embedding spaces."
+                ]
             },
             {
+                id: "quantum-computing",
                 title: "Quantum Computing",
-                subtitle: "Quantum: Powering the Next Era of Computation.",
+                subtitle: "Qubits • Superposition • Quantum Entanglement",
                 file: "Quantum Computing.html",
-                icon: "🖥️",
-                color: "from-purple-600 to-indigo-700",
+                icon: "⚛️",
                 category: "advanced-tech",
-                reelContent: [
-                    "⚛️ Beyond Classical Limits: The Quantum Leap.",
-                    "🚀 Computing at the Speed of Possibility.",
-                    "🔮 Quantum Logic, Infinite Potential.",
-                    "🌐 The Future Runs on Quantum Sparks."
-                ],
-                tags: ["Quantum", "Qubit", "Superposition", "Entanglement", "Computing", "Advanced Tech"],
-                animation: "pulse"
+                categoryLabel: "Quantum",
+                accentColor: "#A855F7", // Purple
+                gradientClass: "from-purple-500/20 via-pink-500/10 to-transparent",
+                tags: ["Quantum", "Qubits", "Superposition", "Entanglement", "Bloch Sphere"],
+                stats: "Bloch Sphere Visualizer",
+                reel: [
+                    "🔮 Qubits exist simultaneously in linear superpositions of states |0⟩ and |1⟩.",
+                    "🔗 Entangled quantum pairs exhibit instantaneous non-local correlation.",
+                    "🌐 Shor's algorithm provides exponential speedup over classical RSA.",
+                    "❄️ Dilution refrigerators maintain sub-kelvin thermal stability."
+                ]
             },
             {
-                title: "Cell Biology",
-                subtitle: "Mitochondria • DNA • Life",
+                id: "cell-biology",
+                title: "Cellular & Molecular Biology",
+                subtitle: "ATP Synthesis • DNA Transcription • Mitosis",
                 file: "biology-cells.html",
                 icon: "🧬",
-                color: "from-green-500 to-teal-600",
                 category: "biology",
-                reelContent: [
-                    "⚡ Powerhouse mitochondria",
-                    "🧬 DNA holds blueprints",
-                    "🛡️ Immune cells defend",
-                    "🧠 Neurons communicate"
-                ],
-				
-                tags: ["Biology", "Cells", "Science", "DNA", "Mitochondria", "Genetics"],
-                animation: "spin-slow"
+                categoryLabel: "Life Sciences",
+                accentColor: "#34D399", // Emerald Light
+                gradientClass: "from-emerald-500/20 via-green-500/10 to-transparent",
+                tags: ["Biology", "DNA", "Cellular", "Mitosis", "ATP Synthase", "Genetics"],
+                stats: "3D Cell Dissection",
+                reel: [
+                    "⚡ Mitochondria synthesize adenosine triphosphate (ATP) across cristae membranes.",
+                    "🧬 DNA double helix unzips for accurate RNA polymerase transcription.",
+                    "🛡️ Macrophages phagocytose foreign antigens via immune recognition.",
+                    "🧠 Synaptic vesicles release neurotransmitters across synaptic clefts."
+                ]
             },
-			{
-    title: "Agriculture",
-    subtitle: "Farming • Crops • Sustainability",
-    file: "Agriculture.html",
-    icon: "🌾",
-    color: "from-green-600 to-lime-500",
-    category: "environment",
-    reelContent: [
-        "🌱 Seeds grow with soil, water & sunlight",
-        "🚜 Modern machines boost crop production",
-        "💧 Smart irrigation saves water",
-        "🌿 Organic farming protects nature"
-    ],
-    tags: ["Agriculture", "Farming", "Crops", "Environment", "Sustainability", "Soil"],
-    animation: "bounce-slow"
-},
-
             {
-                title: "Chemical Bonds",
-                subtitle: "Atoms • Molecules • Reactions",
+                id: "agriscience-sustainability",
+                title: "Agriscience & Ecology",
+                subtitle: "Precision Irrigation • Soil Biomes • Carbon Capture",
+                file: "Agriculture.html",
+                icon: "🌾",
+                category: "environment",
+                categoryLabel: "Ecology",
+                accentColor: "#84CC16", // Lime
+                gradientClass: "from-lime-500/20 via-emerald-500/10 to-transparent",
+                tags: ["Agriculture", "Ecology", "Hydroponics", "Soil", "Sustainability"],
+                stats: "Crop Cycle Simulator",
+                reel: [
+                    "🌱 Mycorrhizal fungi form symbiotic nutrient exchanges with plant root hairs.",
+                    "💧 IoT drip irrigation minimizes water loss while maximizing soil saturation.",
+                    "🚜 Autonomous field sensors dynamically measure nitrogen and phosphorus levels.",
+                    "🌿 Regenerative cover cropping traps atmospheric carbon within organic matter."
+                ]
+            },
+            {
+                id: "chemical-bonds",
+                title: "Chemical Bonding & Reactions",
+                subtitle: "Electronegativity • Covalent Crystals • Enthalpy",
                 file: "chemistry-bonds.html",
                 icon: "⚗️",
-                color: "from-red-500 to-pink-600",
                 category: "chemistry",
-                reelContent: [
-                    "⚛️ Atoms share electrons",
-                    "🧪 Covalent vs ionic bonds",
-                    "💎 Diamond's strong structure",
-                    "🔗 Hydrogen bonds in water"
-                ],
-                tags: ["Chemistry", "Atoms", "Bonds", "Molecules", "Reactions", "Electrons"],
-                animation: "float"
+                categoryLabel: "Chemistry",
+                accentColor: "#EC4899", // Pink
+                gradientClass: "from-pink-500/20 via-rose-500/10 to-transparent",
+                tags: ["Chemistry", "Bonds", "Molecules", "Electrons", "Enthalpy"],
+                stats: "Orbital Hybridizer",
+                reel: [
+                    "⚛️ Valence electrons share orbitals in covalent configurations for stability.",
+                    "💎 Carbon sp3 hybridization yields the diamond crystal lattice structure.",
+                    "🔗 Dipole-dipole hydrogen bonds grant water its unique high heat capacity.",
+                    "🧪 Catalysts lower reaction activation barriers without undergoing net loss."
+                ]
             }
         ];
 
-        // Enhanced search functionality with tag support
-        function performSearch(searchTerm) {
-            const searchResults = document.getElementById('searchResults');
-            searchResults.innerHTML = '';
-            
-            if (!searchTerm.trim()) {
-                searchResults.classList.add('hidden');
-                return;
-            }
-            
-            const term = searchTerm.toLowerCase();
-            const results = [];
-            
-            // Search through all chapters
-            chapters.forEach(chapter => {
-                let relevanceScore = 0;
+        /**
+         * Application State Management
+         */
+        let currentCategory = 'all';
+        let currentSearchQuery = '';
+        let currentEngine = 'ultra';
+        let reelIntervals = {};
+        let activeModalChapter = null;
+
+        /**
+         * Initialize DOM References
+         */
+        const chaptersGrid = document.getElementById('chaptersGrid');
+        const mainSearchInput = document.getElementById('mainSearchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchDropdown = document.getElementById('searchDropdown');
+        const categoryTabs = document.getElementById('categoryTabs');
+        const resultsCountBadge = document.getElementById('resultsCountBadge');
+        const noResultsBlock = document.getElementById('noResultsBlock');
+        const resetSearchBtn = document.getElementById('resetSearchBtn');
+        const previewModal = document.getElementById('previewModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalDismissBtn = document.getElementById('modalDismissBtn');
+        const engineModal = document.getElementById('engineModal');
+        const engineSettingsBtn = document.getElementById('engineSettingsBtn');
+        const closeEngineModalBtn = document.getElementById('closeEngineModalBtn');
+        const currentEngineIcon = document.getElementById('currentEngineIcon');
+        const currentEngineLabel = document.getElementById('currentEngineLabel');
+        const footerModeText = document.getElementById('footerModeText');
+        const engineFooterTrigger = document.getElementById('engineFooterTrigger');
+        const quickSearchBtn = document.getElementById('quickSearchBtn');
+
+        /**
+         * Render Curriculum Cards
+         */
+        function renderCards() {
+            // Filter logic
+            const filtered = curriculumData.filter(chapter => {
+                const matchesCategory = currentCategory === 'all' || chapter.category === currentCategory;
                 
-                // Check title
-                if (chapter.title.toLowerCase().includes(term)) relevanceScore += 5;
-                
-                // Check subtitle
-                if (chapter.subtitle.toLowerCase().includes(term)) relevanceScore += 3;
-                
-                // Check tags (higher priority for exact tag matches)
-                const tagMatches = chapter.tags.filter(tag => 
-                    tag.toLowerCase().includes(term) || term.includes(tag.toLowerCase())
-                );
-                relevanceScore += tagMatches.length * 4;
-                
-                // Check reel content
-                const contentMatches = chapter.reelContent.filter(content => 
-                    content.toLowerCase().includes(term)
-                );
-                relevanceScore += contentMatches.length * 2;
-                
-                // Check category
-                if (chapter.category.toLowerCase().includes(term)) relevanceScore += 3;
-                
-                if (relevanceScore > 0) {
-                    results.push({
-                        chapter,
-                        relevanceScore,
-                        tagMatches,
-                        contentMatches
-                    });
-                }
+                if (!currentSearchQuery.trim()) return matchesCategory;
+
+                const q = currentSearchQuery.toLowerCase();
+                const matchesTitle = chapter.title.toLowerCase().includes(q);
+                const matchesSubtitle = chapter.subtitle.toLowerCase().includes(q);
+                const matchesTags = chapter.tags.some(tag => tag.toLowerCase().includes(q));
+                const matchesReel = chapter.reel.some(line => line.toLowerCase().includes(q));
+
+                return matchesCategory && (matchesTitle || matchesSubtitle || matchesTags || matchesReel);
             });
-            
-            // Sort by relevance
-            results.sort((a, b) => b.relevanceScore - a.relevanceScore);
-            
-            if (results.length === 0) {
-                searchResults.innerHTML = `
-                    <div class="p-4 text-center text-white/70">
-                        <div class="text-lg mb-2">🔍 No results found for "${searchTerm}"</div>
-                        <div class="text-sm">Try searching for: 
-                            <span class="text-electric-blue">physics</span>, 
-                            <span class="text-electric-blue">biology</span>, 
-                            <span class="text-electric-blue">security</span>, 
-                            <span class="text-electric-blue">chemistry</span>
-                        </div>
-                    </div>
-                `;
-                searchResults.classList.remove('hidden');
+
+            // Update Count Badge
+            resultsCountBadge.textContent = `${filtered.length} Active`;
+
+            // Clear active intervals
+            Object.values(reelIntervals).forEach(intId => clearInterval(intId));
+            reelIntervals = {};
+
+            if (filtered.length === 0) {
+                chaptersGrid.innerHTML = '';
+                noResultsBlock.classList.remove('hidden');
                 return;
             }
-            
-            // Display results with highlighted matches
-            results.forEach(({ chapter, tagMatches }) => {
-                const resultItem = document.createElement('a');
-                resultItem.href = chapter.file;
-                resultItem.className = 'block p-4 hover:bg-white/10 transition-colors duration-200 border-b border-white/10 last:border-b-0 search-result';
-                
-                // Highlight search term in title
-                let highlightedTitle = chapter.title;
-                if (term.length > 2) {
-                    highlightedTitle = chapter.title.replace(
-                        new RegExp(term, 'gi'),
-                        match => `<span class="search-highlight">${match}</span>`
-                    );
-                }
-                
-                resultItem.innerHTML = `
-                    <div class="flex items-start gap-3">
-                        <div class="text-3xl">${chapter.icon}</div>
-                        <div class="flex-1">
-                            <div class="font-bold text-lg mb-1">${highlightedTitle}</div>
-                            <div class="text-sm text-white/70 mb-2">${chapter.subtitle}</div>
-                            <div class="flex flex-wrap gap-1">
-                                ${chapter.tags.map(tag => `
-                                    <span class="text-xs px-2 py-1 rounded-full 
-                                        ${tagMatches.includes(tag) ? 'bg-gradient-to-r from-neon-pink to-electric-blue text-white' : 'bg-white/10'}
-                                    ">
-                                        ${tag}
-                                        ${tagMatches.includes(tag) ? ' 🔍' : ''}
+
+            noResultsBlock.classList.add('hidden');
+
+            chaptersGrid.innerHTML = filtered.map((ch, idx) => {
+                return `
+                    <div class="spotlight-card group flex flex-col justify-between" 
+                         data-id="${ch.id}" 
+                         data-category="${ch.category}">
+                        
+                        <!-- Internal Gradient Accent -->
+                        <div class="absolute inset-0 bg-gradient-to-br ${ch.gradientClass} opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none"></div>
+
+                        <div class="relative z-10 p-6 flex flex-col flex-1">
+                            
+                            <!-- Card Header: Icon, Category & Actions -->
+                            <div class="flex items-start justify-between gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                    ${ch.icon}
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300 font-semibold">
+                                        ${ch.categoryLabel}
+                                    </span>
+                                    <button class="preview-trigger-btn p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+                                            data-id="${ch.id}" title="Quick Preview">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Title & Subtitle -->
+                            <h3 class="text-xl font-bold text-white tracking-tight mb-1 group-hover:text-brand-cyan transition-colors">
+                                ${highlightMatch(ch.title, currentSearchQuery)}
+                            </h3>
+                            <p class="text-xs text-slate-400 mb-4 line-clamp-1">
+                                ${highlightMatch(ch.subtitle, currentSearchQuery)}
+                            </p>
+
+                            <!-- Live Concept Preview Reel -->
+                            <div class="mt-auto mb-5 p-3.5 rounded-xl bg-obsidian-950/70 border border-white/5 min-h-[72px] flex flex-col justify-center">
+                                <div class="flex items-center justify-between text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+                                        INSIGHT REEL
+                                    </span>
+                                    <span>${ch.stats}</span>
+                                </div>
+                                <p id="reel-text-${ch.id}" class="text-xs text-slate-300 font-medium leading-snug line-clamp-2 transition-opacity duration-300">
+                                    ${ch.reel[0]}
+                                </p>
+                            </div>
+
+                            <!-- Tag Pills -->
+                            <div class="flex flex-wrap gap-1.5 mb-6">
+                                ${ch.tags.slice(0, 3).map(tag => `
+                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-slate-400">
+                                        #${tag}
                                     </span>
                                 `).join('')}
+                                ${ch.tags.length > 3 ? `
+                                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-white/5 text-slate-400">
+                                        +${ch.tags.length - 3}
+                                    </span>
+                                ` : ''}
                             </div>
-                            <div class="mt-2 text-xs text-white/50">
-                                Category: <span class="font-medium">${chapter.category.toUpperCase()}</span>
-                                <span class="search-tag">${tagMatches.length} tag matches</span>
-                            </div>
+
+                            <!-- Primary Action Button -->
+                            <a href="${ch.file}" 
+                               class="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-brand-indigo text-slate-200 hover:text-white border border-white/10 hover:border-brand-indigo/50 text-xs font-bold transition-all flex items-center justify-between group/btn shadow-md">
+                                <span>Launch Interactive Study</span>
+                                <span class="transform group-hover/btn:translate-x-1 transition-transform">→</span>
+                            </a>
                         </div>
-                        <div class="text-2xl opacity-50">→</div>
                     </div>
                 `;
-                searchResults.appendChild(resultItem);
-            });
-            
-            // Add search summary
-            const summary = document.createElement('div');
-            summary.className = 'p-3 bg-black/50 text-center text-sm text-white/70 border-t border-white/10';
-            summary.innerHTML = `Found ${results.length} result${results.length !== 1 ? 's' : ''} for "${searchTerm}"`;
-            searchResults.appendChild(summary);
-            
-            searchResults.classList.remove('hidden');
+            }).join('');
+
+            // Bind mouse tracking for spotlight effect
+            setupSpotlights();
+
+            // Start live text reels
+            startAllReels(filtered);
         }
 
-        // Search tag buttons
-        document.querySelectorAll('.search-tag-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tag = this.dataset.tag;
-                document.getElementById('searchInput').value = tag;
-                performSearch(tag);
-            });
-        });
+        /**
+         * Text Highlighting Helper
+         */
+        function highlightMatch(text, query) {
+            if (!query || !query.trim()) return text;
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, `<mark class="bg-brand-cyan/20 text-brand-cyan px-0.5 rounded">$1</mark>`);
+        }
 
-        // Animated counter
-        function animateCounter(id, target, duration = 2000) {
-            let start = 0;
-            const element = document.getElementById(id);
-            const increment = target / (duration / 16);
-            
+        /**
+         * Spotlight Mouse Coordinate Handler
+         */
+        function setupSpotlights() {
+            if (currentEngine === 'lite') return;
+
+            document.querySelectorAll('.spotlight-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+        }
+
+        /**
+         * Cycle Concept Reel Animations
+         */
+        function startAllReels(chapters) {
+            const delay = currentEngine === 'lite' ? 8000 : 4200;
+
+            chapters.forEach(ch => {
+                let idx = 0;
+                const el = document.getElementById(`reel-text-${ch.id}`);
+                if (!el) return;
+
+                reelIntervals[ch.id] = setInterval(() => {
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        idx = (idx + 1) % ch.reel.length;
+                        el.textContent = ch.reel[idx];
+                        el.style.opacity = '1';
+                    }, 280);
+                }, delay);
+            });
+        }
+
+        /**
+         * Autocomplete Search Dropdown
+         */
+        function updateSearchDropdown(query) {
+            if (!query.trim()) {
+                searchDropdown.classList.add('hidden');
+                clearSearchBtn.classList.add('hidden');
+                return;
+            }
+
+            clearSearchBtn.classList.remove('hidden');
+
+            const q = query.toLowerCase();
+            const matches = curriculumData.filter(ch => 
+                ch.title.toLowerCase().includes(q) ||
+                ch.subtitle.toLowerCase().includes(q) ||
+                ch.tags.some(t => t.toLowerCase().includes(q))
+            ).slice(0, 5);
+
+            if (matches.length === 0) {
+                searchDropdown.innerHTML = `
+                    <div class="p-4 text-center text-xs text-slate-400">
+                        No instant modules match "<strong class="text-white">${query}</strong>". Press Enter to view full results.
+                    </div>
+                `;
+            } else {
+                searchDropdown.innerHTML = `
+                    <div class="p-2 border-b border-white/5 text-[10px] font-mono text-slate-400 uppercase tracking-wider px-3">
+                        Suggested Modules (${matches.length})
+                    </div>
+                    <div class="py-1">
+                        ${matches.map(m => `
+                            <a href="${m.file}" class="flex items-center justify-between p-3 hover:bg-white/5 transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl">${m.icon}</span>
+                                    <div>
+                                        <div class="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors">${m.title}</div>
+                                        <div class="text-[11px] text-slate-400">${m.subtitle}</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all">Launch →</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            searchDropdown.classList.remove('hidden');
+        }
+
+        /**
+         * Open Quick Preview Modal
+         */
+        function openPreview(chapterId) {
+            const ch = curriculumData.find(c => c.id === chapterId);
+            if (!ch) return;
+
+            activeModalChapter = ch;
+            document.getElementById('modalIcon').textContent = ch.icon;
+            document.getElementById('modalCategory').textContent = ch.categoryLabel;
+            document.getElementById('modalTitle').textContent = ch.title;
+            document.getElementById('modalSubtitle').textContent = ch.subtitle;
+            document.getElementById('modalReelText').textContent = ch.reel[0];
+            document.getElementById('modalLaunchBtn').href = ch.file;
+
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = ch.tags.map(t => `
+                <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                    #${t}
+                </span>
+            `).join('');
+
+            previewModal.classList.remove('hidden');
+
+            // Modal mini-reel
+            let mIdx = 0;
+            const reelEl = document.getElementById('modalReelText');
+            if (window.modalReelInterval) clearInterval(window.modalReelInterval);
+            window.modalReelInterval = setInterval(() => {
+                reelEl.style.opacity = '0';
+                setTimeout(() => {
+                    mIdx = (mIdx + 1) % ch.reel.length;
+                    reelEl.textContent = ch.reel[mIdx];
+                    reelEl.style.opacity = '1';
+                }, 250);
+            }, 3500);
+        }
+
+        function closePreview() {
+            previewModal.classList.add('hidden');
+            if (window.modalReelInterval) clearInterval(window.modalReelInterval);
+        }
+
+        /**
+         * Performance Engine Optimization
+         */
+        function setEngineMode(mode) {
+            currentEngine = mode;
+            localStorage.setItem('studyHubEngine', mode);
+
+            const body = document.body;
+            body.classList.remove('lite-mode');
+
+            if (mode === 'ultra') {
+                currentEngineIcon.textContent = '🖥️';
+                currentEngineLabel.textContent = 'ULTRA';
+                footerModeText.textContent = 'ULTRA';
+                initCanvas();
+            } else if (mode === 'balanced') {
+                currentEngineIcon.textContent = '📱';
+                currentEngineLabel.textContent = 'BALANCED';
+                footerModeText.textContent = 'BALANCED';
+                initCanvas();
+            } else {
+                currentEngineIcon.textContent = '⚡';
+                currentEngineLabel.textContent = 'LITE';
+                footerModeText.textContent = 'LITE';
+                body.classList.add('lite-mode');
+            }
+
+            // Update radio checks
+            document.querySelectorAll('.engine-opt-btn').forEach(btn => {
+                const isSelected = btn.dataset.engine === mode;
+                const check = btn.querySelector('.radio-check');
+                if (isSelected) {
+                    btn.classList.add('border-brand-cyan', 'bg-brand-indigo/10');
+                    btn.classList.remove('border-white/10');
+                    check.innerHTML = '<span class="w-2 h-2 rounded-full bg-brand-cyan"></span>';
+                } else {
+                    btn.classList.remove('border-brand-cyan', 'bg-brand-indigo/10');
+                    btn.classList.add('border-white/10');
+                    check.innerHTML = '';
+                }
+            });
+
+            renderCards();
+        }
+
+        /**
+         * Ambient Interactive Particle Canvas
+         */
+        let canvasAnimFrame = null;
+        function initCanvas() {
+            const canvas = document.getElementById('ambientCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            if (currentEngine === 'lite') {
+                if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+
+            let width = (canvas.width = window.innerWidth);
+            let height = (canvas.height = window.innerHeight);
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particleCount = currentEngine === 'ultra' ? 36 : 18;
+            const particles = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 1.8 + 0.6,
+                    color: i % 2 === 0 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, ',
+                    alpha: Math.random() * 0.4 + 0.1
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Update & draw particles
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + p.alpha + ')';
+                    ctx.fill();
+
+                    // Subtle constellation connections
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(129, 140, 248, ${0.1 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                canvasAnimFrame = requestAnimationFrame(render);
+            }
+
+            if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+            render();
+        }
+
+        /**
+         * Animated Stat Counters
+         */
+        function animateNumber(elementId, target, suffix = '') {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            let current = 0;
+            const step = Math.ceil(target / 40);
             const timer = setInterval(() => {
-                start += increment;
-                if (start >= target) {
-                    element.textContent = target;
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + suffix;
                     clearInterval(timer);
                 } else {
-                    element.textContent = Math.floor(start);
+                    el.textContent = current + suffix;
                 }
-            }, 16);
+            }, 30);
         }
 
-        function createChapterCard(chapter, index) {
-            // Adjust for mobile/tablet
-            const hoverClass = isMobileOrTablet ? '' : 'hover-3d';
-            const hoverTransform = isMobileOrTablet ? '' : 'group-hover:scale-105';
-            
-            return `
-                <div class="animate__animated animate__fadeInUp stagger-delay-${(index % 7) + 1} chapter-card" data-category="${chapter.category}">
-                    <a href="${chapter.file}" class="block h-full group ${hoverClass}">
-                        <div class="neon-border h-full rounded-2xl overflow-hidden relative">
-                            <div class="absolute inset-0 bg-gradient-to-br ${chapter.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
-                            
-                            <div class="p-6 h-full flex flex-col justify-between relative z-10">
-                                <!-- Icon with floating animation -->
-                                <div class="flex justify-between items-start mb-4">
-                                    <div class="text-5xl floating-icon animate-${chapter.animation}">
-                                        ${chapter.icon}
-                                    </div>
-                                    <div class="flex flex-wrap gap-1">
-                                        ${chapter.tags.map(tag => `
-                                            <span class="px-2 py-1 text-xs rounded-full bg-white/10 backdrop-blur-sm">${tag}</span>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                                
-                                <!-- Title -->
-                                <h2 class="text-2xl font-bold mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${chapter.color} transition-all duration-300">
-                                    ${chapter.title}
-                                </h2>
-                                <p class="text-white/70 mb-4">
-                                    ${chapter.subtitle}
-                                </p>
-                                
-                                <!-- Animated Preview -->
-                                <div class="relative h-32 mb-6 rounded-xl overflow-hidden glass-card border border-white/10 group-hover:border-white/30 transition-all duration-300">
-                                    <div class="absolute inset-0 bg-gradient-to-br ${chapter.color} opacity-20"></div>
-                                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                                        <span id="reel-${chapter.title.replace(/\s/g, '-')}" 
-                                              class="content-reel-text text-lg font-semibold text-center italic transition-opacity duration-500 ease-in-out">
-                                            Loading animation...
-                                        </span>
-                                    </div>
-                                    <div class="absolute top-3 right-3">
-                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r ${chapter.color} text-white shadow-lg">
-                                            LIVE
-                                        </span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Action Button -->
-                                <button class="w-full py-4 rounded-xl bg-gradient-to-r ${chapter.color} text-white font-bold text-lg ${hoverTransform} transition-transform duration-300 shadow-lg relative overflow-hidden">
-                                    <span class="relative z-10 flex items-center justify-center">
-                                        Explore Now 
-                                        <span class="ml-2 transform group-hover:translate-x-2 transition-transform duration-300">→</span>
-                                    </span>
-                                </button>
-                            </div>
-                            
-                            <!-- Glow effect on hover -->
-                            ${!isMobileOrTablet ? `
-                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                <div class="absolute -inset-1 bg-gradient-to-r ${chapter.color} rounded-2xl blur-xl"></div>
-                            </div>
-                            ` : ''}
-                        </div>
-                    </a>
-                </div>
-            `;
-        }
+        /**
+         * Event Listeners Setup
+         */
+        function initializeEvents() {
+            // Category Tabs Click
+            categoryTabs.addEventListener('click', e => {
+                const btn = e.target.closest('.cat-pill');
+                if (!btn) return;
 
-        function startContentReel(chapter) {
-            const reelElement = document.getElementById(`reel-${chapter.title.replace(/\s/g, '-')}`);
-            if (!reelElement) return;
+                document.querySelectorAll('.cat-pill').forEach(b => {
+                    b.classList.remove('active', 'bg-white/10', 'text-white', 'border-white/15');
+                    b.classList.add('text-slate-400', 'border-transparent');
+                });
 
-            let currentIndex = 0;
-            
-            // Adjust speed based on device
-            const reelSpeed = isMobileOrTablet ? 5000 : 3000; // SLOWER for mobile/tablet
+                btn.classList.add('active', 'bg-white/10', 'text-white', 'border-white/15');
+                btn.classList.remove('text-slate-400', 'border-transparent');
 
-            const updateReel = () => {
-                reelElement.style.opacity = '0';
-
-                setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % chapter.reelContent.length;
-                    reelElement.textContent = chapter.reelContent[currentIndex];
-                    reelElement.style.opacity = '1';
-                }, 300);
-            };
-
-            reelElement.textContent = chapter.reelContent[0];
-            setInterval(updateReel, reelSpeed);
-        }
-
-        // Category filtering function
-        function filterChapters(category) {
-            const cards = document.querySelectorAll('.chapter-card');
-            const subjectCount = document.getElementById('subject-count');
-            
-            let visibleCount = 0;
-            
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                    // Add entrance animation
-                    card.classList.add('animate__animated', 'animate__fadeInUp');
-                } else {
-                    card.style.display = 'none';
-                    card.classList.remove('animate__animated', 'animate__fadeInUp');
-                }
-            });
-            
-            // Update subject count with animation
-            let currentCount = parseInt(subjectCount.textContent);
-            const targetCount = visibleCount;
-            const duration = 500;
-            const increment = (targetCount - currentCount) / (duration / 16);
-            
-            const counter = setInterval(() => {
-                currentCount += increment;
-                if (Math.abs(currentCount - targetCount) < 0.5) {
-                    currentCount = targetCount;
-                    clearInterval(counter);
-                }
-                subjectCount.textContent = Math.round(currentCount);
-            }, 16);
-            
-            // Update category button active state
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.category === category) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-
-        function initializeNotesHub() {
-            console.log('📚 Initializing Study Notes Hub...');
-            
-            // Animate counters
-            setTimeout(() => {
-                animateCounter('subject-count', chapters.length);
-                animateCounter('concept-count', chapters.length * 4);
-                animateCounter('animation-count', chapters.length * 10);
-            }, 500);
-            
-            // Render cards
-            const gridContainer = document.getElementById('notes-grid');
-            gridContainer.innerHTML = ''; // Clear any existing content
-            chapters.forEach((chapter, index) => {
-                gridContainer.innerHTML += createChapterCard(chapter, index);
+                currentCategory = btn.dataset.cat;
+                renderCards();
             });
 
-            // Start animations with device-specific speeds
-            chapters.forEach(chapter => {
-                startContentReel(chapter);
+            // Live Search Input Handler
+            mainSearchInput.addEventListener('input', e => {
+                currentSearchQuery = e.target.value;
+                updateSearchDropdown(currentSearchQuery);
+                renderCards();
             });
 
-            // Add category filter event listeners
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    
-                    // Filter chapters
-                    filterChapters(category);
-                    
-                    // Hide search results if open
-                    document.getElementById('searchResults').classList.add('hidden');
-                    document.getElementById('searchInput').value = '';
+            // Clear Search
+            clearSearchBtn.addEventListener('click', () => {
+                mainSearchInput.value = '';
+                currentSearchQuery = '';
+                updateSearchDropdown('');
+                renderCards();
+                mainSearchInput.focus();
+            });
+
+            // Reset from No-Results state
+            resetSearchBtn.addEventListener('click', () => {
+                mainSearchInput.value = '';
+                currentSearchQuery = '';
+                currentCategory = 'all';
+
+                // Reset pills
+                document.querySelectorAll('.cat-pill').forEach(b => {
+                    const isAll = b.dataset.cat === 'all';
+                    b.classList.toggle('active', isAll);
+                    b.classList.toggle('bg-white/10', isAll);
+                    b.classList.toggle('text-white', isAll);
+                    b.classList.toggle('border-white/15', isAll);
+                    b.classList.toggle('text-slate-400', !isAll);
+                    b.classList.toggle('border-transparent', !isAll);
+                });
+
+                renderCards();
+            });
+
+            // Suggested Search Chips
+            document.querySelectorAll('.quick-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const tag = chip.dataset.tag;
+                    mainSearchInput.value = tag;
+                    currentSearchQuery = tag;
+                    updateSearchDropdown('');
+                    renderCards();
+                    mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
             });
 
-            // Enhanced search functionality
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-            
-            let searchTimeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                const searchTerm = this.value;
-                
-                // Debounce search for better performance
-                searchTimeout = setTimeout(() => {
-                    performSearch(searchTerm);
-                }, 300);
-            });
-            
-            // Search on Enter key
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch(this.value);
-                }
-            });
-            
-            // Hide search results when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
-                    searchResults.classList.add('hidden');
-                }
-            });
-            
-            // Keyboard navigation for search results
-            searchInput.addEventListener('keydown', function(event) {
-                const results = searchResults.querySelectorAll('a');
-                const activeResult = searchResults.querySelector('a.bg-white/20');
-                
-                if (event.key === 'ArrowDown' && results.length > 0) {
-                    event.preventDefault();
-                    if (!activeResult) {
-                        results[0].classList.add('bg-white/20');
-                    } else {
-                        const nextIndex = Array.from(results).indexOf(activeResult) + 1;
-                        if (nextIndex < results.length) {
-                            activeResult.classList.remove('bg-white/20');
-                            results[nextIndex].classList.add('bg-white/20');
-                        }
-                    }
-                } else if (event.key === 'ArrowUp' && results.length > 0) {
-                    event.preventDefault();
-                    if (activeResult) {
-                        const prevIndex = Array.from(results).indexOf(activeResult) - 1;
-                        if (prevIndex >= 0) {
-                            activeResult.classList.remove('bg-white/20');
-                            results[prevIndex].classList.add('bg-white/20');
-                        }
-                    }
-                } else if (event.key === 'Enter' && activeResult) {
-                    event.preventDefault();
-                    activeResult.click();
-                } else if (event.key === 'Escape') {
-                    searchResults.classList.add('hidden');
-                    searchInput.blur();
-                }
-            });
-
-            // Add hover effect to cards (only for non-mobile devices)
-            if (!isMobileOrTablet) {
-                document.querySelectorAll('.group').forEach(card => {
-                    card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'perspective(1000px) rotateY(5deg) rotateX(3deg) translateZ(20px)';
-                    });
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
-                    });
-                });
-            }
-            
-            // Add smooth scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+            // Quick Search Keyboard Trigger (Cmd/Ctrl + K)
+            window.addEventListener('keydown', e => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                     e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
+                    mainSearchInput.focus();
+                    mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                if (e.key === 'Escape') {
+                    searchDropdown.classList.add('hidden');
+                    closePreview();
+                    engineModal.classList.add('hidden');
+                }
+            });
+
+            // Header Quick Search Button
+            quickSearchBtn.addEventListener('click', () => {
+                mainSearchInput.focus();
+                mainSearchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            // Close search dropdown on click outside
+            document.addEventListener('click', e => {
+                if (!mainSearchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                    searchDropdown.classList.add('hidden');
+                }
+            });
+
+            // Delegate preview buttons
+            chaptersGrid.addEventListener('click', e => {
+                const btn = e.target.closest('.preview-trigger-btn');
+                if (btn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openPreview(btn.dataset.id);
+                }
+            });
+
+            // Modal Close Events
+            modalCloseBtn.addEventListener('click', closePreview);
+            modalDismissBtn.addEventListener('click', closePreview);
+            previewModal.addEventListener('click', e => {
+                if (e.target === previewModal) closePreview();
+            });
+
+            // Engine Modal Toggle
+            const openEngineModal = () => engineModal.classList.remove('hidden');
+            const closeEngineModal = () => engineModal.classList.add('hidden');
+
+            engineSettingsBtn.addEventListener('click', openEngineModal);
+            engineFooterTrigger.addEventListener('click', openEngineModal);
+            closeEngineModalBtn.addEventListener('click', closeEngineModal);
+            engineModal.addEventListener('click', e => {
+                if (e.target === engineModal) closeEngineModal();
+            });
+
+            // Engine Option Buttons
+            document.querySelectorAll('.engine-opt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setEngineMode(btn.dataset.engine);
                 });
             });
-            
-            console.log(`✅ Study Notes Hub initialized in ${currentDevice} mode`);
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Page loaded, checking device...');
-            
-            const savedDevice = localStorage.getItem('studyHubDevice');
-            const shouldShowSelector = shouldShowDeviceSelector();
-            
-            if (shouldShowSelector || !savedDevice) {
-                // Show device selector
-                document.getElementById('deviceSelector').style.display = 'flex';
-                document.getElementById('mainContent').classList.add('hidden');
-            } else {
-                // Apply saved device settings
-                applyDeviceOptimizations(savedDevice);
-            }
+        /**
+         * Device Auto-Detection
+         */
+        function detectInitialDevice() {
+            const saved = localStorage.getItem('studyHubEngine');
+            if (saved) return saved;
+
+            const ua = navigator.userAgent.toLowerCase();
+            const isMobile = /mobile|android|iphone|ipod/.test(ua);
+            const isTablet = /tablet|ipad/.test(ua) && !isMobile;
+
+            if (isMobile) return 'lite';
+            if (isTablet) return 'balanced';
+            return 'ultra';
+        }
+
+        /**
+         * Application Bootstrapper
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialEngine = detectInitialDevice();
+            setEngineMode(initialEngine);
+            initializeEvents();
+            renderCards();
+
+            // Run counters
+            setTimeout(() => {
+                animateNumber('statSubjects', curriculumData.length);
+                animateNumber('statConcepts', curriculumData.length * 4, '+');
+                animateNumber('statAnimations', curriculumData.length * 10, '+');
+            }, 300);
         });
     </script>
 </body>
-
 </html>
